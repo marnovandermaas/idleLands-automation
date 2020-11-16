@@ -3,6 +3,8 @@
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  A collection of automation scripts for IdleLands
+// @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
+// @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
 // @author       Ian Duchesne (Torsin aka Crazyball)
 // @match        https://play.idle.land/*
 // @resource css https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/style.css
@@ -11,7 +13,12 @@
 // @grant        unsafeWindow
 // ==/UserScript==
 
+var cssTxt = GM_getResourceText("css");
+GM_addStyle (cssTxt);
+
 const options = {
+  raidButtonStatus: 'disabled', // add this here for convenience.
+
   guildRaidInterval: 55, // in minutes
   guildRaidMinLevel: 1000,
   guildRaidMaxLevel: 1150,
@@ -24,9 +31,34 @@ const options = {
   petGoldCollectInterval: 5 // in minutes
 }
 
-var cssTxt = GM_getResourceText("css");
-GM_addStyle (cssTxt);
+const loggedIn = () => {
+  return new Promise(function (resolve, reject) {
 
+    const loginCheckLoop = setInterval( () => {
+        if( typeof discordGlobalCharacter === 'object' ) {
+            clearInterval(loginCheckLoop);
+            resolve();
+        }
+    }, 100);
+
+  });
+}
+
+(async () => {
+  await loggedIn();
+
+  let guildResponse = await fetch('https://server.idle.land/api/guilds/name?name=' + discordGlobalCharacter.guildName);
+  let guildData = await guildResponse.json();
+  let guildMod = Object.values(guildData.guild.members).filter(x => x.name == discordGlobalCharacter.name && x.rank >= 5)
+
+  if(guildMod.length) {
+      options.raidButtonStatus = '';
+  }
+
+  load();
+})();
+
+function load() {
 document.body.insertAdjacentHTML("beforeend", `
 <div id="cb-container">
   <div id="cb-header">Automation Scripts</div>
@@ -59,12 +91,12 @@ document.body.insertAdjacentHTML("beforeend", `
       <div class="flex">Raids</div>
       <div class="flex right">
         <label class="switch">
-          <input id="raids-checkbox" type="checkbox">
+          <input id="raids-checkbox" type="checkbox" ${options.raidButtonStatus}>
           <span class="slider round"></span>
         </label>
       </div>
       <div class="break"></div>
-      <div class="flex small">Next guild run: <span id="guild-next-time"></span></div>
+      <div class="flex small">Next Raid: <span id="guild-next-time"></span></div>
       <div class="break"></div>
       <div class="flex small">Level: <span id="guild-level"></span></div>
       <div class="break"></div>
@@ -127,7 +159,6 @@ document.getElementById("raids-checkbox").addEventListener( 'change', function()
 // Make the whole container draggable
 dragElement(document.getElementById("cb-container"));
 
-
 // Accordion
 var acc = document.getElementsByClassName("accordion");
 var i;
@@ -185,7 +216,7 @@ function dragElement(elmnt) {
     document.onmousemove = null;
   }
 }
-
+}
 // Pet adventures
 function claimAdventures() {
   return new Promise(function (resolve, reject) {
@@ -276,3 +307,5 @@ async function RunRaids() {
 function PetGoldCollect() {
   setTimeout(function(){unsafeWindow.__emitSocket("pet:takegold")}, 500);
 }
+
+
