@@ -14,6 +14,14 @@
   color: #fff;
 }
 
+#cb-footer {
+  padding: 4px;
+  z-index: 10;
+  background-color: #c7c7c7;
+  color: #000;
+  font-size: 13px;
+}
+
 .accordion {
   background-color: #eee;
   color: #444;
