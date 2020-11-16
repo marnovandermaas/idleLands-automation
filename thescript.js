@@ -71,6 +71,7 @@ document.body.insertAdjacentHTML("beforeend", `
       <div class="flex small">Item: <span id="guild-item"></span></div>
     </div>
   </div>
+  <div id="cb-footer">By: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a></div>
 </div>
 ` );
 
