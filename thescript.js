@@ -19,9 +19,9 @@ GM_addStyle (cssTxt);
 const options = {
   raidButtonStatus: 'disabled', // add this here for convenience.
 
-  guildRaidInterval: 55, // in minutes
-  guildRaidMinLevel: 1000,
-  guildRaidMaxLevel: 1150,
+  //guildRaidInterval: 55, // in minutes
+  guildRaidMinLevel: 1150,
+  guildRaidMaxLevel: 1300,
   guildRaidItems: ['item:Crystal:Yellow','item:generated:goatly','item:generated:godly'],
 
   petAdventureInterval: 10, // in minutes
@@ -29,6 +29,10 @@ const options = {
   petAdventurePetNum: 3, // Number of pets to send per adventure (Game max is set to 3)
 
   petGoldCollectInterval: 5 // in minutes
+}
+
+const globalData = {
+  nextRaidAvailability: 0
 }
 
 const loginCheck = () => {
@@ -50,6 +54,8 @@ const loginCheck = () => {
   let guildResponse = await fetch('https://server.idle.land/api/guilds/name?name=' + discordGlobalCharacter.guildName);
   let guildData = await guildResponse.json();
   let guildMod = Object.values(guildData.guild.members).filter(x => x.name == discordGlobalCharacter.name && x.rank >= 5)
+
+  globalData.nextRaidAvailability = guildData.guild.nextRaidAvailability;
 
   if(guildMod.length) {
       options.raidButtonStatus = '';
@@ -96,11 +102,11 @@ const load = () => {
           </label>
         </div>
         <div class="break"></div>
-        <div class="flex small">Next Raid: <span id="guild-next-time"></span></div>
+        <div class="flex small">Next Raid Availability: <span id="guild-next-time"></span></div>
         <div class="break"></div>
         <div class="flex small">Level: <span id="guild-level"></span></div>
         <div class="break"></div>
-        <div class="flex small">Item: <span id="guild-item"></span></div>
+        <div class="flex small">Reward: <span id="guild-item"></span></div>
       </div>
     </div>
     <div id="cb-footer">By: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a></div>
@@ -110,7 +116,10 @@ const load = () => {
   const guildTimeEl = document.getElementById("guild-next-time");
   const guildLevelEl = document.getElementById("guild-level");
   const guildItemEl = document.getElementById("guild-item");
-  guildTimeEl.innerHTML = '-';
+
+  var date = new Date(globalData.nextRaidAvailability);
+
+  guildTimeEl.innerHTML = ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
   guildLevelEl.innerHTML = '-';
   guildItemEl.innerHTML = '-';
 
@@ -141,16 +150,12 @@ const load = () => {
   var raidsLoop;
   document.getElementById("raids-checkbox").addEventListener( 'change', function() {
       if(this.checked) {
-          raidsLoop = setInterval( RunRaids, 1000*60*options.guildRaidInterval );
+          raidsLoop = setInterval( RunRaids, 1000*30 ); // 30 seconds for now
           console.log('raiding started');
 
-          let date = new Date();
-          date.setMinutes(date.getMinutes()+options.guildRaidInterval);
-          guildTimeEl.innerHTML = ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
       } else {
           clearInterval(raidsLoop);
           console.log('raiding stopped');
-          guildTimeEl.innerHTML = '-';
           guildLevelEl.innerHTML = '-';
           guildItemEl.innerHTML = '-';
       }
@@ -279,34 +284,48 @@ const load = () => {
 
   // Raids
   const RunRaids = async () => {
-    let level = 0;
 
-    let response = await fetch('https://server.idle.land/api/guilds/raids?maxLevel=' + options.guildRaidMaxLevel);
-    let data = await response.json();
-    let date = new Date();
+    if(globalData.nextRaidAvailability <= Date.now()) {
+        console.log('raid initiated');
+        let level = 0;
+        let reward = '';
 
-    date.setMinutes(date.getMinutes()+options.guildRaidInterval);
+        let response = await fetch('https://server.idle.land/api/guilds/raids?maxLevel=' + options.guildRaidMaxLevel);
+        let data = await response.json();
 
-    let results = data.raids.filter(element => {
-      return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
-    });
+        date.setMinutes(date.getMinutes()+options.guildRaidInterval);
 
-    if (results.length > 0) {
-      level = results[results.length-1].level;
-    } else {
-      level = options.guildRaidMaxLevel;
+        let results = data.raids.filter(element => {
+            return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
+        });
+
+        if (results.length > 0) {
+            level = results[results.length-1].level;
+            reward = results[results.length-1].rewards[0];
+        } else {
+            level = options.guildRaidMaxLevel;
+            reward = data.raids[data.raids.length-1].rewards[0];
+        }
+
+        setTimeout(function(){unsafeWindow.__emitSocket("guild:raidboss", { bossLevel: level})}, 2000);
+
+        // need to get the actual next raid time from the server after the raid completion
+        setTimeout(async function() {
+            let guildResponse = await fetch('https://server.idle.land/api/guilds/name?name=' + discordGlobalCharacter.guildName);
+            let guildData = await guildResponse.json();
+            var date = new Date(guildData.guild.nextRaidAvailability);
+
+            globalData.nextRaidAvailability = guildData.guild.nextRaidAvailability;
+
+            guildTimeEl.innerHTML = ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+            guildLevelEl.innerHTML = level;
+            guildItemEl.innerHTML = reward;
+        }, 10000); // added 5 seconds extra from the 5 seconds for the combat to initiate
     }
-
-    setTimeout(function(){unsafeWindow.__emitSocket("guild:raidboss", { bossLevel: level})}, 2000);
-
-    guildTimeEl.innerHTML = ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
-    guildLevelEl.innerHTML = level;
-    guildItemEl.innerHTML = results[results.length-1].rewards[0];
   }
 
   const PetGoldCollect = () => {
     setTimeout(function(){unsafeWindow.__emitSocket("pet:takegold")}, 500);
   }
 }
-
 
