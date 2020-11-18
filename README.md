@@ -4,7 +4,7 @@ https://play.idle.land/
 
 A big thank you to `Sarimash` for showing my some example code he created, which evolved to this... 
 
-![](preview.png | width=300)
+![](preview.png){:width="50%"}
 
 # To Use
 Download a userscript manager like [tampermonkey](https://www.tampermonkey.net/) or [greasemonkey](https://www.greasespot.net/)  
