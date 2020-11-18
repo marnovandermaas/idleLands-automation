@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      0.1.0
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
@@ -17,14 +17,12 @@ var cssTxt = GM_getResourceText("css");
 GM_addStyle (cssTxt);
 
 const options = {
-  raidButtonStatus: 'disabled', // add this here for convenience.
-
-  //guildRaidInterval: 55, // in minutes
   guildRaidMinLevel: 1150,
   guildRaidMaxLevel: 1300,
   guildRaidItems: ['item:Crystal:Yellow','item:generated:goatly','item:generated:godly'],
 
-  petAdventureInterval: 10, // in minutes
+  petAdventureCollectInterval: 1, // in minutes
+  petAdventureEmbarkInterval: 1, // in minutes
   petAdventureTimeOut: 1000, // in milliseconds
   petAdventurePetNum: 3, // Number of pets to send per adventure (Game max is set to 3)
 
@@ -32,7 +30,10 @@ const options = {
 }
 
 const globalData = {
-  nextRaidAvailability: 0
+  nextRaidAvailability: 0,
+  canGuildRaid: false,
+  petAutoAscend: false
+
 }
 
 const loginCheck = () => {
@@ -55,10 +56,8 @@ const loginCheck = () => {
   let guildData = await guildResponse.json();
   let guildMod = Object.values(guildData.guild.members).filter(x => x.name == discordGlobalCharacter.name && x.rank >= 5)
 
-  globalData.nextRaidAvailability = guildData.guild.nextRaidAvailability;
-
   if(guildMod.length) {
-      options.raidButtonStatus = '';
+      globalData.canGuildRaid = true;
   }
 
   load();
@@ -67,22 +66,40 @@ const loginCheck = () => {
 const load = () => {
   document.body.insertAdjacentHTML("beforeend", `
   <div id="cb-container">
-    <div id="cb-header">Automation Scripts</div>
+
+    <div id="cb-header">
+      <span id="cb-title">IdleLands Scripts</span>
+      <button class="cb-accordion cb-active"></button>
+    </div>
     <div class="cb-panel">
-      <div class="cb-panel-content">
-        <span class="flex">Pet Adventures</span>
+
+    <div class="cb-section-header">Pets - Adventures</div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="flex">Auto Collect</span>
         <span class="flex right">
           <label class="switch">
-            <input id="pet-adventure-checkbox" type="checkbox">
+            <input id="pet-adventure-collect-checkbox" type="checkbox">
             <span class="slider round"></span>
           </label>
         </span>
       </div>
     </div>
-
-    <div class="cb-panel">
-      <div class="cb-panel-content">
-        <div class="flex">Pet Gold Collect</div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="flex">Auto Embark</span>
+        <span class="flex right">
+          <label class="switch">
+            <input id="pet-adventure-embark-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section-header">Active Pet ( <span id="cb-pet-type"></span> - <span id="cb-pet-levels"></span> )</div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <div class="flex">Auto Gold Collect</div>
         <div class="flex right">
           <label class="switch">
             <input id="pet-gold-checkbox" type="checkbox">
@@ -91,48 +108,87 @@ const load = () => {
         </div>
       </div>
     </div>
-
-    <div class="cb-panel">
-      <div class="cb-panel-content">
-        <div class="flex">Raids</div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <div class="flex">Auto Ascend</div>
         <div class="flex right">
           <label class="switch">
-            <input id="raids-checkbox" type="checkbox" ${options.raidButtonStatus}>
+            <input id="pet-ascend-checkbox" type="checkbox">
             <span class="slider round"></span>
           </label>
         </div>
-        <div class="break"></div>
-        <div class="flex small">Next Raid Availability: <span id="guild-next-time"></span></div>
-        <div class="break"></div>
-        <div class="flex small">Level: <span id="guild-level"></span></div>
-        <div class="break"></div>
-        <div class="flex small">Reward: <span id="guild-item"></span></div>
       </div>
     </div>
-    <div id="cb-footer">By: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a></div>
+    <div class="cb-sub-section">
+      <div class="cb-section-content">
+        <div class="flex small"><span id="pet-ascend-message">Not enabled!</span></div>
+      </div>
+    </div>
+    <div class="cb-section-header">Raids</div>
+    ${
+    globalData.canGuildRaid
+    ? `
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <div class="flex">Auto Raid</div>
+        <div class="flex right">
+          <label class="switch">
+            <input id="raids-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="cb-sub-section">
+      <div class="cb-section-content">
+        <div class="flex small">Next Raid @ <span id="guild-next-time">-</span></div>
+        <div class="break"></div>
+        <div class="flex small">Level: <span id="guild-level">-</span></div>
+        <div class="break"></div>
+        <div class="flex small">Reward: <span id="guild-item">-</span></div>
+      </div>
+    </div>`
+    : `
+    <div class="cb-sub-section">
+      <div class="cb-section-content">
+        <div class="flex small">You need to be a guild Leader or Mod to use this feature.</span></div>
+      </div>
+    </div>`
+    }
+    <div id="cb-footer">by: Torsin - Source / Contributors on <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a></div>
+
+    </div>
   </div>
   ` );
 
-  const guildTimeEl = document.getElementById("guild-next-time");
-  const guildLevelEl = document.getElementById("guild-level");
-  const guildItemEl = document.getElementById("guild-item");
+  const petDataLoop = setInterval( () => {
+    displayActivePetLevels();
+    displayActivePetType();
 
-  var date = new Date(globalData.nextRaidAvailability);
-
-  guildTimeEl.innerHTML = ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
-  guildLevelEl.innerHTML = '-';
-  guildItemEl.innerHTML = '-';
+    if(globalData.petAutoAscend) petAscend();
+  }, 1000);
 
   // Event listeners
 
-  var petAdventureLoop;
-  document.getElementById("pet-adventure-checkbox").addEventListener( 'change', function() {
+  var petAdventureCollectLoop;
+  document.getElementById("pet-adventure-collect-checkbox").addEventListener( 'change', function() {
       if(this.checked) {
-          petAdventureLoop = setInterval( RunAdventures, 1000*60*options.petAdventureInterval );
-          console.log('pet adventures started');
+          petAdventureCollectLoop = setInterval( claimAdventures, 1000*60*options.petAdventureCollectInterval );
+          console.log('pet adventures collect started');
       } else {
-          clearInterval(petAdventureLoop);
-          console.log('pet adventures stopped');
+          clearInterval(petAdventureCollectLoop);
+          console.log('pet adventures collect stopped');
+      }
+  });
+
+  var petAdventureEmbarkLoop;
+  document.getElementById("pet-adventure-embark-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          petAdventureEmbarkLoop = setInterval( embarkAdventures, 1000*60*options.petAdventureEmbarkInterval );
+          console.log('pet adventures embark started');
+      } else {
+          clearInterval(petAdventureEmbarkLoop);
+          console.log('pet adventures embark stopped');
       }
   });
 
@@ -147,38 +203,63 @@ const load = () => {
       }
   });
 
-  var raidsLoop;
-  document.getElementById("raids-checkbox").addEventListener( 'change', function() {
+  document.getElementById("pet-ascend-checkbox").addEventListener( 'change', function() {
       if(this.checked) {
-          raidsLoop = setInterval( RunRaids, 1000*30 ); // 30 seconds for now
-          console.log('raiding started');
-
+          globalData.petAutoAscend = true;
+          console.log('pet auto ascend started');
       } else {
-          clearInterval(raidsLoop);
-          console.log('raiding stopped');
-          guildLevelEl.innerHTML = '-';
-          guildItemEl.innerHTML = '-';
+          globalData.petAutoAscend = false;
+          document.getElementById("pet-ascend-message").innerHTML = 'Not enabled!';
+          console.log('pet auto ascend stopped');
       }
   });
+
+  if(globalData.canGuildRaid) {
+    const guildTimeEl = document.getElementById("guild-next-time");
+    const guildLevelEl = document.getElementById("guild-level");
+    const guildItemEl = document.getElementById("guild-item");
+
+    var raidsLoop;
+    document.getElementById("raids-checkbox").addEventListener( 'change', async function() {
+          if(this.checked) {
+              raidsLoop = setInterval( RunRaids, 1000*30 ); // 30 seconds for now
+              console.log('raiding started');
+
+              let guildResponse = await fetch('https://server.idle.land/api/guilds/name?name=' + discordGlobalCharacter.guildName);
+              let guildData = await guildResponse.json();
+
+              globalData.nextRaidAvailability = guildData.guild.nextRaidAvailability;
+              var date = new Date(globalData.nextRaidAvailability);
+              guildTimeEl.innerHTML = date.toLocaleTimeString(); //("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) + ":" + ("0" + date.getSeconds()).slice(-2);
+          } else {
+              clearInterval(raidsLoop);
+              console.log('raiding stopped');
+              guildTimeEl.innerHTML = '-';
+              guildLevelEl.innerHTML = '-';
+              guildItemEl.innerHTML = '-';
+          }
+    });
+  }
 
   // Make the whole container draggable
   dragElement(document.getElementById("cb-container"));
 
   // Accordion
-  var acc = document.getElementsByClassName("accordion");
-  var i;
+  var acc = document.getElementsByClassName("cb-accordion");
+  var panel = document.getElementsByClassName("cb-panel");
+  panel[0].style.maxHeight = panel[0].scrollHeight + "px";
 
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var panel = this.nextElementSibling;
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
+    acc[0].addEventListener("click", function() {
+      this.classList.toggle("cb-active");
+      var panel = document.getElementsByClassName("cb-panel");
+      if (panel[0].style.maxHeight) {
+        panel[0].style.maxHeight = null;
+         panel[0].style.overflow = 'hidden';
       } else {
-        panel.style.maxHeight = panel.scrollHeight + "px";
+        panel[0].style.maxHeight = panel[0].scrollHeight + "px";
+         panel[0].style.overflow = null;
       }
     });
-  }
 
   // Draggable
   function dragElement(elmnt) {
@@ -222,9 +303,33 @@ const load = () => {
     }
   }
 
+  // Pet ascend
+  const petAscend = () => {
+
+    let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
+
+    if(pet.level.maximum != pet.level.__current) {
+        document.getElementById("pet-ascend-message").innerHTML = 'Ah, the waiting game for max level to be reached!';
+        return false;
+    }
+    if(pet.rating >= 5) {
+        document.getElementById("pet-ascend-message").innerHTML = `This pet has reached it's maximum level capacity, this is a good thing! Try maxing out other pets.`;
+        return false;
+    }
+
+    let someMaterialsMissing = Object.keys(pet.$ascMaterials).some((mat) => pet.$ascMaterials[mat] > (discordGlobalCharacter.$petsData[mat] || 0))
+    if(someMaterialsMissing) {
+        document.getElementById("pet-ascend-message").innerHTML = 'Oops, you are missing materials';
+        return false;
+    }
+
+    console.log('Pet ascended');
+    setTimeout(function(){unsafeWindow.__emitSocket("pet:ascend")}, 500);
+  }
+
   // Pet adventures
   const claimAdventures = () => {
-    return new Promise(function (resolve, reject) {
+
       // get expired adventures and claim
       let adventuresFinished = Object.values(discordGlobalCharacter.$petsData.adventures).filter(x => (x.finishAt <= Date.now()) && x.finishAt != 0);
 
@@ -234,18 +339,12 @@ const load = () => {
 
           setTimeout(function(){
             unsafeWindow.__emitSocket("pet:adventure:finish", { adventureId: currentAdventure.id }); // Collect
-            resolve();
           }, options.petAdventureTimeOut * i);
         }
-        setTimeout(function(){resolve()}, options.petAdventureTimeOut * adventuresFinished.length + 2000); // add 2 seconds
-      } else {
-        resolve();
       }
-    });
   }
-  const embarkAdventrues = () => {
-    //console.log('embarking');
-    return new Promise(function (resolve, reject) {
+  const embarkAdventures = () => {
+
       // assign pets to adventures
       let adventuresNotStarted = Object.values(discordGlobalCharacter.$petsData.adventures).filter(x => !x.finishAt);
 
@@ -271,15 +370,7 @@ const load = () => {
             }
           }, options.petAdventureTimeOut * i);
         }
-        setTimeout(function(){resolve()}, options.petAdventureTimeOut * adventuresNotStarted.length + 2000); // add 2 seconds
-      } else {
-        resolve();
       }
-    });
-  }
-  const RunAdventures = async () => {
-    await claimAdventures();
-    await embarkAdventrues();
   }
 
   // Raids
@@ -292,8 +383,6 @@ const load = () => {
 
         let response = await fetch('https://server.idle.land/api/guilds/raids?maxLevel=' + options.guildRaidMaxLevel);
         let data = await response.json();
-
-        date.setMinutes(date.getMinutes()+options.guildRaidInterval);
 
         let results = data.raids.filter(element => {
             return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
@@ -317,7 +406,7 @@ const load = () => {
 
             globalData.nextRaidAvailability = guildData.guild.nextRaidAvailability;
 
-            guildTimeEl.innerHTML = ("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2);
+            guildTimeEl.innerHTML = date.toLocaleTimeString(); //("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) + ":" + ("0" + date.getSeconds()).slice(-2);
             guildLevelEl.innerHTML = level;
             guildItemEl.innerHTML = reward;
         }, 10000); // added 5 seconds extra from the 5 seconds for the combat to initiate
@@ -327,5 +416,11 @@ const load = () => {
   const PetGoldCollect = () => {
     setTimeout(function(){unsafeWindow.__emitSocket("pet:takegold")}, 500);
   }
+}
+const displayActivePetType = () => {
+  document.getElementById("cb-pet-type").innerHTML = discordGlobalCharacter.$petsData.currentPet;
+}
+const displayActivePetLevels = () => {
+  document.getElementById("cb-pet-levels").innerHTML = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.__current + '/' + discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.maximum;
 }
 
