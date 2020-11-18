@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
 // @namespace    http://tampermonkey.net/
-// @version      0.1.0
+// @version      1.0
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
