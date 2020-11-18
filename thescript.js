@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
@@ -72,6 +72,29 @@ const load = () => {
       <button class="cb-accordion cb-active"></button>
     </div>
     <div class="cb-panel">
+
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="flex">Auto Free Roll</span>
+        <span class="flex right">
+          <label class="switch">
+            <input id="free-roll-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="flex">Auto Use Scrolls</span>
+        <span class="flex right">
+          <label class="switch">
+            <input id="use-scrolls-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </span>
+      </div>
+    </div>
 
     <div class="cb-section-header">Pets - Adventures</div>
     <div class="cb-section">
@@ -200,6 +223,28 @@ const load = () => {
       } else {
           clearInterval(petGoldCollectLoop);
           console.log('pet gold collection stopped');
+      }
+  });
+
+  var freeRollLoop;
+  document.getElementById("free-roll-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          freeRollLoop = setInterval( FreeRoll, 1000*60 );
+          console.log('free roll started');
+      } else {
+          clearInterval(freeRollLoop);
+          console.log('free roll stopped');
+      }
+  });
+
+  var useScrollsLoop;
+  document.getElementById("use-scrolls-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          useScrollsLoop = setInterval( UseScrolls, 1000*60 );
+          console.log('use scrolls started');
+      } else {
+          clearInterval(useScrollsLoop);
+          console.log('use scrolls stopped');
       }
   });
 
@@ -406,13 +451,31 @@ const load = () => {
 
             globalData.nextRaidAvailability = guildData.guild.nextRaidAvailability;
 
-            guildTimeEl.innerHTML = date.toLocaleTimeString(); //("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) + ":" + ("0" + date.getSeconds()).slice(-2);
-            guildLevelEl.innerHTML = level;
-            guildItemEl.innerHTML = reward;
+            document.getElementById("guild-next-time").innerHTML = date.toLocaleTimeString(); //("0" + date.getHours()).slice(-2) + ":" + ("0" + date.getMinutes()).slice(-2) + ":" + ("0" + date.getSeconds()).slice(-2);
+            document.getElementById("guild-level").innerHTML = level;
+            document.getElementById("guild-item").innerHTML = reward;
         }, 10000); // added 5 seconds extra from the 5 seconds for the combat to initiate
     }
   }
 
+  const UseScrolls = () => {
+    let delay = 200;
+    let scrolls = discordGlobalCharacter.$inventoryData.buffScrolls
+    scrolls.forEach(element => {
+      setTimeout(function(){
+        unsafeWindow.__emitSocket('item:buffscroll', { scrollId: element.id })
+        delay += 1000;
+      }, delay);
+    })
+  }
+
+  const FreeRoll = () => {
+    if(discordGlobalCharacter.$premiumData.gachaFreeRolls["Astral Gate"] <= Date.now()) {
+      let gachaName = 'AstralGate';
+      let numRolls = 10;
+      setTimeout(function(){unsafeWindow.__emitSocket('astralgate:roll', { astralGateName: gachaName, numRolls }) }, 500);
+    }
+  }
   const PetGoldCollect = () => {
     setTimeout(function(){unsafeWindow.__emitSocket("pet:takegold")}, 500);
   }
@@ -423,4 +486,3 @@ const displayActivePetType = () => {
 const displayActivePetLevels = () => {
   document.getElementById("cb-pet-levels").innerHTML = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.__current + '/' + discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.maximum;
 }
-
