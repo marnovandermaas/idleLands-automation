@@ -14,6 +14,8 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - You can also minimize the window by clicking the "-" sign on the to right corner of the window
 
 # Features
+- auto free roll (daily)
+- auto use scrolls/buffs
 - Pet Adventures
   - auto collect adventures when completed
   - auto send your pets on adventures
@@ -32,5 +34,5 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - Auto pet ability usage (request from `Anten`)
 - Implement auto by pots, code provided by `Sarimash`
 - Implement reroll quests, code provided by `Sarimash`
-- Other automations gamble? leave party? free roll?
+- Other automations gamble? leave party?
 - You have an idea/suggestion, please ask away
