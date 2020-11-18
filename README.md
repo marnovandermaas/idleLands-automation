@@ -21,7 +21,7 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - Raids
   - auto raiding, must be a guild leader or mod to use this feature
 
-# Contributors
+# Credits
 - `Anten`
 - `Sarimash`
 
