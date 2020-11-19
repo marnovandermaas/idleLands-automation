@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
@@ -147,7 +147,7 @@ const load = () => {
         <div class="flex small"><span id="pet-ascend-message">Not enabled!</span></div>
       </div>
     </div>
-    <div class="cb-section-header">Raids</div>
+    <div class="cb-section-header">Guild</div>
     ${
     globalData.canGuildRaid
     ? `
@@ -178,7 +178,7 @@ const load = () => {
       </div>
     </div>`
     }
-    <div id="cb-footer">by: Torsin - Source / Contributors on <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a></div>
+    <div id="cb-footer">by: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a></div>
 
     </div>
   </div>
@@ -361,8 +361,7 @@ const load = () => {
         document.getElementById("pet-ascend-message").innerHTML = `This pet has reached it's maximum level capacity, this is a good thing! Try maxing out other pets.`;
         return false;
     }
-
-    let someMaterialsMissing = Object.keys(pet.$ascMaterials).some((mat) => pet.$ascMaterials[mat] > (discordGlobalCharacter.$petsData[mat] || 0))
+    let someMaterialsMissing = Object.keys(pet.$ascMaterials).some((mat) => pet.$ascMaterials[mat] > (discordGlobalCharacter.$petsData.ascensionMaterials[mat] || 0))
     if(someMaterialsMissing) {
         document.getElementById("pet-ascend-message").innerHTML = 'Oops, you are missing materials';
         return false;
@@ -422,7 +421,7 @@ const load = () => {
   const RunRaids = async () => {
 
     if(globalData.nextRaidAvailability <= Date.now()) {
-        console.log('raid initiated');
+        
         let level = 0;
         let reward = '';
 
