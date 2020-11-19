@@ -2,7 +2,7 @@
 Automation script for IdleLands
 https://play.idle.land/
 
-A big thank you to @sarimash for showing my some example code he created, which evolved to this... 
+A big thank you to `Sarimash` for showing my some example code he created, which evolved to this... 
 
 <img src="preview.png" width="256">
 
@@ -32,7 +32,7 @@ Once logged into IdleLands, you will see a window on the top right corner.
 # Todo
 - Better raid boss picking based needs in an array
 - Auto pet ability usage (request from `Anten`)
-- Implement auto by pots, code provided by @sarimash
-- Implement reroll quests, code provided by @sarimash
+- Implement auto by pots, code provided by `Sarimash`
+- Implement reroll quests, code provided by `Sarimash`
 - Other automations gamble? leave party?
 - You have an idea/suggestion, please ask away
