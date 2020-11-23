@@ -10,7 +10,7 @@ https://play.idle.land/
 
 A big thank you to `Sarimash` for showing my some example code he created, which evolved to this... 
 
-<img src="preview.png" width="400">
+<img src="preview2.png" width="400">
 
 # To Use
 Download a userscript manager like [tampermonkey](https://www.tampermonkey.net/) or [greasemonkey](https://www.greasespot.net/)  
