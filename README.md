@@ -1,3 +1,9 @@
+[![Open Issues](https://img.shields.io/github/issues/the-crazyball/idleLands-automation?style=flat)](https://github.com/the-crazyball/idleLands-automation/issues)
+[![Watch This Repo](https://img.shields.io/github/watchers/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/subscription)
+[![Star This Repo](https://img.shields.io/github/stars/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/stargazers)
+[![Fork This Repo](https://img.shields.io/github/forks/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/fork)
+[![Discord](https://img.shields.io/discord/748226437450039406?logo=discord&color=7289da&style=flat)](https://discord.gg/C3UryeCq)
+
 # idleLands-automation
 Automation script for IdleLands
 https://play.idle.land/
