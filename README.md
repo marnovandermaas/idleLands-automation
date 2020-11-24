@@ -1,27 +1,31 @@
+[![Version](https://img.shields.io/github/v/release/the-crazyball/idleLands-automation)](https://github.com/the-crazyball/idleLands-automation/)
 [![Open Issues](https://img.shields.io/github/issues/the-crazyball/idleLands-automation?style=flat)](https://github.com/the-crazyball/idleLands-automation/issues)
 [![Watch This Repo](https://img.shields.io/github/watchers/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/subscription)
 [![Star This Repo](https://img.shields.io/github/stars/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/stargazers)
 [![Fork This Repo](https://img.shields.io/github/forks/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/fork)
 [![Discord](https://img.shields.io/discord/748226437450039406?logo=discord&color=7289da&style=flat)](https://discord.gg/vcQrf96n)
 
-# idleLands-automation
-Automation script for IdleLands
+# IdleLands-automation
+Automation userscript for IdleLands
 https://play.idle.land/
 
 A big thank you to `Sarimash` for showing my some example code he created, which evolved to this... 
 
-<img src="preview2.png" width="400">
+![screenshot](https://iili.io/FM4I3X.md.png)
 
-# To Use
-Download a userscript manager like [tampermonkey](https://www.tampermonkey.net/) or [greasemonkey](https://www.greasespot.net/)  
-Import the script  
+## Installation
+1. Install [Violentmonkey](https://addons.mozilla.org/en-us/firefox/addon/violentmonkey/) (Firefox) or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) (Chrome) / [Tampermonkey](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) (Opera).
+2. Open `https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js` or click [here](https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js).
+3. Click `Install`.
+
+## Usage
 Once logged into IdleLands, you will see a window on the top right corner.
 - You can drag the window anywhere on the screen by clicking and holding the title bar
-- You can minimize the window by clicking the "-" sign on the to right corner of the window
-- You can change options via the cog icon beside you character name
+- You can minimize the window by clicking the `-` icon on the to right corner of the window
+- You can change options via the `cog` icon beside you character name
 - Also, all options are saved in storage for persistence
 
-# Features
+## Features
 - auto free roll (daily)
 - auto use scrolls/buffs
 - auto donate gold
@@ -36,15 +40,21 @@ Once logged into IdleLands, you will see a window on the top right corner.
   - auto raiding, must be a guild leader or mod to use this feature
 - Options Window
   - Change the equipment optimization
-  
-# Credits
-- `Anten`
-- `Sarimash`
 
-# Todo
+## Todo
 - Better raid boss picking based needs in an array
 - Auto pet ability usage (request from `Anten`)
 - Implement auto by pots, code provided by `Sarimash`
 - Implement reroll quests, code provided by `Sarimash`
 - Other automations gamble? leave party?
 - You have an idea/suggestion, please ask away
+
+## Problems?
+Found a bug, [Open an issue](https://github.com/the-crazyball/idleLands-automation/issues) and it will be looked at ASAP.
+
+## Contributing
+If you wish to contribute all [pull requests](https://github.com/the-crazyball/idleLands-automation/pulls) should be based off the `develop` branch.
+
+## Credits
+- `Anten`
+- `Sarimash`
