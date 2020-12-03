@@ -403,7 +403,7 @@ const loadUI = () => {
       </div>
     </div>`
     }
-    <div id="cb-footer" class="text-border-light">by: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a> - <a href="https://discord.gg/vcQrf96n" target="_blank">Discord</a></div>
+    <div id="cb-footer" class="text-border-light">by: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a> - <a href="https://discord.gg/HB8QUxh2Qs" target="_blank">Discord</a></div>
 
     </div>
   </div>
