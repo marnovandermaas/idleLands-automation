@@ -3,7 +3,7 @@
 [![Watch This Repo](https://img.shields.io/github/watchers/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/subscription)
 [![Star This Repo](https://img.shields.io/github/stars/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/stargazers)
 [![Fork This Repo](https://img.shields.io/github/forks/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/fork)
-[![Discord](https://img.shields.io/discord/748226437450039406?logo=discord&color=7289da&style=flat)](https://discord.gg/vcQrf96n)
+[![Discord](https://img.shields.io/discord/748226437450039406?logo=discord&color=7289da&style=flat)](https://discord.gg/HB8QUxh2Qs)
 
 # IdleLands-automation
 Automation userscript for IdleLands
