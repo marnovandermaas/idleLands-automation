@@ -63,7 +63,7 @@ const rewards = {
   'item:generated:godly': 'Item (Godly)',
   'item:generated:goatly': 'Item (Goatly)',
   'item:generated:omega': 'Item (Omega)',
-  
+
   'event:chosen:Enchant': 'Item Enchantment',
 
   'item:guardian:gear': 'Item (Guardian)',
@@ -73,4 +73,24 @@ const rewards = {
   'item:teleportscroll:random': 'Teleport Scroll (Random)',
   'item:teleportscroll:astralcontrolroom': 'Teleport Scroll (ACR)',
   'item:buffscroll:random': 'Buff Scroll (Random)'
+}
+
+const raidRewards = {
+  'item:Crystal:Green': 'Crystal (Green)',
+  'item:Crystal:Yellow': 'Crystal (Yellow)',
+  'item:Crystal:Red': 'Crystal (Red)',
+  'item:Crystal:Blue': 'Crystal (Blue)',
+  'item:Crystal:Purple': 'Crystal (Purple)',
+  'item:Crystal:Orange': 'Crystal (Orange)',
+  'item:Crystal:Astral': 'Crystal (Astral)',
+
+  'item:generated:idle': 'Item (Idle)',
+  'item:generated:godly': 'Item (Godly)',
+  'item:generated:goatly': 'Item (Goatly)',
+  'item:generated:omega': 'Item (Omega)',
+
+  'xp:player:max': 'Player Level Up',
+  'xp:pet:max': 'Pet Level Up',
+  'ilp:player:sm': 'ILP (Small)',
+  'item:teleportscroll:random': 'Teleport Scroll (Random)',
 }
