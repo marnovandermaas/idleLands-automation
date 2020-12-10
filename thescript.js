@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
-// @namespace    http://tampermonkey.net/
-// @version      1.4
+// @namespace    https://github.com/the-crazyball/idleLands-automation
+// @version      1.5
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
 // @author       Ian Duchesne (Torsin aka Crazyball)
+// @copyright    2020, Ian Duchesne (Torsin aka Crazyball) (http://www.thecrazyball.io/)
+// @homepage     http://www.thecrazyball.io/
 // @match        https://play.idle.land/*
 // @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/gameData.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.20/dist/lodash.js
@@ -21,7 +23,7 @@ var cssTxt = GM_getResourceText("css");
 GM_addStyle (cssTxt);
 
 /* TODO:
-  - choices selection
+  - choices selection (in progress)
   - guild chat?
   - enforce personalities
   - salvage all/sell all
@@ -29,6 +31,7 @@ GM_addStyle (cssTxt);
   - seperate code in different JS files
   - auto collect global quest
   - add DivineStumbler
+  - optimize Pet equipment (done Dec 7)
 */
 
 let defaultOptions = {
@@ -43,6 +46,8 @@ let defaultOptions = {
 
   petGoldCollectInterval: 300000, // in ms
   petAutoAscendInterval: 60000, // in ms
+  petOptimizeEquipmentInterval: 30000,
+  petOptimizeEquipmentStat: 'xp', // gold, xp or by score
 
   donateGoldInterval: 3600000, // in ms
 
@@ -66,6 +71,14 @@ let defaultOptions = {
 }
 
 const options = GM_getValue('options') == null ? defaultOptions : GM_getValue('options'); //save and persist options to the local storage
+
+// check for object keys and add if they don't exist, prevents re-install of this script or if removed from the local storage
+Object.keys(defaultOptions).forEach(key => {
+  if(!options.hasOwnProperty( key )) {
+    options[key] = defaultOptions[key];
+    GM_setValue('options', options);
+  }
+});
 
 const globalData = {
   canGuildRaid: false,
@@ -165,6 +178,18 @@ const loadUI = () => {
         </span>
       </div>
     </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Pet Optimize Equipment:</span>
+        <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-pet-optimize-equipment-select">
+            <option value="gold" ${options.petOptimizeEquipmentStat == 'gold' ? `selected` : ``}>gold</option>
+            <option value="xp" ${options.petOptimizeEquipmentStat == 'xp' ? `selected` : ``}>xp</option>
+            <option value="score" ${options.petOptimizeEquipmentStat == 'score' ? `selected` : ``}>score</option>
+          </select>
+        </span>
+      </div>
+    </div>
     <div class="cb-section-header">Intervals ( in ms )</div>
     <div class="cb-section">
       <div class="cb-section-content">
@@ -195,6 +220,14 @@ const loadUI = () => {
         <span class="cb-flex-1">Pet Auto Ascent:</span>
         <span class="right">
           <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-auto-ascend-text">
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Pet Optimize Equipment:</span>
+        <span class="right">
+          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-optimize-equipment-text">
         </span>
       </div>
     </div>
@@ -372,6 +405,24 @@ const loadUI = () => {
         <div class="cb-flex-1 small"><span id="pet-ascend-message">Loading... just a sec.</span></div>
       </div>
     </div>
+
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <div class="cb-flex-1">Optimize Equipment</div>
+        <div class="cb-flex-1 right">
+          <label class="switch">
+            <input id="pet-optimize-equipment-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div id="cb-pet-optimize-equipment-sub-section" class="cb-sub-section cb-collapsed">
+      <div class="cb-section-content">
+        <div class="cb-flex-1 small"><span id="pet-optimize-equipment-message">Loading... just a sec.</span></div>
+      </div>
+    </div>
+
     <div class="cb-section-header">Guild ( <span id="cb-guild-name"></span> )</div>
     ${
     globalData.canGuildRaid
@@ -451,6 +502,9 @@ const start = () => {
     document.getElementById("cb-pet-auto-ascend-text").value = options.petAutoAscendInterval;
     document.getElementById("cb-pet-auto-ascend-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petAutoAscendInterval);
 
+    document.getElementById("cb-pet-optimize-equipment-text").value = options.petOptimizeEquipmentInterval;
+    document.getElementById("cb-pet-optimize-equipment-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petOptimizeEquipmentInterval);
+
     document.getElementById("cb-donate-gold-text").value = options.donateGoldInterval;
     document.getElementById("cb-donate-gold-text").previousSibling.previousSibling.innerHTML = timeConversion(options.donateGoldInterval);
 
@@ -525,6 +579,15 @@ const start = () => {
     typingTimeout = setTimeout(function () {
       saveOptions('petAutoAscendInterval', e.target.value);
       triggerChange('petAutoAscend', document.getElementById("pet-ascend-checkbox"), false);
+    }, 2000);
+  });
+
+  document.getElementById("cb-pet-optimize-equipment-text").addEventListener( 'keyup', function (e) {
+    clearTimeout(typingTimeout);
+    e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
+    typingTimeout = setTimeout(function () {
+      saveOptions('petOptimizeEquipmentInterval', e.target.value);
+      triggerChange('petOptimizeEquipment', document.getElementById("pet-optimize-equipment-checkbox"), false);
     }, 2000);
   });
 
@@ -653,6 +716,26 @@ const start = () => {
   });
   triggerChange('petAutoAscend', document.getElementById("pet-ascend-checkbox"), true);
 
+  var petOptimizeEquipmentLoop;
+  document.getElementById("pet-optimize-equipment-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          petOptimizeEquipmentLoop = setInterval( petOptimizeEquipment, options.petOptimizeEquipmentInterval );
+          console.log('pet optimize equipment started');
+          saveOptions('petOptimizeEquipment', true);
+          document.getElementById("cb-pet-optimize-equipment-sub-section").classList.toggle("cb-collapsed");
+      } else {
+          clearInterval(petOptimizeEquipmentLoop);
+          console.log('pet optimize equipment stopped');
+          saveOptions('petOptimizeEquipment', false);
+          document.getElementById("cb-pet-optimize-equipment-sub-section").classList.toggle("cb-collapsed");
+      }
+  });
+  triggerChange('petOptimizeEquipment', document.getElementById("pet-optimize-equipment-checkbox"), true);
+
+  document.getElementById("cb-pet-optimize-equipment-select").addEventListener( 'change', function(e) {
+    saveOptions('petOptimizeEquipmentStat', e.target.value);
+  });
+
   document.getElementById("cb-pets-per-select").addEventListener( 'change', function(e) {
     saveOptions('petAdventurePetNum', e.target.value);
   });
@@ -774,6 +857,51 @@ const accordionElement = (el) => {
       }
   });
 }
+
+const petOptimizeEquipment = () => {
+
+  let currentInventory = discordGlobalCharacter.$inventoryData.items;
+
+  currentInventory.forEach(item => {
+    let petEquipment = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].equipment;
+
+    if(petEquipment[item.type]) {
+
+      let didEquip = false;
+      petEquipment[item.type].forEach((cItem, idx) => {
+
+        if(didEquip) return;
+
+        if(!cItem) {
+          didEquip = true;
+          setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id }) }, 500);
+          console.log('equiped - empty slot');
+          return;
+        }
+
+        if(options.petOptimizeEquipmentStat == 'score') {
+          if(item.score > cItem.score) {
+            didEquip = true;
+            setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id, unequipId: cItem.id, unequipSlot: cItem.type }) }, 500);
+            console.log('equiped - score higher', item, cItem);
+            return;
+          }
+        } else {
+          let newItemStat = item.stats[options.petOptimizeEquipmentStat] || 0;
+          let oldItemStat = cItem.stats[options.petOptimizeEquipmentStat] || 0;
+
+          if(newItemStat > oldItemStat) {
+            didEquip = true;
+            setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id, unequipId: cItem.id, unequipSlot: cItem.type }) }, 500);
+            console.log(`equiped - ${options.petOptimizeEquipmentStat} higher`);
+            return;
+          }
+        }
+      });
+    }
+  });
+}
+
   // Pet ascend
   const petAscend = () => {
 
@@ -784,12 +912,19 @@ const accordionElement = (el) => {
         return false;
     }
     if(pet.rating >= 5) {
+        document.getElementById("pet-ascend-message").innerHTML = `This pet has reached a rating of 5, don't forget to max out the levels.`;
+        document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+        return false;
+    }
+    if(pet.rating >= 5 && pet.level.maximum == pet.level.__current) {
         document.getElementById("pet-ascend-message").innerHTML = `This pet has reached it's maximum level capacity, this is a good thing! Try maxing out other pets.`;
+        document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
         return false;
     }
     let someMaterialsMissing = Object.keys(pet.$ascMaterials).some((mat) => pet.$ascMaterials[mat] > (discordGlobalCharacter.$petsData.ascensionMaterials[mat] || 0))
     if(someMaterialsMissing) {
         document.getElementById("pet-ascend-message").innerHTML = 'Oops, you are missing materials';
+        document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
         return false;
     }
 
@@ -846,7 +981,7 @@ const accordionElement = (el) => {
   }
 
   // Raids
-  // keep trying until reaching level 100 then turn off? Check for guild gold?
+  // keep trying until reaching level 100 then turn off? Check for guild gold? or after 3 tries turn off?
   const RunRaids = async () => {
 
     if(options.guildRaidNextAvailability <= Date.now()) {
@@ -994,6 +1129,7 @@ const getMemberList = (memberHash) => {
   }
 
 const updateUI = () => {
+    document.getElementById("pet-optimize-equipment-message").innerHTML = `Optimized for ${options.petOptimizeEquipmentStat}${options.petOptimizeEquipmentStat == 'score' ? `` : ` - Boost: ${formatNumber(discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].stats[options.petOptimizeEquipmentStat])}`}`;
     document.getElementById("optimize-equipment-message").innerHTML = 'Optimized for ' + options.optimizeEquipmentStat + ' - Boost: ' + formatNumber(discordGlobalCharacter.stats[options.optimizeEquipmentStat]);
     document.getElementById("cb-player-name").innerHTML = discordGlobalCharacter.name;
     document.getElementById("cb-player-title").innerHTML = discordGlobalCharacter.title;
