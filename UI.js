@@ -1,4 +1,4 @@
-const settingsWindow = `
+export const settingsWindow = `
   <div id="cb-settings-container" class="cb-hide">
     <div id="cb-settings-container-header" class="cb-header">
       <span id="cb-title" class="text-border-light">Settings</span>
@@ -147,7 +147,7 @@ const settingsWindow = `
 
   </div>`;
 
-const mainWindow = `
+export const mainWindow = `
   <div id="cb-container">
     <div id="cb-container-header" class="cb-header">
       <span id="cb-title" class="text-border-light">IdleLands Scripts</span>
