@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
 // @namespace    https://github.com/the-crazyball/idleLands-automation
-// @version      1.5
+// @version      1.6
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
@@ -23,15 +23,12 @@ var cssTxt = GM_getResourceText("css");
 GM_addStyle (cssTxt);
 
 /* TODO:
-  - choices selection (in progress)
   - guild chat?
   - enforce personalities
-  - salvage all/sell all
   - invite to guild / new users
   - seperate code in different JS files
   - auto collect global quest
   - add DivineStumbler
-  - optimize Pet equipment (done Dec 7)
 */
 
 let defaultOptions = {
@@ -58,6 +55,20 @@ let defaultOptions = {
   optimizeEquipmentInterval: 60000, // in ms
   optimizeEquipmentStat: 'gold', // gold or xp
 
+  inventoryInterval: 10000,
+  inventoryCleanup: 'none',
+
+  // choices
+  choicesInterval: 30000,
+
+  choiceTrainerOption: 'none',
+  choicePortalOption: 'none',
+  choiceGamblingOption: 'none',
+  choicePartyLeaveOption: 'none',
+  choiceBuyitemOption: 'none',
+  choiceItemFoundOption: 'none',
+  choiceEnchantOption: 'none',
+
   // checkboxes
   optimizeEquipment: false,
   petAdventureCollect: false,
@@ -67,7 +78,9 @@ let defaultOptions = {
   useScrolls: false,
   donateGold: false,
   petAutoAscend: false,
-  raids: false
+  raids: false,
+  choices: false,
+  inventory: false
 }
 
 const options = GM_getValue('options') == null ? defaultOptions : GM_getValue('options'); //save and persist options to the local storage
@@ -150,10 +163,23 @@ const buildRaidItemOptions = (slot) => {
 const loadUI = () => {
   document.body.insertAdjacentHTML("beforeend", `
   <div id="cb-settings-container" class="cb-hide">
-    <div id="cb-settings-container-header" class="cb-header">
-      <span id="cb-title" class="text-border-light">Settings</span>
-      <button id="cb-settings-close" class="cb-close"></button>
+    <div id="cb-settings-container-header" class="cb-header"> <span class="cb-title text-border-light">Settings</span>
+    <button id="cb-settings-close" class="cb-close"></button>
+  </div>
+  <div id="cb-settings-panel" class="cb-panel" style="max-height: 100%; display: flex; flex-wrap: wrap;">
+    <div class="cb-left-pane">
+      <nav class="tabs">
+        <ul>
+          <li class="cb-general-big-ico active" data-tab="cb-tab-settings-general">General</li>
+          <li class="cb-choices-big-ico" data-tab="cb-tab-settings-choices">Choices</li>
+          <li class="cb-interval-big-ico" data-tab="cb-tab-settings-intervals">Intervals</li>
+          <li class="cb-guild-big-ico" data-tab="cb-tab-settings-guild">Guild</li>
+        </ul>
+      </nav>
     </div>
+    <div class="cb-right-pane" style="width:290px">
+      <div class="tab-content active" id="cb-tab-settings-general">
+
     <div class="cb-section-header">General</div>
     <div class="cb-section">
       <div class="cb-section-content">
@@ -190,6 +216,118 @@ const loadUI = () => {
         </span>
       </div>
     </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Inventory Cleanup:</span>
+        <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-inventory-cleanup-select">
+            <option value="none" ${options.inventoryCleanup == 'none' ? `selected` : ``}>none</option>
+            <option value="salvage" ${options.inventoryCleanup == 'salvage' ? `selected` : ``}>salvage</option>
+            <option value="sell" ${options.inventoryCleanup == 'sell' ? `selected` : ``}>sell</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div id="cb-inventory-cleanup-sub-section" class="cb-sub-section">
+      <div class="cb-section-content">
+        <div class="cb-flex-1 small">Please note inventory cleanup will only trigger when the inventory is full.</div>
+      </div>
+    </div>
+
+      </div>
+      <div class="tab-content" id="cb-tab-settings-choices">
+
+    <div class="cb-section-header">Choices</div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Enchantments:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-choice-enchant-select">
+            <option value="none" ${options.choiceEnchantOption == 'none' ? `selected` : ``}>none</option>
+            <option value="Yes" ${options.choiceEnchantOption == 'Yes' ? `selected` : ``}>yes</option>
+            <option value="No" ${options.choiceEnchantOption == 'No' ? `selected` : ``}>no</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Found Item (Equip):</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-choice-item-found-select">
+            <option value="none" ${options.choiceItemFoundOption == 'none' ? `selected` : ``}>none</option>
+            <option value="Yes" ${options.choiceItemFoundOption == 'Yes' ? `selected` : ``}>yes</option>
+            <option value="No" ${options.choiceItemFoundOption == 'No' ? `selected` : ``}>no</option>
+            <option value="Sell" ${options.choiceItemFoundOption == 'Sell' ? `selected` : ``}>sell</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Buy Item (Merchant):</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-choice-buy-item-select">
+            <option value="none" ${options.choiceBuyitemOption == 'none' ? `selected` : ``}>none</option>
+            <option value="Yes" ${options.choiceBuyitemOption == 'Yes' ? `selected` : ``}>yes</option>
+            <option value="No" ${options.choiceBuyitemOption == 'No' ? `selected` : ``}>no</option>
+            <option value="Inventory" ${options.choiceBuyitemOption == 'Inventory' ? `selected` : ``}>inventory</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Party Leave:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-choice-party-leave-select">
+            <option value="none" ${options.choicePartyLeaveOption == 'none' ? `selected` : ``}>none</option>
+            <option value="Yes" ${options.choicePartyLeaveOption == 'Yes' ? `selected` : ``}>yes</option>
+            <option value="No" ${options.choicePartyLeaveOption == 'No' ? `selected` : ``}>no</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Gambling:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-choice-gambling-select">
+            <option value="none" ${options.choiceGamblingOption == 'none' ? `selected` : ``}>none</option>
+            <option value="Yes" ${options.choiceGamblingOption == 'Yes' ? `selected` : ``}>yes</option>
+            <option value="No" ${options.choiceGamblingOption == 'No' ? `selected` : ``}>no</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Portal:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-choice-portal-select">
+            <option value="none" ${options.choicePortalOption == 'none' ? `selected` : ``}>none</option>
+            <option value="Yes" ${options.choicePortalOption == 'Yes' ? `selected` : ``}>yes</option>
+            <option value="No" ${options.choicePortalOption == 'No' ? `selected` : ``}>no</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Trainer:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-choice-trainer-select">
+            <option value="none" ${options.choiceTrainerOption == 'none' ? `selected` : ``}>none</option>
+            <option value="Yes" ${options.choiceTrainerOption == 'Yes' ? `selected` : ``}>yes</option>
+            <option value="No" ${options.choiceTrainerOption == 'No' ? `selected` : ``}>no</option>
+          </select>
+        </span>
+      </div>
+    </div>
+
+      </div>
+      <div class="tab-content" id="cb-tab-settings-intervals">
+
     <div class="cb-section-header">Intervals ( in ms )</div>
     <div class="cb-section">
       <div class="cb-section-content">
@@ -264,6 +402,9 @@ const loadUI = () => {
       </div>
     </div>
 
+      </div>
+      <div class="tab-content" id="cb-tab-settings-guild">
+
     <div class="cb-section-header">Guild Raid</div>
     <div class="cb-section">
       <div class="cb-section-content">
@@ -293,13 +434,15 @@ const loadUI = () => {
           <select class="cb-select" id="cb-raid-item-3-select"></select>
         </span>
       </div>
+        </div>
+      </div>
     </div>
-
   </div>
+</div>
 
   <div id="cb-container">
     <div id="cb-container-header" class="cb-header">
-      <span id="cb-title" class="text-border-light">IdleLands Scripts</span>
+      <span class="cb-title text-border-light">IdleLands Scripts</span>
       <button class="cb-accordion cb-active"></button>
     </div>
     <div class="cb-panel">
@@ -351,6 +494,28 @@ const loadUI = () => {
     <div id="cb-optimize-equipment-sub-section" class="cb-sub-section cb-collapsed">
       <div class="cb-section-content">
         <div class="cb-flex-1 small"><span id="optimize-equipment-message">Loading... just a sec.</span></div>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Auto Choices</span>
+        <span class="cb-flex-1 right">
+          <label class="switch">
+            <input id="choices-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Auto Inventory Cleanup</span>
+        <span class="cb-flex-1 right">
+          <label class="switch">
+            <input id="inventory-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </span>
       </div>
     </div>
 
@@ -700,6 +865,34 @@ const start = () => {
   });
   triggerChange('optimizeEquipment', document.getElementById("optimize-equipment-checkbox"), true);
 
+  var choicesLoop;
+  document.getElementById("choices-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          choicesLoop = setInterval( RunChoices, options.choicesInterval );
+          console.log('choices started');
+          saveOptions('choices', true);
+      } else {
+          clearInterval(choicesLoop);
+          console.log('choices stopped');
+          saveOptions('choices', false);
+      }
+  });
+  triggerChange('choices', document.getElementById("choices-checkbox"), true);
+
+  var inventoryLoop;
+  document.getElementById("inventory-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          inventoryLoop = setInterval( RunInventory, options.inventoryInterval );
+          console.log('inventory cleanup started');
+          saveOptions('inventory', true);
+      } else {
+          clearInterval(inventoryLoop);
+          console.log('inventory cleanup stopped');
+          saveOptions('inventory', false);
+      }
+  });
+  triggerChange('inventory', document.getElementById("inventory-checkbox"), true);
+
   var petAutoAscendLoop;
   document.getElementById("pet-ascend-checkbox").addEventListener( 'change', function() {
       if(this.checked) {
@@ -732,10 +925,33 @@ const start = () => {
   });
   triggerChange('petOptimizeEquipment', document.getElementById("pet-optimize-equipment-checkbox"), true);
 
+  document.getElementById("cb-choice-trainer-select").addEventListener( 'change', function(e) {
+    saveOptions('choiceTrainerOption', e.target.value);
+  });
+  document.getElementById("cb-choice-portal-select").addEventListener( 'change', function(e) {
+    saveOptions('choicePortalOption', e.target.value);
+  });
+  document.getElementById("cb-choice-gambling-select").addEventListener( 'change', function(e) {
+    saveOptions('choiceGamblingOption', e.target.value);
+  });
+  document.getElementById("cb-choice-party-leave-select").addEventListener( 'change', function(e) {
+    saveOptions('choicePartyLeaveOption', e.target.value);
+  });
+  document.getElementById("cb-choice-buy-item-select").addEventListener( 'change', function(e) {
+    saveOptions('choiceBuyitemOption', e.target.value);
+  });
+  document.getElementById("cb-choice-item-found-select").addEventListener( 'change', function(e) {
+    saveOptions('choiceItemFoundOption', e.target.value);
+  });
+  document.getElementById("cb-choice-enchant-select").addEventListener( 'change', function(e) {
+    saveOptions('choiceEnchantOption', e.target.value);
+  });
+  document.getElementById("cb-inventory-cleanup-select").addEventListener( 'change', function(e) {
+    saveOptions('inventoryCleanup', e.target.value);
+  });
   document.getElementById("cb-pet-optimize-equipment-select").addEventListener( 'change', function(e) {
     saveOptions('petOptimizeEquipmentStat', e.target.value);
   });
-
   document.getElementById("cb-pets-per-select").addEventListener( 'change', function(e) {
     saveOptions('petAdventurePetNum', e.target.value);
   });
@@ -839,7 +1055,39 @@ const start = () => {
       document.onmousemove = null;
     }
   }
+  const tabsNav = (element) => {
+
+    const tabs = document.querySelectorAll(`#${element} .cb-left-pane .tabs li`);
+    const sections = document.querySelectorAll(`#${element} .cb-right-pane .tab-content`);
+
+    tabs.forEach(tab => {
+      tab.addEventListener("click", e => {
+        e.preventDefault();
+        removeActiveTab();
+        addActiveTab(tab);
+      });
+    })
+
+    const removeActiveTab = () => {
+      tabs.forEach(tab => {
+        tab.classList.remove("active");
+      });
+      sections.forEach(section => {
+        section.classList.remove("active");
+      });
+    }
+
+    const addActiveTab = tab => {
+      tab.classList.add("active");
+      const data = tab.dataset.tab;
+      const matchingSection = document.querySelector(`#${data}`);
+      matchingSection.classList.add("active");
+    }
+  }
+  tabsNav('cb-settings-panel');
+  //tabsNav('cb-main-panel');
 }
+
 const accordionElement = (el) => {
   let accordion = el.querySelector('.cb-header > .cb-accordion');
   let panel = el.querySelector('.cb-panel');
@@ -875,7 +1123,7 @@ const petOptimizeEquipment = () => {
         if(!cItem) {
           didEquip = true;
           setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id }) }, 500);
-          console.log('equiped - empty slot');
+          console.log('Pet Equiped - empty slot');
           return;
         }
 
@@ -883,7 +1131,7 @@ const petOptimizeEquipment = () => {
           if(item.score > cItem.score) {
             didEquip = true;
             setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id, unequipId: cItem.id, unequipSlot: cItem.type }) }, 500);
-            console.log('equiped - score higher', item, cItem);
+            console.log('Pet Equiped - score higher', item, cItem);
             return;
           }
         } else {
@@ -891,9 +1139,10 @@ const petOptimizeEquipment = () => {
           let oldItemStat = cItem.stats[options.petOptimizeEquipmentStat] || 0;
 
           if(newItemStat > oldItemStat) {
+            console.log(`Pet Equiped, NEW ${newItemStat} - OLD ${oldItemStat}`);
             didEquip = true;
             setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id, unequipId: cItem.id, unequipSlot: cItem.type }) }, 500);
-            console.log(`equiped - ${options.petOptimizeEquipmentStat} higher`);
+            console.log(`Pet Equiped - ${options.petOptimizeEquipmentStat} higher`);
             return;
           }
         }
@@ -987,24 +1236,38 @@ const petOptimizeEquipment = () => {
     if(options.guildRaidNextAvailability <= Date.now()) {
 
         let level = 0;
-        let reward = '';
+        let reward = [];
+        let results = null;
 
         let response = await fetch('https://server.idle.land/api/guilds/raids?maxLevel=' + options.guildRaidMaxLevel);
         let data = await response.json();
 
-        let results = data.raids.filter(element => {
-            return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
-        });
-
-        if (results.length > 0) {
-            level = results[results.length-1].level;
-            reward = raidRewards[results[results.length-1].rewards[0]];
+        if (globalData.raidFail) {
+          results = data.raids.filter(element => {
+            return element.level == globalData.lastRaidBossLevel;
+          });
+          level = globalData.lastRaidBossLevel;
+          results[results.length-1].rewards.forEach(element => {
+            reward.push(raidRewards[element]);
+          });
         } else {
+          results = data.raids.filter(element => {
+            return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
+          });
+
+          if (results.length > 0) {
+            level = results[results.length-1].level;
+            results[results.length-1].rewards.forEach(element => {
+              reward.push(raidRewards[element]);
+            });
+          } else {
             level = options.guildRaidMaxLevel;
-            reward = raidRewards[data.raids[data.raids.length-1].rewards[0]];
+            data.raids[data.raids.length-1].rewards.forEach(element => {
+              reward.push(raidRewards[element]);
+            });
+          }
         }
 
-        level = globalData.raidFail ? globalData.lastRaidBossLevel : level;
         setTimeout( () => {unsafeWindow.__emitSocket("guild:raidboss", { bossLevel: level})}, 500);
 
         setTimeout(async () => {
@@ -1017,7 +1280,6 @@ const petOptimizeEquipment = () => {
               globalData.raidFail = true;
               globalData.lastRaidBossLevel = globalData.lastRaidBossLevel == 0 ? level : globalData.lastRaidBossLevel;
               globalData.lastRaidBossLevel -= 50;
-              console.log('raid failed or lost', level, globalData.lastRaidBossLevel);
             } else {
               globalData.raidFail = false;
               globalData.lastRaidBossLevel = level;
@@ -1026,8 +1288,66 @@ const petOptimizeEquipment = () => {
 
             document.getElementById("guild-next-time").innerHTML = date.toLocaleTimeString();
             document.getElementById("guild-level").innerHTML = level;
-            document.getElementById("guild-item").innerHTML = reward;
+            document.getElementById("guild-item").innerHTML = reward.join();
         }, 7000); // added 5 seconds extra
+    }
+  }
+  const RunChoices = () => {
+    let choices = Object.values(discordGlobalCharacter.$choicesData.choices);
+    let delay = 200;
+    choices.forEach(choice => {
+      let choiceVal = 'none';
+      if(choice.event == 'Merchant') {
+        if(choice.extraData.cost <= discordGlobalCharacter.gold) {
+          if(choice.extraData.item.type == 'enchant') {
+            choiceVal = options.choiceEnchantOption;
+          } else {
+            choiceVal = options.choiceBuyitemOption;
+          }
+        }
+      }
+      if(choice.event == 'Gamble') {
+        if(options.choiceGamblingOption == 'No') {
+          choiceVal = options.choiceGamblingOption;
+        } else {
+          if(choice.extraData.bet <= discordGlobalCharacter.gold) {
+            choiceVal = options.choiceGamblingOption;
+          }
+        }
+      }
+      if(choice.event == 'FindItem') {
+        choiceVal = options.choiceItemFoundOption;
+      }
+      if(choice.event == 'PartyLeave') {
+        choiceVal = options.choicePartyLeaveOption;
+      }
+      if(choice.event == 'Portal') {
+        choiceVal = options.choicePortalOption;
+      }
+      if(choice.event == 'FindTrainer') {
+        choiceVal = options.choiceTrainerOption;
+      }
+
+      if(choiceVal != 'none') {
+        setTimeout( () => {
+          unsafeWindow.__emitSocket('choice:make', { choiceId: choice.id, valueChosen: choiceVal });
+        }, delay);
+        delay += 1000;
+      }
+    });
+
+  }
+
+  const RunInventory = () => {
+    if(discordGlobalCharacter.$inventoryData.items.length == discordGlobalCharacter.$inventoryData.size) {
+      if(options.inventoryCleanup == 'salvage') {
+        setTimeout( () => { unsafeWindow.__emitSocket('item:salvageall', {}) }, 200);
+        console.log('salvaged items');
+      }
+      if(options.inventoryCleanup == 'sell') {
+        setTimeout( () => { unsafeWindow.__emitSocket('item:sellall', {}) }, 200);
+        console.log('sold items');
+      }
     }
   }
 
@@ -1052,7 +1372,9 @@ const petOptimizeEquipment = () => {
       let slot = element.type;
       let newItemStat = element.stats[options.optimizeEquipmentStat] || 0;
       let oldItemStat = currentEquipment[slot].stats[options.optimizeEquipmentStat] || 0;
+
       if(newItemStat > oldItemStat) {
+        console.log(`Character Equiped ${slot}, NEW ${newItemStat} - OLD ${oldItemStat}`);
         setTimeout( () => {
           unsafeWindow.__emitSocket('item:equip', { itemId: element.id });
         }, delay);
