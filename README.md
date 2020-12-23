@@ -11,7 +11,7 @@ https://play.idle.land/
 
 A big thank you to `Sarimash` for showing my some example code he created, which evolved to this... 
 
-[![screenshot](https://i.postimg.cc/MT56cdP2/Capture2.png)](https://postimg.cc/KkKSwrhJ)
+[![screenshot](https://i.postimg.cc/sx5xxpd8/tempsnip.png)](https://postimg.cc/bSNpFSvH)
 
 ## Installation
 `please note, if you are running v1.3 or lower, you will need to delete and re-install`
@@ -42,13 +42,12 @@ Once logged into IdleLands, you will see a window on the top right corner.
   - auto raiding, must be a guild leader or mod to use this feature
 - Options Window
   - Change the equipment optimization
+  - Control refresh intervals
+  - Guild raid options
 
 ## Todo
-- Better raid boss picking based needs in an array
-- Auto pet ability usage (request from `Anten`)
 - Implement auto by pots, code provided by `Sarimash`
 - Implement reroll quests, code provided by `Sarimash`
-- Other automations gamble? leave party?
 - You have an idea/suggestion, please ask away
 
 ## Problems?
