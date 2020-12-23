@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
 // @namespace    https://github.com/the-crazyball/idleLands-automation
-// @version      1.6
+// @version      1.7
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
@@ -9,6 +9,9 @@
 // @copyright    2020, Ian Duchesne (Torsin aka Crazyball) (http://www.thecrazyball.io/)
 // @homepage     http://www.thecrazyball.io/
 // @match        https://play.idle.land/*
+// @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/utils.js
+// @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/wsHook.js
+// @run-at       document-start
 // @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/gameData.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.20/dist/lodash.js
 // @resource css https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/style.css
@@ -19,17 +22,49 @@
 // @grant        GM_getValue
 // ==/UserScript==
 
+// #######################################################################################################################################################################
+// Discord server:
+//   https://discord.gg/HB8QUxh2Qs (support for this script, updates and general chit chat)
+//
+// Source code:
+//   https://github.com/the-crazyball/idleLands-automation
+//
+// Well deserved credits to:
+//   Anten - For his ideas to improve the script and testing
+//   Sarimash - For showing me his first script (then others) that ignited my curiosity to build this. Oh and testing as well
+//   skepticfx - for the wsHook.js (https://github.com/skepticfx/wshook) script that I modified because of grant permissions used in this script
+//
+// Known bugs:
+//
+// To do:
+//  - After 3 guild raid failed attempts, run level 100 raid boss, if that fails, turn off auto raiding
+//  - Guild chat.... this is a nice to have but not sure it's possible
+//  - Enforce personalities, especially when you fate lake and then get randomly set
+//  - Guild member functions (invite, view list, actives, kick, promote and leave guild) this is broken in game atm
+//  - (started) Clean the code, seperate in different JS files
+//  - Auto collect global quests
+//  - (started) Add divine stepper (DivineStumbler variant)
+//  - (done) Auto pet ability usage (request from Anten)
+//  - Implement auto by pots, code provided by Sarimash
+//  - Implement reroll quests, code provided by Sarimash
+//
+// Changelog (adapted from changelog.txt):
+//  1.7
+//    - Fixed the guild raids to throttle when failing, add 10 mins to next raid availability
+//        this way it doesn't spam the server and doesn't use up all the gold
+//    - Auto pet ability when player has enough stamina it triggers the ability
+//    - Added new tab panel for DivineStumbler in settings (not fully implemented yet)
+//  1.6
+//    - Fixed guild raid reward display for multiple rewards
+//    - Auto Choices
+//    - Fixed guild raid reward and level display when picking a lower level after fail
+//    - Added vertical tabs for different sections in the settings window
+//    - Inventory cleanup (Salvage All, or Sell All)
+
+//#######################################################################################################################################################################
+
 var cssTxt = GM_getResourceText("css");
 GM_addStyle (cssTxt);
-
-/* TODO:
-  - guild chat?
-  - enforce personalities
-  - invite to guild / new users
-  - seperate code in different JS files
-  - auto collect global quest
-  - add DivineStumbler
-*/
 
 let defaultOptions = {
   guildRaidMinLevel: 100,
@@ -39,6 +74,7 @@ let defaultOptions = {
 
   petAdventureCollectInterval: 60000, // in ms
   petAdventureEmbarkInterval: 60000, // in ms
+  petAbilityInterval: 15000, // 15 secs
   petAdventurePetNum: 3, // Number of pets to send per adventure (Game max is set to 3)
 
   petGoldCollectInterval: 300000, // in ms
@@ -80,7 +116,8 @@ let defaultOptions = {
   petAutoAscend: false,
   raids: false,
   choices: false,
-  inventory: false
+  inventory: false,
+  petAbility: false
 }
 
 const options = GM_getValue('options') == null ? defaultOptions : GM_getValue('options'); //save and persist options to the local storage
@@ -96,7 +133,15 @@ Object.keys(defaultOptions).forEach(key => {
 const globalData = {
   canGuildRaid: false,
   raidFail: false,
-  lastRaidBossLevel: 0
+  lastRaidBossLevel: 0,
+  raidFailTimes: 0
+}
+const playerData = {
+  currLoc: {
+    x: null,
+    y: null
+  },
+  dd: null
 }
 
 const loginCheck = () => {
@@ -174,6 +219,7 @@ const loadUI = () => {
           <li class="cb-choices-big-ico" data-tab="cb-tab-settings-choices">Choices</li>
           <li class="cb-interval-big-ico" data-tab="cb-tab-settings-intervals">Intervals</li>
           <li class="cb-guild-big-ico" data-tab="cb-tab-settings-guild">Guild</li>
+          <li class="cb-divine-path-big-ico" data-tab="cb-tab-settings-divine-path">Stumbler</li>
         </ul>
       </nav>
     </div>
@@ -436,9 +482,26 @@ const loadUI = () => {
       </div>
         </div>
       </div>
+
+      <div class="tab-content" id="cb-tab-settings-divine-path">
+        <div class="cb-section-header">Divine Stumbler</div>
+        <div class="cb-sub-section">
+          <div class="cb-section-content">
+            <div class="cb-flex-1 small">Full credit to <a href="https://github.com/skepticfx/wshook" target="_blank">skepticfx</a> for creating the original DivineStumbler that I integrated in my own scripts with a few changes.</div>
+          </div>
+        </div>
+        <div class="cb-section-header">Path(s) <button id="cb-settings-divine-path-add" class="cb-divine-path-add-ico cb-fr tooltip" tooltip="Add a new divine path."></button></div>
+        <div class="cb-sub-section">
+          <div class="cb-section-content">
+            <div class="cb-flex-1 small">You currently have no path(s) saved, click the <span class="cb-divine-path-add-ico"></span> to add a path.</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
+
 
   <div id="cb-container">
     <div id="cb-container-header" class="cb-header">
@@ -543,6 +606,17 @@ const loadUI = () => {
       </div>
     </div>
     <div class="cb-section-header">Active Pet ( <span id="cb-pet-type"></span> - <span id="cb-pet-levels"></span> )</div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <div class="cb-flex-1">Auto Ability</div>
+        <div class="cb-flex-1 right">
+          <label class="switch">
+            <input id="pet-ability-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </div>
     <div class="cb-section">
       <div class="cb-section-content">
         <div class="cb-flex-1">Auto Gold Collect</div>
@@ -807,6 +881,20 @@ const start = () => {
   });
   triggerChange('petGoldCollect', document.getElementById("pet-gold-checkbox"), true);
 
+  var petAbilityLoop;
+  document.getElementById("pet-ability-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          petAbilityLoop = setInterval( PetAbility, options.petAbilityInterval );
+          console.log('pet ability started');
+          saveOptions('petAbility', true);
+      } else {
+          clearInterval(petAbilityLoop);
+          console.log('pet ability stopped');
+          saveOptions('petAbility', false);
+      }
+  });
+  triggerChange('petAbility', document.getElementById("pet-ability-checkbox"), true);
+
   var freeRollLoop;
   document.getElementById("free-roll-checkbox").addEventListener( 'change', function() {
       if(this.checked) {
@@ -1002,6 +1090,8 @@ const start = () => {
               guildTimeEl.innerHTML = '-';
               guildLevelEl.innerHTML = '-';
               guildItemEl.innerHTML = '-';
+              globalData.raidFail = false;
+              globalData.raidFailTimes = 0;
               document.getElementById("cb-raids-sub-section").classList.toggle("cb-collapsed");
               saveOptions('raids', false);
           }
@@ -1013,97 +1103,8 @@ const start = () => {
   dragElement(document.getElementById("cb-settings-container"));
   dragElement(document.getElementById("cb-container"));
   accordionElement(document.getElementById("cb-container"));
-
-  // Draggable
-  function dragElement(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    if (document.getElementById(elmnt.id + "-header")) {
-      // if present, the header is where you move the DIV from:
-      document.getElementById(elmnt.id + "-header").onmousedown = dragMouseDown;
-    } else {
-      // otherwise, move the DIV from anywhere inside the DIV:
-      elmnt.onmousedown = dragMouseDown;
-    }
-
-    function dragMouseDown(e) {
-      e = e || window.event;
-      e.preventDefault();
-      // get the mouse cursor position at startup:
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
-    }
-
-    function elementDrag(e) {
-      e = e || window.event;
-      e.preventDefault();
-      // calculate the new cursor position:
-      pos1 = pos3 - e.clientX;
-      pos2 = pos4 - e.clientY;
-      pos3 = e.clientX;
-      pos4 = e.clientY;
-      // set the element's new position:
-      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    }
-
-    function closeDragElement() {
-      // stop moving when mouse button is released:
-      document.onmouseup = null;
-      document.onmousemove = null;
-    }
-  }
-  const tabsNav = (element) => {
-
-    const tabs = document.querySelectorAll(`#${element} .cb-left-pane .tabs li`);
-    const sections = document.querySelectorAll(`#${element} .cb-right-pane .tab-content`);
-
-    tabs.forEach(tab => {
-      tab.addEventListener("click", e => {
-        e.preventDefault();
-        removeActiveTab();
-        addActiveTab(tab);
-      });
-    })
-
-    const removeActiveTab = () => {
-      tabs.forEach(tab => {
-        tab.classList.remove("active");
-      });
-      sections.forEach(section => {
-        section.classList.remove("active");
-      });
-    }
-
-    const addActiveTab = tab => {
-      tab.classList.add("active");
-      const data = tab.dataset.tab;
-      const matchingSection = document.querySelector(`#${data}`);
-      matchingSection.classList.add("active");
-    }
-  }
   tabsNav('cb-settings-panel');
   //tabsNav('cb-main-panel');
-}
-
-const accordionElement = (el) => {
-  let accordion = el.querySelector('.cb-header > .cb-accordion');
-  let panel = el.querySelector('.cb-panel');
-  panel.style.maxHeight = `${panel.scrollHeight}px`;
-
-  accordion.addEventListener('click', () => {
-    accordion.classList.toggle("cb-active");
-
-    if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-         panel.style.overflow = 'hidden';
-      } else {
-        panel.style.maxHeight = panel.scrollHeight + "px";
-         panel.style.overflow = null;
-      }
-  });
 }
 
 const petOptimizeEquipment = () => {
@@ -1123,7 +1124,6 @@ const petOptimizeEquipment = () => {
         if(!cItem) {
           didEquip = true;
           setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id }) }, 500);
-          console.log('Pet Equiped - empty slot');
           return;
         }
 
@@ -1131,7 +1131,6 @@ const petOptimizeEquipment = () => {
           if(item.score > cItem.score) {
             didEquip = true;
             setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id, unequipId: cItem.id, unequipSlot: cItem.type }) }, 500);
-            console.log('Pet Equiped - score higher', item, cItem);
             return;
           }
         } else {
@@ -1139,10 +1138,8 @@ const petOptimizeEquipment = () => {
           let oldItemStat = cItem.stats[options.petOptimizeEquipmentStat] || 0;
 
           if(newItemStat > oldItemStat) {
-            console.log(`Pet Equiped, NEW ${newItemStat} - OLD ${oldItemStat}`);
             didEquip = true;
             setTimeout( () => {unsafeWindow.__emitSocket('pet:equip', { itemId: item.id, unequipId: cItem.id, unequipSlot: cItem.type }) }, 500);
-            console.log(`Pet Equiped - ${options.petOptimizeEquipmentStat} higher`);
             return;
           }
         }
@@ -1200,7 +1197,6 @@ const petOptimizeEquipment = () => {
       }
   }
   const embarkAdventures = () => {
-
       // assign pets to adventures
       let adventuresNotStarted = Object.values(discordGlobalCharacter.$petsData.adventures).filter(x => !x.finishAt);
 
@@ -1228,11 +1224,7 @@ const petOptimizeEquipment = () => {
         }
       }
   }
-
-  // Raids
-  // keep trying until reaching level 100 then turn off? Check for guild gold? or after 3 tries turn off?
   const RunRaids = async () => {
-
     if(options.guildRaidNextAvailability <= Date.now()) {
 
         let level = 0;
@@ -1242,49 +1234,42 @@ const petOptimizeEquipment = () => {
         let response = await fetch('https://server.idle.land/api/guilds/raids?maxLevel=' + options.guildRaidMaxLevel);
         let data = await response.json();
 
-        if (globalData.raidFail) {
-          results = data.raids.filter(element => {
-            return element.level == globalData.lastRaidBossLevel;
-          });
-          level = globalData.lastRaidBossLevel;
+        results = data.raids.filter(element => {
+          return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
+        });
+
+        if (results.length > 0) {
+          level = results[results.length-1].level;
           results[results.length-1].rewards.forEach(element => {
             reward.push(raidRewards[element]);
           });
         } else {
-          results = data.raids.filter(element => {
-            return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
+          level = options.guildRaidMaxLevel;
+          data.raids[data.raids.length-1].rewards.forEach(element => {
+            reward.push(raidRewards[element]);
           });
-
-          if (results.length > 0) {
-            level = results[results.length-1].level;
-            results[results.length-1].rewards.forEach(element => {
-              reward.push(raidRewards[element]);
-            });
-          } else {
-            level = options.guildRaidMaxLevel;
-            data.raids[data.raids.length-1].rewards.forEach(element => {
-              reward.push(raidRewards[element]);
-            });
-          }
         }
 
         setTimeout( () => {unsafeWindow.__emitSocket("guild:raidboss", { bossLevel: level})}, 500);
 
         setTimeout(async () => {
             let guild = await getGuildData();
-            let date = new Date(guild.nextRaidAvailability);
 
-            // if raid fails, try lower level
-            if(guild.nextRaidAvailability == options.guildRaidNextAvailability) {
-              // if this is true then something went wrong with the raid, either failed or lost.
+            // this is the only way that I know to check if the raid failed
+            if(Date.now() > guild.nextRaidAvailability) {
               globalData.raidFail = true;
-              globalData.lastRaidBossLevel = globalData.lastRaidBossLevel == 0 ? level : globalData.lastRaidBossLevel;
-              globalData.lastRaidBossLevel -= 50;
+              globalData.raidFailTimes++;
+              // we will add 10 mins to the next raid availability, don't want to spam the server and waste too much gold.
+              options.guildRaidNextAvailability = Date.now() + 10*60000;
+              level = 'Failed';
+              reward.length = 0;
+              reward.push('Failed');
             } else {
+              options.guildRaidNextAvailability = guild.nextRaidAvailability;
               globalData.raidFail = false;
-              globalData.lastRaidBossLevel = level;
+              globalData.raidFailTimes = 0;
             }
-            options.guildRaidNextAvailability = guild.nextRaidAvailability;
+            let date = new Date(options.guildRaidNextAvailability);
 
             document.getElementById("guild-next-time").innerHTML = date.toLocaleTimeString();
             document.getElementById("guild-level").innerHTML = level;
@@ -1396,59 +1381,19 @@ const petOptimizeEquipment = () => {
   const DonateGold = () => {
     setTimeout( () => {unsafeWindow.__emitSocket("guild:donateresource", { resource: 'gold', amount: discordGlobalCharacter.gold })}, 500);
   }
+  const PetAbility = () => {
+    let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
 
-const triggerChange = (option, element, value) => {
-  if(options[option]) {
-    element.checked = value;
-
-    var event = document.createEvent('HTMLEvents');
-    event.initEvent('change', false, true);
-
-    element.dispatchEvent(event);
+    if(discordGlobalCharacter.stamina.__current < pet.$attribute.oocAbilityCost) return;
+    setTimeout( () => {unsafeWindow.__emitSocket("pet:oocaction")}, 500);
   }
-}
 
-const saveOptions = (option, val) => {
-  options[option] = val;
-  GM_setValue('options', options);
-}
 
 const getGuildData = async () => {
   let response = await fetch('https://server.idle.land/api/guilds/name?name=' + discordGlobalCharacter.guildName);
   let data = await response.json();
   return data.guild;
 }
-// number function
-const formatNumber = (num) => {
-  var num_parts = num.toString().split(".");
-  num_parts[0] = num_parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return num_parts.join(".");
-}
-const timeConversion = (ms) => {
-
-  let seconds = (ms / 1000).toFixed(1);
-  let minutes = (ms / (1000 * 60)).toFixed(1);
-  let hours = (ms / (1000 * 60 * 60)).toFixed(1);
-  let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-
-  if (seconds < 60) {
-    return seconds + " sec";
-  } else if (minutes < 60) {
-    return minutes + " min";
-  } else if (hours < 24) {
-    return hours + " hrs";
-  } else {
-    return days + " days"
-  }
-}
-
-// for future use
-const getMemberList = (memberHash) => {
-    return _.sortBy(
-      Object.keys(memberHash).map(p => ({ key: p, value: memberHash[p] })),
-      p => p.key.toLowerCase()
-    );
-  }
 
 const updateUI = () => {
     document.getElementById("pet-optimize-equipment-message").innerHTML = `Optimized for ${options.petOptimizeEquipmentStat}${options.petOptimizeEquipmentStat == 'score' ? `` : ` - Boost: ${formatNumber(discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].stats[options.petOptimizeEquipmentStat])}`}`;
@@ -1458,4 +1403,42 @@ const updateUI = () => {
     document.getElementById("cb-guild-name").innerHTML = discordGlobalCharacter.guildName ? discordGlobalCharacter.guildName : 'Not part of a guild';
     document.getElementById("cb-pet-type").innerHTML = discordGlobalCharacter.$petsData.currentPet;
     document.getElementById("cb-pet-levels").innerHTML = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.__current + '/' + discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.maximum;
+}
+
+// intercept outgoing data
+wsHook.before = function (data, url, wsObject) {
+    return data;
+}
+
+// intercept incoming data
+wsHook.after = function (data, url, wsObject) {
+    // ignore heartbeats
+    if (data.data === '#1') return data;
+    // parse interior data
+    let parsed = JSON.parse(data.data);
+    /* Ignore Unwanted Messages */
+    if (parsed.rid) return data;
+    if (parsed.channel === 'playerUpdates') return data;
+    // take character updates (for location/dd) and adventure log updates (for profession)
+    if (parsed.data.name !== 'character:patch') return data;
+
+    // find current divine direction
+    let tempDd = parsed.data.data.findPath('/divineDirection');
+    playerData.dd = tempDd !== undefined ? tempDd : playerData.dd;
+    // find possible new x
+    let tempX = parsed.data.data.findPath('/x');
+    playerData.currLoc.x = tempX !== undefined ? tempX : playerData.currLoc.x;
+    // find possible new y
+    let tempY = parsed.data.data.findPath('/y');
+    playerData.currLoc.y = tempY !== undefined ? tempY : playerData.currLoc.y;
+
+    //console.log(playerData);
+
+    // if ds enabled, then auto divine direction
+//    if (options.enabled) {
+//        killDd(wsObject);
+//        sendDd(wsObject);
+//    }
+
+    return data;
 }
