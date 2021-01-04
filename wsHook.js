@@ -67,7 +67,7 @@ var wsHook = {};
     }
 
     // Events needs to be proxied and bubbled down.
-    WSObject._addEventListener = WSObject.addEventListener
+    WSObject.__addEventListener = WSObject.addEventListener
     WSObject.addEventListener = function () {
       var eventThis = this
       // if eventName is 'message'
@@ -80,7 +80,7 @@ var wsHook = {};
           }
         })(arguments[1])
       }
-      return WSObject._addEventListener.apply(this, arguments)
+      return WSObject.__addEventListener.apply(this, arguments)
     }
 
     Object.defineProperty(WSObject, 'onmessage', {
