@@ -10,8 +10,6 @@
 // @homepage     http://www.thecrazyball.io/
 // @match        https://play.idle.land/*
 // @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/utils.js
-// @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/wsHook.js
-// @run-at       document-start
 // @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/gameData.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.20/dist/lodash.js
 // @resource css https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/style.css
@@ -167,7 +165,6 @@ const guildModCheck = async () => {
 (async () => {
   await loginCheck();
   await guildModCheck();
-
   loadUI();
   start();
 })();
@@ -491,7 +488,38 @@ const loadUI = () => {
           </div>
         </div>
         <div class="cb-section-header">Path(s) <button id="cb-settings-divine-path-add" class="cb-divine-path-add-ico cb-fr tooltip" tooltip="Add a new divine path."></button></div>
-        <div class="cb-sub-section">
+          <div id="cb-sub-section-divine-path-form" class="cb-hide">
+          <div class="cb-section">
+            <div class="cb-section-content">
+              <span class="cb-flex-1">Enabled</span>
+              <span class="cb-flex-1 right">
+                <label class="switch">
+                  <input id="divine-path-form-enabled-checkbox" type="checkbox">
+                  <span class="slider round"></span>
+                </label>
+              </span>
+            </div>
+          </div>
+          <div class="cb-section">
+            <div class="cb-section-content">
+              <span class="cb-flex-1">Loop</span>
+              <span class="cb-flex-1 right">
+                <label class="switch">
+                  <input id="divine-path-form-loop-checkbox" type="checkbox">
+                  <span class="slider round"></span>
+                </label>
+              </span>
+            </div>
+          </div>
+          <div class="cb-section">
+            <div class="cb-section-content">
+              <div class="cb-flex-1">
+                <textarea id="ds-input" style="padding: 5px; resize: none; width: 100%; height: 190px;"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="cb-sub-section-divine-path-nopath" class="cb-sub-section">
           <div class="cb-section-content">
             <div class="cb-flex-1 small">You currently have no path(s) saved, click the <span class="cb-divine-path-add-ico"></span> to add a path.</div>
           </div>
@@ -710,6 +738,13 @@ const start = () => {
   document.getElementById("cb-settings-close").addEventListener( 'click', function(e) {
     let el = document.getElementById("cb-settings-container");
     el.classList.toggle("cb-hide");
+  });
+
+  document.getElementById("cb-settings-divine-path-add").addEventListener( 'click', async function(e) {
+    let formEl = document.getElementById("cb-sub-section-divine-path-form");
+    let noPathEl = document.getElementById("cb-sub-section-divine-path-nopath");
+    formEl.classList.toggle("cb-hide");
+    noPathEl.classList.toggle("cb-hide");
   });
 
   document.getElementById("cb-settings-open").addEventListener( 'click', async function(e) {
@@ -1406,31 +1441,44 @@ const updateUI = () => {
 }
 
 // intercept outgoing data
-wsHook.before = function (data, url, wsObject) {
-    return data;
-}
+//wsHook.before = function (data, url, wsObject) {
+//  if (data === '#2') return data;
+//  let parsed = JSON.parse(data);
+    //console.log(parsed.data);
+    // // if it is not a dd message
+//  if (parsed.event == 'character:divinedirection') {
+//    console.log(parsed.data);
+//    return '{}';
+//  }
+    // if (parsed.event !== 'character:divinedirection') return data;
+    // // if the dd is included in the set list of dd locations
+    // if (!ddStorage.list.some((dd => dd.x === parsed.data.x && dd.y === parsed.data.y))) {
+    //     console.log(parsed.data)
+    // }
+//  return data;
+//}
 
 // intercept incoming data
-wsHook.after = function (data, url, wsObject) {
+//wsHook.after = function (data, url, wsObject) {
     // ignore heartbeats
-    if (data.data === '#1') return data;
+//    if (data.data === '#1') return data;
     // parse interior data
-    let parsed = JSON.parse(data.data);
+ //   let parsed = JSON.parse(data.data);
     /* Ignore Unwanted Messages */
-    if (parsed.rid) return data;
-    if (parsed.channel === 'playerUpdates') return data;
+  //  if (parsed.rid) return data;
+   // if (parsed.channel === 'playerUpdates') return data;
     // take character updates (for location/dd) and adventure log updates (for profession)
-    if (parsed.data.name !== 'character:patch') return data;
-
+//    if (parsed.data.name !== 'character:patch') return data;
+//console.log(parsed);
     // find current divine direction
-    let tempDd = parsed.data.data.findPath('/divineDirection');
-    playerData.dd = tempDd !== undefined ? tempDd : playerData.dd;
+//    let tempDd = parsed.data.data.findPath('/divineDirection');
+//    playerData.dd = tempDd !== undefined ? tempDd : playerData.dd;
     // find possible new x
-    let tempX = parsed.data.data.findPath('/x');
-    playerData.currLoc.x = tempX !== undefined ? tempX : playerData.currLoc.x;
+//    let tempX = parsed.data.data.findPath('/x');
+//    playerData.currLoc.x = tempX !== undefined ? tempX : playerData.currLoc.x;
     // find possible new y
-    let tempY = parsed.data.data.findPath('/y');
-    playerData.currLoc.y = tempY !== undefined ? tempY : playerData.currLoc.y;
+//    let tempY = parsed.data.data.findPath('/y');
+//    playerData.currLoc.y = tempY !== undefined ? tempY : playerData.currLoc.y;
 
     //console.log(playerData);
 
@@ -1440,5 +1488,5 @@ wsHook.after = function (data, url, wsObject) {
 //        sendDd(wsObject);
 //    }
 
-    return data;
-}
+  //  return data;
+//}
