@@ -1472,7 +1472,7 @@ const petOptimizeEquipment = () => {
         || ( element.statistic.indexOf("Step") >= 0 )
         || ( element.statistic.indexOf("Sell") >= 3 )
         || ( element.statistic.indexOf("Treasure") >= 0 )
-        || !( !!element.requireMap )
+        || ( !!element.requireMap )
         || ( element.statistic.indexOf("Salvage") >= 0 )
         || ( element.statistic.indexOf("Collectible") && element.scalar >= 4)
         || ( element.statistic.indexOf("Collectible") && element.scalar >= 3)
