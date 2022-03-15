@@ -1474,6 +1474,8 @@ const petOptimizeEquipment = () => {
         || ( element.statistic.indexOf("Treasure") >= 0 )
         || ( !!element.requireMap )
         || ( element.statistic.indexOf("Salvage") >= 0 )
+        || ( element.statistic.indexOf("Gold/Gain") >= 0 && element.scalar >= 4 )
+        || ( element.statistic.indexOf("Gold/Spend") >= 0 && element.scalar >= 4 )
         || ( element.statistic.indexOf("Collectible") >= 0 ) ))
         {
             setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
