@@ -86,6 +86,8 @@ let defaultOptions = {
 
   useScrollsInterval: 60000,
 
+  rerollQuestsInterval: 500,
+
   optimizeEquipmentInterval: 60000, // in ms
   optimizeEquipmentStat: 'gold', // gold or xp
 
@@ -115,7 +117,8 @@ let defaultOptions = {
   raids: false,
   choices: false,
   inventory: false,
-  petAbility: false
+  petAbility: false,
+  rerollQuests: false
 }
 
 const options = GM_getValue('options') == null ? defaultOptions : GM_getValue('options'); //save and persist options to the local storage
@@ -444,6 +447,14 @@ const loadUI = () => {
         </span>
       </div>
     </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Reroll Quests:</span>
+        <span class="right">
+          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-reroll-quests-text">
+        </span>
+      </div>
+    </div>
 
       </div>
       <div class="tab-content" id="cb-tab-settings-guild">
@@ -544,6 +555,17 @@ const loadUI = () => {
         <span class="cb-flex-1 right">
           <label class="switch">
             <input id="free-roll-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Auto Reroll Quests</span>
+        <span class="cb-flex-1 right">
+          <label class="switch">
+            <input id="reroll-quests-checkbox" type="checkbox">
             <span class="slider round"></span>
           </label>
         </span>
@@ -790,9 +812,21 @@ const start = () => {
 
     document.getElementById("cb-use-scrolls-text").value = options.useScrollsInterval;
     document.getElementById("cb-use-scrolls-text").previousSibling.previousSibling.innerHTML = timeConversion(options.useScrollsInterval);
+
+    document.getElementById("cb-reroll-quests-text").value = options.rerollQuestsInterval;
+    document.getElementById("cb-reroll-quests-text").previousSibling.previousSibling.innerHTML = timeConversion(options.rerollQuestsInterval);
   });
 
   let typingTimeout = null;
+  document.getElementById("cb-reroll-quests-text").addEventListener( 'keyup', function (e) {
+    clearTimeout(typingTimeout);
+    e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
+    typingTimeout = setTimeout(function () {
+      saveOptions('rerollQuestsInterval', e.target.value);
+      triggerChange('rerollQuests', document.getElementById("reroll-quests-checkbox"), false);
+    }, 2000);
+  });
+  
   document.getElementById("cb-use-scrolls-text").addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
@@ -943,6 +977,20 @@ const start = () => {
       }
   });
   triggerChange('freeRoll', document.getElementById("free-roll-checkbox"), true);
+
+  var rerollQuestsLoop;
+  document.getElementById("reroll-quests-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          rerollQuestsLoop = setInterval( RerollQuests, options.rerollQuestsInterval );
+          console.log('reroll quests started');
+          saveOptions('rerollQuests', true);
+      } else {
+          clearInterval(rerollQuestsLoop);
+          console.log('reroll quests stopped');
+          saveOptions('rerollQuests', false);
+      }
+  });
+  triggerChange('rerollQuests', document.getElementById("reroll-quests-checkbox"), true);
 
   var useScrollsLoop;
   document.getElementById("use-scrolls-checkbox").addEventListener( 'change', function() {
@@ -1409,6 +1457,31 @@ const petOptimizeEquipment = () => {
       let numRolls = 10;
       setTimeout( () => {unsafeWindow.__emitSocket('astralgate:roll', { astralGateName: gachaName, numRolls }) }, 500);
     }
+  }
+  const RerollQuests = () => {
+    let quests = discordGlobalCharacter.$questsData.quests;
+    for (let i = 0; i < quests.length; i++) {
+      let currentQuest = quests[i];
+      let delay = 3;
+      if (currentQuest.objectives[0].progress >= currentQuest.objectives[0].statisticValue){
+        setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
+      }
+      if (currentQuest.objectives.find( element => element.statistic.indexOf("Combat") >= 0
+        || ( element.statistic.indexOf("Stamina") >= 0 )
+        || ( element.statistic.indexOf("Step") >= 0 )
+        ||   element.statistic.indexOf("Sell") >= 3
+        ||   element.statistic.indexOf("Treasure") >= 0
+        || !!element.requireMap
+        || ( element.statistic.indexOf("Salvage") >= 0 )
+        || ( element.statistic.indexOf("Gold/Gain") && element.scalar >= 4 && discordGlobalCharacter.stats.gold < 15000000)
+        || ( element.statistic.indexOf("Gold/Spend") && element.scalar >= 4 && discordGlobalCharacter.stats.gold < 15000000)
+        || ( element.statistic.indexOf("Collectible") && element.scalar >= 4 && discordGlobalCharacter.stats.gold < 15000000)
+        || ( element.statistic.indexOf("Collectible") && element.scalar >= 3 && discordGlobalCharacter.stats.gold < 1500000)
+        || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= 4 )    ))
+        {
+            setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
+          }
+      }
   }
   const PetGoldCollect = () => {
     setTimeout( () => {unsafeWindow.__emitSocket("pet:takegold")}, 500);
