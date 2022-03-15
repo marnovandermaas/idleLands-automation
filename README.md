@@ -59,3 +59,4 @@ If you wish to contribute all [pull requests](https://github.com/the-crazyball/i
 ## Credits
 - `Anten`
 - `Sarimash`
+- `Torsin`
