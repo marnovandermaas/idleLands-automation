@@ -1473,10 +1473,10 @@ const petOptimizeEquipment = () => {
         ||   element.statistic.indexOf("Treasure") >= 0
         || !!element.requireMap
         || ( element.statistic.indexOf("Salvage") >= 0 )
-        || ( element.statistic.indexOf("Gold/Gain") && element.scalar >= 4 && discordGlobalCharacter.stats.gold < 15000000)
-        || ( element.statistic.indexOf("Gold/Spend") && element.scalar >= 4 && discordGlobalCharacter.stats.gold < 15000000)
-        || ( element.statistic.indexOf("Collectible") && element.scalar >= 4 && discordGlobalCharacter.stats.gold < 15000000)
-        || ( element.statistic.indexOf("Collectible") && element.scalar >= 3 && discordGlobalCharacter.stats.gold < 1500000)
+        || ( element.statistic.indexOf("Gold/Gain") && element.scalar >= 4)
+        || ( element.statistic.indexOf("Gold/Spend") && element.scalar >= 4)
+        || ( element.statistic.indexOf("Collectible") && element.scalar >= 4)
+        || ( element.statistic.indexOf("Collectible") && element.scalar >= 3)
         || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= 4 )    ))
         {
             setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
