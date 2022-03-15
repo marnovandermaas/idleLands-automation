@@ -1466,7 +1466,7 @@ const petOptimizeEquipment = () => {
       if (currentQuest.objectives[0].progress >= currentQuest.objectives[0].statisticValue){
         setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
       }
-      if (currentQuest.objectives.find( element => 
+      if (currentQuest.objectives.find( element =>
            ( element.statistic.indexOf("Combat") >= 0 )
         || ( element.statistic.indexOf("Stamina") >= 0 )
         || ( element.statistic.indexOf("Step") >= 0 )
