@@ -1466,18 +1466,17 @@ const petOptimizeEquipment = () => {
       if (currentQuest.objectives[0].progress >= currentQuest.objectives[0].statisticValue){
         setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
       }
-      if (currentQuest.objectives.find( element => element.statistic.indexOf("Combat") >= 0
+      if (currentQuest.objectives.find( element => 
+           ( element.statistic.indexOf("Combat") >= 0 )
         || ( element.statistic.indexOf("Stamina") >= 0 )
         || ( element.statistic.indexOf("Step") >= 0 )
-        ||   element.statistic.indexOf("Sell") >= 3
-        ||   element.statistic.indexOf("Treasure") >= 0
-        || !!element.requireMap
+        || ( element.statistic.indexOf("Sell") >= 3 )
+        || ( element.statistic.indexOf("Treasure") >= 0 )
+        || !( !!element.requireMap )
         || ( element.statistic.indexOf("Salvage") >= 0 )
-        || ( element.statistic.indexOf("Gold/Gain") && element.scalar >= 4)
-        || ( element.statistic.indexOf("Gold/Spend") && element.scalar >= 4)
         || ( element.statistic.indexOf("Collectible") && element.scalar >= 4)
         || ( element.statistic.indexOf("Collectible") && element.scalar >= 3)
-        || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= 4 )    ))
+        || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= 4 ) ))
         {
             setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
           }
