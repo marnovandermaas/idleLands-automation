@@ -16,7 +16,7 @@ A big thank you to `Sarimash` for showing my some example code he created, which
 ## Installation
 `please note, if you are running v1.3 or lower, you will need to delete and re-install`
 
-1. Install [Violentmonkey](https://addons.mozilla.org/en-us/firefox/addon/violentmonkey/) (Firefox) or [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) (Chrome) / [Tampermonkey](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) (Opera).
+1. Install [Tampermonkey](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/) (Firefox) / [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) (Chrome) / [Tampermonkey](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) (Opera).
 2. Open `https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js` or click [here](https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js).
 3. Click `Install`.
 
