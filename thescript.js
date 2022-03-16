@@ -1467,7 +1467,7 @@ const petOptimizeEquipment = () => {
         setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
       }
       if (currentQuest.objectives.find( element =>
-           ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= 3)
+           ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= 2)
         || ( element.statistic.indexOf("Stamina") >= 0 && element.scalar >= 3)
         || ( element.statistic.indexOf("Step") >= 0 )
         || ( element.statistic.indexOf("Sell") >= 0 )
