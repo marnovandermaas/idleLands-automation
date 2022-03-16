@@ -1467,16 +1467,16 @@ const petOptimizeEquipment = () => {
         setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
       }
       if (currentQuest.objectives.find( element =>
-           ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= 2)
-        || ( element.statistic.indexOf("Stamina") >= 0 && element.scalar >= 3)
+           ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= 2 )
+        || ( element.statistic.indexOf("Stamina") >= 0 && element.scalar >= 3 )
         || ( element.statistic.indexOf("Step") >= 0 )
         || ( element.statistic.indexOf("Sell") >= 0 )
-        || ( element.statistic.indexOf("Treasure") >= 0)
+        || ( element.statistic.indexOf("Treasure") >= 0 )
         || ( !!element.requireMap )
         || ( element.statistic.indexOf("Salvage") >= 0 && element.scalar >= 2 )
         //|| ( element.statistic.indexOf("Gold/Gain") >= 0 && element.scalar >= 4 )
         //|| ( element.statistic.indexOf("Gold/Spend") >= 0 && element.scalar >= 4 )
-        || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= 3)
+        || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= 3 )
       )) {
             setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
       }
