@@ -48,6 +48,8 @@
 //  - Add settings tab to control the scalar value at which each type of quest is rerolled
 //
 // Changelog (adapted from changelog.txt):
+//  1.8 (ongoing)
+//    - Added Quest Reroll logic and toggle to enable it
 //  1.7
 //    - Fixed the guild raids to throttle when failing, add 10 mins to next raid availability
 //        this way it doesn't spam the server and doesn't use up all the gold
