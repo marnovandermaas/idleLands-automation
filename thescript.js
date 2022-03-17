@@ -44,7 +44,8 @@
 //  - (started) Add divine stepper (DivineStumbler variant)
 //  - (done) Auto pet ability usage (request from Anten)
 //  - Implement auto by pots, code provided by Sarimash
-//  - Implement reroll quests, code provided by Sarimash
+//  - (done) Implement reroll quests, code provided by Sarimash
+//  - Add settings tab to control the scalar value at which each type of quest is rerolled
 //
 // Changelog (adapted from changelog.txt):
 //  1.7
