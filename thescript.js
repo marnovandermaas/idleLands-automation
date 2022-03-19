@@ -79,6 +79,7 @@ let defaultOptions = {
   petAdventurePetNum: 3, // Number of pets to send per adventure (Game max is set to 3)
 
   petGoldCollectInterval: 300000, // in ms
+  buyPotInterval: 300000, // in ms
   petAutoAscendInterval: 60000, // in ms
   petOptimizeEquipmentInterval: 30000,
   petOptimizeEquipmentStat: 'xp', // gold, xp or by score
@@ -124,6 +125,7 @@ let defaultOptions = {
   petAdventureCollect: false,
   petAdventureEmbark: false,
   petGoldCollect: false,
+  buyPot: false,
   freeRoll: false,
   useScrolls: false,
   donateGold: false,
@@ -555,6 +557,14 @@ const loadUI = () => {
     </div>
     <div class="cb-section">
       <div class="cb-section-content">
+        <span class="cb-flex-1">Buy Pots:</span>
+        <span class="right">
+          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-buy-pot-text">
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
         <span class="cb-flex-1">Donate Gold:</span>
         <span class="right">
           <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-donate-gold-text">
@@ -704,6 +714,17 @@ const loadUI = () => {
         <span class="cb-flex-1 right">
           <label class="switch">
             <input id="reroll-quests-checkbox" type="checkbox">
+            <span class="slider round"></span>
+          </label>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Auto Buy Pots</span>
+        <span class="cb-flex-1 right">
+          <label class="switch">
+            <input id="buy-pots-checkbox" type="checkbox">
             <span class="slider round"></span>
           </label>
         </span>
@@ -933,6 +954,9 @@ const start = () => {
     document.getElementById("cb-pet-gold-collect-text").value = options.petGoldCollectInterval;
     document.getElementById("cb-pet-gold-collect-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petGoldCollectInterval);
 
+    document.getElementById("cb-buy-pot-text").value = options.buyPotInterval;
+    document.getElementById("cb-buy-pot-text").previousSibling.previousSibling.innerHTML = timeConversion(options.buyPotInterval);
+
     document.getElementById("cb-pet-auto-ascend-text").value = options.petAutoAscendInterval;
     document.getElementById("cb-pet-auto-ascend-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petAutoAscendInterval);
 
@@ -962,6 +986,15 @@ const start = () => {
     typingTimeout = setTimeout(function () {
       saveOptions('rerollQuestsInterval', e.target.value);
       triggerChange('rerollQuests', document.getElementById("reroll-quests-checkbox"), false);
+    }, 2000);
+  });
+
+  document.getElementById("cb-buy-pot-text").addEventListener( 'keyup', function (e) {
+    clearTimeout(typingTimeout);
+    e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
+    typingTimeout = setTimeout(function () {
+      saveOptions('buyPotInterval', e.target.value);
+      triggerChange('buyPot', document.getElementById("buy-pots-checkbox"), false);
     }, 2000);
   });
   
@@ -1129,6 +1162,20 @@ const start = () => {
       }
   });
   triggerChange('rerollQuests', document.getElementById("reroll-quests-checkbox"), true);
+
+  var buyPotLoop;
+  document.getElementById("buy-pots-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          buyPotLoop = setInterval( BuyPot, options.buyPotInterval );
+          console.log('buying potions started');
+          saveOptions('buyPot', true);
+      } else {
+          clearInterval(buyPotLoop);
+          console.log('buying potions stopped');
+          saveOptions('buyPot', false);
+      }
+  });
+  triggerChange('buyPot', document.getElementById("buy-pots-checkbox"), true);
 
   var useScrollsLoop;
   document.getElementById("use-scrolls-checkbox").addEventListener( 'change', function() {
@@ -1649,6 +1696,9 @@ const petOptimizeEquipment = () => {
   }
   const PetGoldCollect = () => {
     setTimeout( () => {unsafeWindow.__emitSocket("pet:takegold")}, 500);
+  }
+  const BuyPot = () => {
+    setTimeout( () => {unsafeWindow.__emitSocket('premium:goldcollectible', {collectible: 'Pot of Gold'})}, 100);
   }
   const DonateGold = () => {
     setTimeout( () => {unsafeWindow.__emitSocket("guild:donateresource", { resource: 'gold', amount: discordGlobalCharacter.gold })}, 500);
