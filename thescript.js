@@ -45,7 +45,7 @@
 //  - (done) Auto pet ability usage (request from Anten)
 //  - Implement auto by pots, code provided by Sarimash
 //  - (done) Implement reroll quests, code provided by Sarimash
-//  - Add settings tab to control the scalar value at which each type of quest is rerolled
+//  - (done) Add settings tab to control the scalar value at which each type of quest is rerolled
 //
 // Changelog (adapted from changelog.txt):
 //  1.8 (ongoing)
@@ -107,6 +107,17 @@ let defaultOptions = {
   choiceBuyitemOption: 'none',
   choiceItemFoundOption: 'none',
   choiceEnchantOption: 'none',
+  
+  // quests
+  questTreasureScalar:    2,
+  questCollectibleScalar: 2,
+  questSellScalar:        1,
+  questSalvageScalar:     1,
+  questCombatScalar:      1,
+  questStaminaScalar:     2,
+  questGainScalar:        4,
+  questSpendScalar:       4,
+  questStepScalar:        2,
 
   // checkboxes
   optimizeEquipment: false,
@@ -220,6 +231,7 @@ const loadUI = () => {
         <ul>
           <li class="cb-general-big-ico active" data-tab="cb-tab-settings-general">General</li>
           <li class="cb-choices-big-ico" data-tab="cb-tab-settings-choices">Choices</li>
+          <li class="cb-quests-big-ico" data-tab="cb-tab-settings-quests">Quests</li>
           <li class="cb-interval-big-ico" data-tab="cb-tab-settings-intervals">Intervals</li>
           <li class="cb-guild-big-ico" data-tab="cb-tab-settings-guild">Guild</li>
           <li class="cb-divine-path-big-ico" data-tab="cb-tab-settings-divine-path">Stumbler</li>
@@ -375,6 +387,129 @@ const loadUI = () => {
     </div>
 
       </div>
+      <div class="tab-content" id="cb-tab-settings-quests">
+  <div class="cb-section-header">Quests</div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Treasure:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-treasure-select">
+            <option value="2" ${options.questTreasureScalar == 2 ? `selected` : ``}>2</option>
+            <option value="3" ${options.questTreasureScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questTreasureScalar == 4 ? `selected` : ``}>4</option>
+            <option value="5" ${options.questTreasureScalar == 5 ? `selected` : ``}>5</option>
+            <option value="6" ${options.questTreasureScalar == 6 ? `selected` : ``}>6</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Collectible:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-collectible-select">
+            <option value="2" ${options.questCollectibleScalar == 2 ? `selected` : ``}>2</option>
+            <option value="3" ${options.questCollectibleScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questCollectibleScalar == 4 ? `selected` : ``}>4</option>
+            <option value="5" ${options.questCollectibleScalar == 5 ? `selected` : ``}>5</option>
+            <option value="6" ${options.questCollectibleScalar == 6 ? `selected` : ``}>6</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Sell Items:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-sell-select">
+            <option value="1" ${options.questSellScalar == 1 ? `selected` : ``}>1</option>
+            <option value="2" ${options.questSellScalar == 2 ? `selected` : ``}>2</option>
+            <option value="3" ${options.questSellScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questSellScalar == 4 ? `selected` : ``}>4</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Salvage Items:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-salvage-select">
+            <option value="1" ${options.questSalvageScalar == 1 ? `selected` : ``}>1</option>
+            <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>2</option>
+            <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questSalvageScalar == 4 ? `selected` : ``}>4</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Battles:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-combat-select">
+            <option value="1" ${options.questCombatScalar == 1 ? `selected` : ``}>1</option>
+            <option value="2" ${options.questCombatScalar == 2 ? `selected` : ``}>2</option>
+            <option value="3" ${options.questCombatScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questCombatScalar == 4 ? `selected` : ``}>4</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Stamina Spend:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-stamina-select">
+            <option value="2" ${options.questStaminaScalar == 2 ? `selected` : ``}>2</option>
+            <option value="3" ${options.questStaminaScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questStaminaScalar == 4 ? `selected` : ``}>4</option>
+            <option value="5" ${options.questStaminaScalar == 5 ? `selected` : ``}>5</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Gold Gain:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-gain-select">
+            <option value="3" ${options.questGainScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questGainScalar == 4 ? `selected` : ``}>4</option>
+            <option value="5" ${options.questGainScalar == 5 ? `selected` : ``}>5</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Gold Spend:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-spend-select">
+            <option value="3" ${options.questSpendScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questSpendScalar == 4 ? `selected` : ``}>4</option>
+            <option value="5" ${options.questSpendScalar == 5 ? `selected` : ``}>5</option>
+          </select>
+        </span>
+      </div>
+    </div>
+    <div class="cb-section">
+      <div class="cb-section-content">
+        <span class="cb-flex-1">Steps:</span>
+          <span class="cb-flex-1 right">
+          <select class="cb-select" id="cb-quest-spend-select">
+            <option value="2" ${options.questStepScalar == 2 ? `selected` : ``}>2</option>
+            <option value="3" ${options.questStepScalar == 3 ? `selected` : ``}>3</option>
+            <option value="4" ${options.questStepScalar == 4 ? `selected` : ``}>4</option>
+            <option value="5" ${options.questStepScalar == 5 ? `selected` : ``}>5</option>
+            <option value="6" ${options.questStepScalar == 6 ? `selected` : ``}>6</option>
+            <option value="7" ${options.questStepScalar == 7 ? `selected` : ``}>7</option>
+          </select>
+        </span>
+      </div>
+    </div>
+
+  </div>
       <div class="tab-content" id="cb-tab-settings-intervals">
 
     <div class="cb-section-header">Intervals ( in ms )</div>
@@ -1120,6 +1255,33 @@ const start = () => {
   document.getElementById("cb-choice-enchant-select").addEventListener( 'change', function(e) {
     saveOptions('choiceEnchantOption', e.target.value);
   });
+  document.getElementById("cb-quest-treasure-select").addEventListener( 'change', function(e) {
+    saveOptions('questTreasureScalar', e.target.value);
+  });
+  document.getElementById("cb-quest-collectible-select").addEventListener( 'change', function(e) {
+    saveOptions('questCollectibleScalar', e.target.value);
+  });
+  document.getElementById("cb-quest-sell-select").addEventListener( 'change', function(e) {
+    saveOptions('questSellScalar', e.target.value);
+  });
+  document.getElementById("cb-quest-salvage-select").addEventListener( 'change', function(e) {
+    saveOptions('questSalvageScalar', e.target.value);
+  });
+  document.getElementById("cb-quest-combat-select").addEventListener( 'change', function(e) {
+    saveOptions('questCombatScalar', e.target.value);
+  });
+  document.getElementById("cb-quest-stamina-select").addEventListener( 'change', function(e) {
+    saveOptions('questStaminaScalar', e.target.value);
+  });
+  document.getElementById("cb-quest-gain-select").addEventListener( 'change', function(e) {
+    saveOptions('questGainScalar', e.target.value);
+  });
+  document.getElementById("cb-quest-spend-select").addEventListener( 'change', function(e) {
+    saveOptions('questSpendScalar', e.target.value);
+  });
+  document.getElementById("cb-quest-step-select").addEventListener( 'change', function(e) {
+    saveOptions('questStepScalar', e.target.value);
+  });
   document.getElementById("cb-inventory-cleanup-select").addEventListener( 'change', function(e) {
     saveOptions('inventoryCleanup', e.target.value);
   });
@@ -1470,16 +1632,16 @@ const petOptimizeEquipment = () => {
         setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
       }
       if (currentQuest.objectives.find( element =>
-           ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= 2 )
-        || ( element.statistic.indexOf("Stamina") >= 0 && element.scalar >= 3 )
-        || ( element.statistic.indexOf("Step") >= 0 )
-        || ( element.statistic.indexOf("Sell") >= 0 )
-        || ( element.statistic.indexOf("Treasure") >= 0 )
+           ( element.statistic.indexOf("Combat") >= 0      && element.scalar >= options.questCombatScalar )
+        || ( element.statistic.indexOf("Stamina") >= 0     && element.scalar >= options.questStaminaScalar )
+        || ( element.statistic.indexOf("Step") >= 0        && element.scalar >= options.questStepScalar )
+        || ( element.statistic.indexOf("Sell") >= 0        && element.scalar >= options.questSellScalar )
+        || ( element.statistic.indexOf("Treasure") >= 0    && element.scalar >= options.questTreasureScalar )
         || ( !!element.requireMap )
-        || ( element.statistic.indexOf("Salvage") >= 0 && element.scalar >= 2 )
-        //|| ( element.statistic.indexOf("Gold/Gain") >= 0 && element.scalar >= 4 )
-        //|| ( element.statistic.indexOf("Gold/Spend") >= 0 && element.scalar >= 4 )
-        || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= 3 )
+        || ( element.statistic.indexOf("Salvage") >= 0     && element.scalar >= options.questSalvageScalar )
+        || ( element.statistic.indexOf("Gold/Gain") >= 0   && element.scalar >= options.questGainScalar )
+        || ( element.statistic.indexOf("Gold/Spend") >= 0  && element.scalar >= options.questSpendScalar )
+        || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= options.questCollectibleScalar )
       )) {
             setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
       }
