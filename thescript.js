@@ -497,7 +497,7 @@ const loadUI = () => {
       <div class="cb-section-content">
         <span class="cb-flex-1">Steps:</span>
           <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-spend-select">
+          <select class="cb-select" id="cb-quest-step-select">
             <option value="2" ${options.questStepScalar == 2 ? `selected` : ``}>2</option>
             <option value="3" ${options.questStepScalar == 3 ? `selected` : ``}>3</option>
             <option value="4" ${options.questStepScalar == 4 ? `selected` : ``}>4</option>
