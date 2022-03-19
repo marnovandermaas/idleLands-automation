@@ -44,6 +44,8 @@ Once logged into IdleLands, you will see a window on the top right corner.
   - auto raiding, must be a guild leader or mod to use this feature
 - Options Window
   - Change the equipment optimization
+  - Control each type of choice
+  - Control each type of quest reroll
   - Control refresh intervals
   - Guild raid options
 
