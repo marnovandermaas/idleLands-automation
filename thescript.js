@@ -225,689 +225,531 @@ const buildRaidItemOptions = (slot) => {
 
 const loadUI = () => {
   document.body.insertAdjacentHTML("beforeend", `
-  <div id="cb-settings-container" class="cb-hide">
-    <div id="cb-settings-container-header" class="cb-header"> <span class="cb-title text-border-light">Settings</span>
-    <button id="cb-settings-close" class="cb-close"></button>
-  </div>
-  <div id="cb-settings-panel" class="cb-panel" style="max-height: 100%; display: flex; flex-wrap: wrap;">
-    <div class="cb-left-pane">
-      <nav class="tabs">
-        <ul>
-          <li class="cb-general-big-ico active" data-tab="cb-tab-settings-general">General</li>
-          <li class="cb-choices-big-ico" data-tab="cb-tab-settings-choices">Choices</li>
-          <li class="cb-quests-big-ico" data-tab="cb-tab-settings-quests">Quests</li>
-          <li class="cb-interval-big-ico" data-tab="cb-tab-settings-intervals">Intervals</li>
-          <li class="cb-guild-big-ico" data-tab="cb-tab-settings-guild">Guild</li>
-          <li class="cb-divine-path-big-ico" data-tab="cb-tab-settings-divine-path">Stumbler</li>
-        </ul>
-      </nav>
-    </div>
-    <div class="cb-right-pane" style="width:290px">
-      <div class="tab-content active" id="cb-tab-settings-general">
-
-    <div class="cb-section-header">General</div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Optimize Equipment:</span>
-        <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-optimize-equipment-select">
-            <option value="gold" ${options.optimizeEquipmentStat == 'gold' ? `selected` : ``}>gold</option>
-            <option value="xp" ${options.optimizeEquipmentStat == 'xp' ? `selected` : ``}>xp</option>
-          </select>
-        </span>
+    <div id="cb-settings-container" class="cb-hide">
+      <div id="cb-settings-container-header" class="cb-header"> <span class="cb-title text-border-light">Settings</span>
+        <button id="cb-settings-close" class="cb-close"></button>
       </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Pets per Adventure:</span>
-        <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-pets-per-select">
-            <option value="1" ${options.petAdventurePetNum == 1 ? `selected` : ``}>1</option>
-            <option value="2" ${options.petAdventurePetNum == 2 ? `selected` : ``}>2</option>
-            <option value="3" ${options.petAdventurePetNum == 3 ? `selected` : ``}>3</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Pet Optimize Equipment:</span>
-        <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-pet-optimize-equipment-select">
-            <option value="gold" ${options.petOptimizeEquipmentStat == 'gold' ? `selected` : ``}>gold</option>
-            <option value="xp" ${options.petOptimizeEquipmentStat == 'xp' ? `selected` : ``}>xp</option>
-            <option value="score" ${options.petOptimizeEquipmentStat == 'score' ? `selected` : ``}>score</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Inventory Cleanup:</span>
-        <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-inventory-cleanup-select">
-            <option value="none" ${options.inventoryCleanup == 'none' ? `selected` : ``}>none</option>
-            <option value="salvage" ${options.inventoryCleanup == 'salvage' ? `selected` : ``}>salvage</option>
-            <option value="sell" ${options.inventoryCleanup == 'sell' ? `selected` : ``}>sell</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div id="cb-inventory-cleanup-sub-section" class="cb-sub-section">
-      <div class="cb-section-content">
-        <div class="cb-flex-1 small">Please note inventory cleanup will only trigger when the inventory is full.</div>
-      </div>
-    </div>
-
-      </div>
-      <div class="tab-content" id="cb-tab-settings-choices">
-
-    <div class="cb-section-header">Choices</div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Enchantments:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-choice-enchant-select">
-            <option value="none" ${options.choiceEnchantOption == 'none' ? `selected` : ``}>none</option>
-            <option value="Yes" ${options.choiceEnchantOption == 'Yes' ? `selected` : ``}>yes</option>
-            <option value="No" ${options.choiceEnchantOption == 'No' ? `selected` : ``}>no</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Found Item (Equip):</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-choice-item-found-select">
-            <option value="none" ${options.choiceItemFoundOption == 'none' ? `selected` : ``}>none</option>
-            <option value="Yes" ${options.choiceItemFoundOption == 'Yes' ? `selected` : ``}>yes</option>
-            <option value="No" ${options.choiceItemFoundOption == 'No' ? `selected` : ``}>no</option>
-            <option value="Sell" ${options.choiceItemFoundOption == 'Sell' ? `selected` : ``}>sell</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Buy Item (Merchant):</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-choice-buy-item-select">
-            <option value="none" ${options.choiceBuyitemOption == 'none' ? `selected` : ``}>none</option>
-            <option value="Yes" ${options.choiceBuyitemOption == 'Yes' ? `selected` : ``}>yes</option>
-            <option value="No" ${options.choiceBuyitemOption == 'No' ? `selected` : ``}>no</option>
-            <option value="Inventory" ${options.choiceBuyitemOption == 'Inventory' ? `selected` : ``}>inventory</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Party Leave:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-choice-party-leave-select">
-            <option value="none" ${options.choicePartyLeaveOption == 'none' ? `selected` : ``}>none</option>
-            <option value="Yes" ${options.choicePartyLeaveOption == 'Yes' ? `selected` : ``}>yes</option>
-            <option value="No" ${options.choicePartyLeaveOption == 'No' ? `selected` : ``}>no</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Gambling:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-choice-gambling-select">
-            <option value="none" ${options.choiceGamblingOption == 'none' ? `selected` : ``}>none</option>
-            <option value="Yes" ${options.choiceGamblingOption == 'Yes' ? `selected` : ``}>yes</option>
-            <option value="No" ${options.choiceGamblingOption == 'No' ? `selected` : ``}>no</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Portal:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-choice-portal-select">
-            <option value="none" ${options.choicePortalOption == 'none' ? `selected` : ``}>none</option>
-            <option value="Yes" ${options.choicePortalOption == 'Yes' ? `selected` : ``}>yes</option>
-            <option value="No" ${options.choicePortalOption == 'No' ? `selected` : ``}>no</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Trainer:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-choice-trainer-select">
-            <option value="none" ${options.choiceTrainerOption == 'none' ? `selected` : ``}>none</option>
-            <option value="Yes" ${options.choiceTrainerOption == 'Yes' ? `selected` : ``}>yes</option>
-            <option value="No" ${options.choiceTrainerOption == 'No' ? `selected` : ``}>no</option>
-          </select>
-        </span>
-      </div>
-    </div>
-
-      </div>
-      <div class="tab-content" id="cb-tab-settings-quests">
-  <div class="cb-section-header">Quests</div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Treasure:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-treasure-select">
-            <option value="2" ${options.questTreasureScalar == 2 ? `selected` : ``}>2</option>
-            <option value="3" ${options.questTreasureScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questTreasureScalar == 4 ? `selected` : ``}>4</option>
-            <option value="5" ${options.questTreasureScalar == 5 ? `selected` : ``}>5</option>
-            <option value="6" ${options.questTreasureScalar == 6 ? `selected` : ``}>6</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Collectible:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-collectible-select">
-            <option value="2" ${options.questCollectibleScalar == 2 ? `selected` : ``}>2</option>
-            <option value="3" ${options.questCollectibleScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questCollectibleScalar == 4 ? `selected` : ``}>4</option>
-            <option value="5" ${options.questCollectibleScalar == 5 ? `selected` : ``}>5</option>
-            <option value="6" ${options.questCollectibleScalar == 6 ? `selected` : ``}>6</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Sell Items:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-sell-select">
-            <option value="1" ${options.questSellScalar == 1 ? `selected` : ``}>1</option>
-            <option value="2" ${options.questSellScalar == 2 ? `selected` : ``}>2</option>
-            <option value="3" ${options.questSellScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questSellScalar == 4 ? `selected` : ``}>4</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Salvage Items:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-salvage-select">
-            <option value="1" ${options.questSalvageScalar == 1 ? `selected` : ``}>1</option>
-            <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>2</option>
-            <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questSalvageScalar == 4 ? `selected` : ``}>4</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Battles:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-combat-select">
-            <option value="1" ${options.questCombatScalar == 1 ? `selected` : ``}>1</option>
-            <option value="2" ${options.questCombatScalar == 2 ? `selected` : ``}>2</option>
-            <option value="3" ${options.questCombatScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questCombatScalar == 4 ? `selected` : ``}>4</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Stamina Spend:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-stamina-select">
-            <option value="2" ${options.questStaminaScalar == 2 ? `selected` : ``}>2</option>
-            <option value="3" ${options.questStaminaScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questStaminaScalar == 4 ? `selected` : ``}>4</option>
-            <option value="5" ${options.questStaminaScalar == 5 ? `selected` : ``}>5</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Gold Gain:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-gain-select">
-            <option value="3" ${options.questGainScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questGainScalar == 4 ? `selected` : ``}>4</option>
-            <option value="5" ${options.questGainScalar == 5 ? `selected` : ``}>5</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Gold Spend:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-spend-select">
-            <option value="3" ${options.questSpendScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questSpendScalar == 4 ? `selected` : ``}>4</option>
-            <option value="5" ${options.questSpendScalar == 5 ? `selected` : ``}>5</option>
-          </select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Steps:</span>
-          <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-quest-step-select">
-            <option value="2" ${options.questStepScalar == 2 ? `selected` : ``}>2</option>
-            <option value="3" ${options.questStepScalar == 3 ? `selected` : ``}>3</option>
-            <option value="4" ${options.questStepScalar == 4 ? `selected` : ``}>4</option>
-            <option value="5" ${options.questStepScalar == 5 ? `selected` : ``}>5</option>
-            <option value="6" ${options.questStepScalar == 6 ? `selected` : ``}>6</option>
-            <option value="7" ${options.questStepScalar == 7 ? `selected` : ``}>7</option>
-          </select>
-        </span>
-      </div>
-    </div>
-
-  </div>
-      <div class="tab-content" id="cb-tab-settings-intervals">
-
-    <div class="cb-section-header">Intervals ( in ms )</div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Pets Adventures Collect:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-adventure-collect-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Pets Adventures Embark:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-adventure-embark-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Pet Gold Collect:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-gold-collect-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Pet Auto Ascent:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-auto-ascend-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Pet Optimize Equipment:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-optimize-equipment-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Buy Pots:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-buy-pot-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Donate Gold:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-donate-gold-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Optimize Equipment:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-optimize-equipment-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section" id="cb-guild-raid-interval-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Guild Raid:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-guild-raid-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Use Scrolls:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-use-scrolls-text">
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Reroll Quests:</span>
-        <span class="right">
-          <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-reroll-quests-text">
-        </span>
-      </div>
-    </div>
-
-      </div>
-      <div class="tab-content" id="cb-tab-settings-guild">
-
-    <div class="cb-section-header">Guild Raid</div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Boss Levels:</span>
-        <span class="right">
-          Min: <select class="cb-select" id="cb-min-raid-select"></select>
-          Max: <select class="cb-select" id="cb-max-raid-select"></select>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Reward Item #1:</span>
-        <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-raid-item-select"></select>
-        </span>
-      </div>
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Reward Item #2:</span>
-        <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-raid-item-2-select"></select>
-        </span>
-      </div>
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Reward Item #3:</span>
-        <span class="cb-flex-1 right">
-          <select class="cb-select" id="cb-raid-item-3-select"></select>
-        </span>
-      </div>
+      <div id="cb-settings-panel" class="cb-panel" style="max-height: 100%; display: flex; flex-wrap: wrap;">
+        <div class="cb-left-pane">
+          <nav class="tabs">
+            <ul>
+              <li class="cb-general-big-ico active" data-tab="cb-tab-settings-general">General</li>
+              <li class="cb-choices-big-ico" data-tab="cb-tab-settings-choices">Choices</li>
+              <li class="cb-interval-big-ico" data-tab="cb-tab-settings-intervals">Intervals</li>
+              <li class="cb-guild-big-ico" data-tab="cb-tab-settings-guild">Guild</li>
+              <li class="cb-divine-path-big-ico" data-tab="cb-tab-settings-divine-path">Stumbler</li>
+            </ul>
+          </nav>
         </div>
-      </div>
-
-      <div class="tab-content" id="cb-tab-settings-divine-path">
-        <div class="cb-section-header">Divine Stumbler</div>
-        <div class="cb-sub-section">
-          <div class="cb-section-content">
-            <div class="cb-flex-1 small">Full credit to <a href="https://github.com/skepticfx/wshook" target="_blank">skepticfx</a> for creating the original DivineStumbler that I integrated in my own scripts with a few changes.</div>
-          </div>
-        </div>
-        <div class="cb-section-header">Path(s) <button id="cb-settings-divine-path-add" class="cb-divine-path-add-ico cb-fr tooltip" tooltip="Add a new divine path."></button></div>
-          <div id="cb-sub-section-divine-path-form" class="cb-hide">
-          <div class="cb-section">
-            <div class="cb-section-content">
-              <span class="cb-flex-1">Enabled</span>
-              <span class="cb-flex-1 right">
-                <label class="switch">
-                  <input id="divine-path-form-enabled-checkbox" type="checkbox">
-                  <span class="slider round"></span>
-                </label>
-              </span>
+        <div class="cb-right-pane" style="width:290px">
+          <div class="tab-content active" id="cb-tab-settings-general">
+            <div class="cb-section-header">General</div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Optimize Equipment:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-optimize-equipment-select">
+                    <option value="gold" ${options.optimizeEquipmentStat == 'gold' ? `selected` : ``}>gold</option>
+                    <option value="xp" ${options.optimizeEquipmentStat == 'xp' ? `selected` : ``}>xp</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Pets per Adventure:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-pets-per-select">
+                    <option value="1" ${options.petAdventurePetNum == 1 ? `selected` : ``}>1</option>
+                    <option value="2" ${options.petAdventurePetNum == 2 ? `selected` : ``}>2</option>
+                    <option value="3" ${options.petAdventurePetNum == 3 ? `selected` : ``}>3</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Pet Optimize Equipment:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-pet-optimize-equipment-select">
+                    <option value="gold" ${options.petOptimizeEquipmentStat == 'gold' ? `selected` : ``}>gold</option>
+                    <option value="xp" ${options.petOptimizeEquipmentStat == 'xp' ? `selected` : ``}>xp</option>
+                    <option value="score" ${options.petOptimizeEquipmentStat == 'score' ? `selected` : ``}>score</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Inventory Cleanup:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-inventory-cleanup-select">
+                    <option value="none" ${options.inventoryCleanup == 'none' ? `selected` : ``}>none</option>
+                    <option value="salvage" ${options.inventoryCleanup == 'salvage' ? `selected` : ``}>salvage</option>
+                    <option value="sell" ${options.inventoryCleanup == 'sell' ? `selected` : ``}>sell</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div id="cb-inventory-cleanup-sub-section" class="cb-sub-section">
+              <div class="cb-section-content">
+                <div class="cb-flex-1 small">Please note inventory cleanup will only trigger when the inventory is full.</div>
+              </div>
             </div>
           </div>
-          <div class="cb-section">
-            <div class="cb-section-content">
-              <span class="cb-flex-1">Loop</span>
-              <span class="cb-flex-1 right">
-                <label class="switch">
-                  <input id="divine-path-form-loop-checkbox" type="checkbox">
-                  <span class="slider round"></span>
-                </label>
-              </span>
+          <div class="tab-content" id="cb-tab-settings-choices">
+            <div class="cb-section-header">Choices</div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Enchantments:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-choice-enchant-select">
+                    <option value="none" ${options.choiceEnchantOption == 'none' ? `selected` : ``}>none</option>
+                    <option value="Yes" ${options.choiceEnchantOption == 'Yes' ? `selected` : ``}>yes</option>
+                    <option value="No" ${options.choiceEnchantOption == 'No' ? `selected` : ``}>no</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Found Item (Equip):</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-choice-item-found-select">
+                    <option value="none" ${options.choiceItemFoundOption == 'none' ? `selected` : ``}>none</option>
+                    <option value="Yes" ${options.choiceItemFoundOption == 'Yes' ? `selected` : ``}>yes</option>
+                    <option value="No" ${options.choiceItemFoundOption == 'No' ? `selected` : ``}>no</option>
+                    <option value="Sell" ${options.choiceItemFoundOption == 'Sell' ? `selected` : ``}>sell</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Buy Item (Merchant):</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-choice-buy-item-select">
+                    <option value="none" ${options.choiceBuyitemOption == 'none' ? `selected` : ``}>none</option>
+                    <option value="Yes" ${options.choiceBuyitemOption == 'Yes' ? `selected` : ``}>yes</option>
+                    <option value="No" ${options.choiceBuyitemOption == 'No' ? `selected` : ``}>no</option>
+                    <option value="Inventory" ${options.choiceBuyitemOption == 'Inventory' ? `selected` : ``}>inventory</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Party Leave:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-choice-party-leave-select">
+                    <option value="none" ${options.choicePartyLeaveOption == 'none' ? `selected` : ``}>none</option>
+                    <option value="Yes" ${options.choicePartyLeaveOption == 'Yes' ? `selected` : ``}>yes</option>
+                    <option value="No" ${options.choicePartyLeaveOption == 'No' ? `selected` : ``}>no</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Gambling:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-choice-gambling-select">
+                    <option value="none" ${options.choiceGamblingOption == 'none' ? `selected` : ``}>none</option>
+                    <option value="Yes" ${options.choiceGamblingOption == 'Yes' ? `selected` : ``}>yes</option>
+                    <option value="No" ${options.choiceGamblingOption == 'No' ? `selected` : ``}>no</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Portal:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-choice-portal-select">
+                    <option value="none" ${options.choicePortalOption == 'none' ? `selected` : ``}>none</option>
+                    <option value="Yes" ${options.choicePortalOption == 'Yes' ? `selected` : ``}>yes</option>
+                    <option value="No" ${options.choicePortalOption == 'No' ? `selected` : ``}>no</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Trainer:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-choice-trainer-select">
+                    <option value="none" ${options.choiceTrainerOption == 'none' ? `selected` : ``}>none</option>
+                    <option value="Yes" ${options.choiceTrainerOption == 'Yes' ? `selected` : ``}>yes</option>
+                    <option value="No" ${options.choiceTrainerOption == 'No' ? `selected` : ``}>no</option>
+                  </select>
+                </span>
+              </div>
             </div>
           </div>
-          <div class="cb-section">
-            <div class="cb-section-content">
-              <div class="cb-flex-1">
-                <textarea id="ds-input" style="padding: 5px; resize: none; width: 100%; height: 190px;"></textarea>
+          <div class="tab-content" id="cb-tab-settings-intervals">
+            <div class="cb-section-header">Intervals ( in ms )</div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Pets Adventures Collect:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-adventure-collect-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Pets Adventures Embark:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-adventure-embark-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Pet Gold Collect:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-gold-collect-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Pet Auto Ascent:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-auto-ascend-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Pet Optimize Equipment:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-optimize-equipment-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Donate Gold:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-donate-gold-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Optimize Equipment:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-optimize-equipment-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section" id="cb-guild-raid-interval-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Guild Raid:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-guild-raid-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Use Scrolls:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-use-scrolls-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Reroll Quests:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-reroll-quests-text">
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="tab-content" id="cb-tab-settings-guild">
+            <div class="cb-section-header">Guild Raid</div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Boss Levels:</span>
+                <span class="right">
+                  Min: <select class="cb-select" id="cb-min-raid-select"></select>
+                  Max: <select class="cb-select" id="cb-max-raid-select"></select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Reward Item #1:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-raid-item-select"></select>
+                </span>
+              </div>
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Reward Item #2:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-raid-item-2-select"></select>
+                </span>
+              </div>
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Reward Item #3:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-raid-item-3-select"></select>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="tab-content" id="cb-tab-settings-divine-path">
+            <div class="cb-section-header">Divine Stumbler</div>
+            <div class="cb-sub-section">
+              <div class="cb-section-content">
+                <div class="cb-flex-1 small">Full credit to <a href="https://github.com/skepticfx/wshook" target="_blank">skepticfx</a> for creating the original DivineStumbler that I integrated in my own scripts with a few changes.</div>
+              </div>
+            </div>
+            <div class="cb-section-header">Path(s) <button id="cb-settings-divine-path-add" class="cb-divine-path-add-ico cb-fr tooltip" tooltip="Add a new divine path."></button></div>
+            <div id="cb-sub-section-divine-path-form" class="cb-hide">
+              <div class="cb-section">
+                <div class="cb-section-content">
+                  <span class="cb-flex-1">Enabled</span>
+                  <span class="cb-flex-1 right">
+                    <label class="switch">
+                      <input id="divine-path-form-enabled-checkbox" type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </span>
+                </div>
+              </div>
+              <div class="cb-section">
+                <div class="cb-section-content">
+                  <span class="cb-flex-1">Loop</span>
+                  <span class="cb-flex-1 right">
+                    <label class="switch">
+                      <input id="divine-path-form-loop-checkbox" type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </span>
+                </div>
+              </div>
+              <div class="cb-section">
+                <div class="cb-section-content">
+                  <div class="cb-flex-1">
+                    <textarea id="ds-input" style="padding: 5px; resize: none; width: 100%; height: 190px;"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="cb-sub-section-divine-path-nopath" class="cb-sub-section">
+              <div class="cb-section-content">
+                <div class="cb-flex-1 small">You currently have no path(s) saved, click the <span class="cb-divine-path-add-ico"></span> to add a path.</div>
               </div>
             </div>
           </div>
         </div>
-        <div id="cb-sub-section-divine-path-nopath" class="cb-sub-section">
+      </div>
+    </div>
+    <div id="cb-container">
+      <div id="cb-container-header" class="cb-header">
+        <span class="cb-title text-border-light">IdleLands Scripts</span>
+        <button class="cb-accordion cb-active"></button>
+      </div>
+      <div class="cb-panel">
+        <div class="cb-section-header"><span id="cb-player-name"></span> the <span id="cb-player-title"></span> <button id="cb-settings-open" class="cb-settings"></button></div>
+        <div class="cb-section">
           <div class="cb-section-content">
-            <div class="cb-flex-1 small">You currently have no path(s) saved, click the <span class="cb-divine-path-add-ico"></span> to add a path.</div>
+            <span class="cb-flex-1">Auto Free Roll</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="free-roll-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
           </div>
         </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-
-  <div id="cb-container">
-    <div id="cb-container-header" class="cb-header">
-      <span class="cb-title text-border-light">IdleLands Scripts</span>
-      <button class="cb-accordion cb-active"></button>
-    </div>
-    <div class="cb-panel">
-    <div class="cb-section-header"><span id="cb-player-name"></span> the <span id="cb-player-title"></span> <button id="cb-settings-open" class="cb-settings"></button></div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Free Roll</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="free-roll-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Reroll Quests</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="reroll-quests-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Buy Pots</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="buy-pots-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Use Scrolls</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="use-scrolls-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Donate Gold</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="donate-gold-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Optimize Equipment</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="optimize-equipment-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div id="cb-optimize-equipment-sub-section" class="cb-sub-section cb-collapsed">
-      <div class="cb-section-content">
-        <div class="cb-flex-1 small"><span id="optimize-equipment-message">Loading... just a sec.</span></div>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Choices</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="choices-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Inventory Cleanup</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="inventory-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-
-    <div class="cb-section-header">Pets - Adventures</div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Collect</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="pet-adventure-collect-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <span class="cb-flex-1">Auto Embark</span>
-        <span class="cb-flex-1 right">
-          <label class="switch">
-            <input id="pet-adventure-embark-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
-        </span>
-      </div>
-    </div>
-    <div class="cb-section-header">Active Pet ( <span id="cb-pet-type"></span> - <span id="cb-pet-levels"></span> )</div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <div class="cb-flex-1">Auto Ability</div>
-        <div class="cb-flex-1 right">
-          <label class="switch">
-            <input id="pet-ability-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Reroll Quests</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="reroll-quests-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <div class="cb-flex-1">Auto Gold Collect</div>
-        <div class="cb-flex-1 right">
-          <label class="switch">
-            <input id="pet-gold-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Use Scrolls</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="use-scrolls-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <div class="cb-flex-1">Auto Ascend</div>
-        <div class="cb-flex-1 right">
-          <label class="switch">
-            <input id="pet-ascend-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Donate Gold</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="donate-gold-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
-    <div id="cb-pet-ascend-sub-section" class="cb-sub-section cb-collapsed">
-      <div class="cb-section-content">
-        <div class="cb-flex-1 small"><span id="pet-ascend-message">Loading... just a sec.</span></div>
-      </div>
-    </div>
-
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <div class="cb-flex-1">Optimize Equipment</div>
-        <div class="cb-flex-1 right">
-          <label class="switch">
-            <input id="pet-optimize-equipment-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Optimize Equipment</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="optimize-equipment-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
-    <div id="cb-pet-optimize-equipment-sub-section" class="cb-sub-section cb-collapsed">
-      <div class="cb-section-content">
-        <div class="cb-flex-1 small"><span id="pet-optimize-equipment-message">Loading... just a sec.</span></div>
-      </div>
-    </div>
-
-    <div class="cb-section-header">Guild ( <span id="cb-guild-name"></span> )</div>
-    ${
-    globalData.canGuildRaid
-    ? `
-    <div class="cb-section">
-      <div class="cb-section-content">
-        <div class="cb-flex-1">Auto Raid</div>
-        <div class="cb-flex-1 right">
-          <label class="switch">
-            <input id="raids-checkbox" type="checkbox">
-            <span class="slider round"></span>
-          </label>
+        <div id="cb-optimize-equipment-sub-section" class="cb-sub-section cb-collapsed">
+          <div class="cb-section-content">
+            <div class="cb-flex-1 small"><span id="optimize-equipment-message">Loading... just a sec.</span></div>
+          </div>
         </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Choices</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="choices-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Inventory Cleanup</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="inventory-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section-header">Pets - Adventures</div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Collect</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="pet-adventure-collect-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Embark</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="pet-adventure-embark-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section-header">Active Pet ( <span id="cb-pet-type"></span> - <span id="cb-pet-levels"></span> )</div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <div class="cb-flex-1">Auto Ability</div>
+            <div class="cb-flex-1 right">
+              <label class="switch">
+                <input id="pet-ability-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <div class="cb-flex-1">Auto Gold Collect</div>
+            <div class="cb-flex-1 right">
+              <label class="switch">
+                <input id="pet-gold-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <div class="cb-flex-1">Auto Ascend</div>
+            <div class="cb-flex-1 right">
+              <label class="switch">
+                <input id="pet-ascend-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div id="cb-pet-ascend-sub-section" class="cb-sub-section cb-collapsed">
+          <div class="cb-section-content">
+            <div class="cb-flex-1 small"><span id="pet-ascend-message">Loading... just a sec.</span></div>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <div class="cb-flex-1">Optimize Equipment</div>
+            <div class="cb-flex-1 right">
+              <label class="switch">
+                <input id="pet-optimize-equipment-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div id="cb-pet-optimize-equipment-sub-section" class="cb-sub-section cb-collapsed">
+          <div class="cb-section-content">
+            <div class="cb-flex-1 small"><span id="pet-optimize-equipment-message">Loading... just a sec.</span></div>
+          </div>
+        </div>
+        <div class="cb-section-header">Guild ( <span id="cb-guild-name"></span> )</div>
+        ${
+          globalData.canGuildRaid
+          ? `
+          <div class="cb-section">
+            <div class="cb-section-content">
+              <div class="cb-flex-1">Auto Raid</div>
+              <div class="cb-flex-1 right">
+                <label class="switch">
+                  <input id="raids-checkbox" type="checkbox">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div id="cb-raids-sub-section" class="cb-sub-section cb-collapsed">
+            <div class="cb-section-content">
+              <div class="cb-flex-1 small">Next Raid @ <span id="guild-next-time">-</span></div>
+              <div class="break"></div>
+              <div class="cb-flex-1 small">Last Level: <span id="guild-level">-</span></div>
+              <div class="break"></div>
+              <div class="cb-flex-1 small">Last Reward: <span id="guild-item">-</span></div>
+            </div>
+          </div>`
+          : `
+          <div class="cb-sub-section">
+            <div class="cb-section-content">
+              <div class="cb-flex-1 small">You need to be a guild Leader or Mod to use this feature.</span></div>
+            </div>
+          </div>`
+        }
+        <div id="cb-footer" class="text-border-light">by: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a> - <a href="https://discord.gg/HB8QUxh2Qs" target="_blank">Discord</a></div>
       </div>
     </div>
-    <div id="cb-raids-sub-section" class="cb-sub-section cb-collapsed">
-      <div class="cb-section-content">
-        <div class="cb-flex-1 small">Next Raid @ <span id="guild-next-time">-</span></div>
-        <div class="break"></div>
-        <div class="cb-flex-1 small">Last Level: <span id="guild-level">-</span></div>
-        <div class="break"></div>
-        <div class="cb-flex-1 small">Last Reward: <span id="guild-item">-</span></div>
-      </div>
-    </div>`
-    : `
-    <div class="cb-sub-section">
-      <div class="cb-section-content">
-        <div class="cb-flex-1 small">You need to be a guild Leader or Mod to use this feature.</span></div>
-      </div>
-    </div>`
-    }
-    <div id="cb-footer" class="text-border-light">by: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a> - <a href="https://discord.gg/HB8QUxh2Qs" target="_blank">Discord</a></div>
-
-    </div>
-  </div>
   ` );
 }
 
