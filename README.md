@@ -9,7 +9,7 @@
 Automation userscript for IdleLands
 https://play.idle.land/
 
-A big thank you to `Sarimash` for showing my some example code he created, which evolved to this... 
+A big thank you to `Sarimash` for showing me some example code he created, which evolved to this... 
 
 [![screenshot](https://i.postimg.cc/8zSK7DWn/tempsnip.png)](https://postimg.cc/D8xdN9xq)
 
@@ -18,7 +18,7 @@ A big thank you to `Sarimash` for showing my some example code he created, which
 
 1. Install [Tampermonkey](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/) (Firefox) / [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) (Chrome) / [Tampermonkey](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) (Opera).
 2. Open `https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js` or click [here](https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js).
-3. Click `Install`.
+3. Click `Install` or copy it into a new Tampermonkey script.
 
 ## Usage
 Once logged into IdleLands, you will see a window on the top right corner.
@@ -28,10 +28,11 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - Also, all options are saved in storage for persistence
 
 ## Features
-- auto free roll (daily)
-- auto use scrolls/buffs
-- auto donate gold
-- optimize equipment by gold or XP
+- Free roll (daily)
+- Reroll quests
+- Use scrolls/buffs
+- Donate gold
+- Optimize equipment by gold or XP
 - Pet Adventures
   - auto collect adventures when completed
   - auto send your pets on adventures
@@ -47,7 +48,6 @@ Once logged into IdleLands, you will see a window on the top right corner.
 
 ## Todo
 - Implement auto by pots, code provided by `Sarimash`
-- Implement reroll quests, code provided by `Sarimash`
 - You have an idea/suggestion, please ask away
 
 ## Problems?
