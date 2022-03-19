@@ -60,3 +60,4 @@ If you wish to contribute all [pull requests](https://github.com/the-crazyball/i
 - `Anten`
 - `Sarimash`
 - `Torsin`
+- `Marno`
