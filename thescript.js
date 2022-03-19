@@ -1681,15 +1681,15 @@ const petOptimizeEquipment = () => {
         setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
       }
       if (currentQuest.objectives.find( element =>
-           ( element.statistic.indexOf("Combat") >= 0      && element.scalar >= options.questCombatScalar )
-        || ( element.statistic.indexOf("Stamina") >= 0     && element.scalar >= options.questStaminaScalar )
-        || ( element.statistic.indexOf("Step") >= 0        && element.scalar >= options.questStepScalar )
-        || ( element.statistic.indexOf("Sell") >= 0        && element.scalar >= options.questSellScalar )
-        || ( element.statistic.indexOf("Treasure") >= 0    && element.scalar >= options.questTreasureScalar )
+           ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= options.questCombatScalar )
+        || ( element.statistic.indexOf("Stamina") >= 0 && element.scalar >= options.questStaminaScalar )
+        || ( element.statistic.indexOf("Step") >= 0 && element.scalar >= options.questStepScalar )
+        || ( element.statistic.indexOf("Sell") >= 0 && element.scalar >= options.questSellScalar )
+        || ( element.statistic.indexOf("Treasure") >= 0 && element.scalar >= options.questTreasureScalar )
         || ( !!element.requireMap )
-        || ( element.statistic.indexOf("Salvage") >= 0     && element.scalar >= options.questSalvageScalar )
-        || ( element.statistic.indexOf("Gold/Gain") >= 0   && element.scalar >= options.questGainScalar )
-        || ( element.statistic.indexOf("Gold/Spend") >= 0  && element.scalar >= options.questSpendScalar )
+        || ( element.statistic.indexOf("Salvage") >= 0 && element.scalar >= options.questSalvageScalar )
+        || ( element.statistic.indexOf("Gold/Gain") >= 0 && element.scalar >= options.questGainScalar )
+        || ( element.statistic.indexOf("Gold/Spend") >= 0 && element.scalar >= options.questSpendScalar )
         || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= options.questCollectibleScalar )
       )) {
             setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
