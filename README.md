@@ -30,6 +30,7 @@ Once logged into IdleLands, you will see a window on the top right corner.
 ## Features
 - Free roll (daily)
 - Reroll quests
+- Buy pots of gold
 - Use scrolls/buffs
 - Donate gold
 - Optimize equipment by gold or XP
@@ -47,7 +48,6 @@ Once logged into IdleLands, you will see a window on the top right corner.
   - Guild raid options
 
 ## Todo
-- Implement auto by pots, code provided by `Sarimash`
 - You have an idea/suggestion, please ask away
 
 ## Problems?
