@@ -394,11 +394,11 @@ const loadUI = () => {
                 <span class="cb-flex-1">Treasure:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-treasure-select">
-                    <option value="2" ${options.questTreasureScalar == 2 ? `selected` : ``}>2</option>
-                    <option value="3" ${options.questTreasureScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questTreasureScalar == 4 ? `selected` : ``}>4</option>
-                    <option value="5" ${options.questTreasureScalar == 5 ? `selected` : ``}>5</option>
-                    <option value="6" ${options.questTreasureScalar == 6 ? `selected` : ``}>6</option>
+                    <option value="2" ${options.questTreasureScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questTreasureScalar == 3 ? `selected` : ``}>&gt;25</option>
+                    <option value="4" ${options.questTreasureScalar == 4 ? `selected` : ``}>&gt;125</option>
+                    <option value="5" ${options.questTreasureScalar == 5 ? `selected` : ``}>&gt;625</option>
+                    <option value="6" ${options.questTreasureScalar == 6 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -408,11 +408,11 @@ const loadUI = () => {
                 <span class="cb-flex-1">Collectible:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-collectible-select">
-                    <option value="2" ${options.questCollectibleScalar == 2 ? `selected` : ``}>2</option>
-                    <option value="3" ${options.questCollectibleScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questCollectibleScalar == 4 ? `selected` : ``}>4</option>
-                    <option value="5" ${options.questCollectibleScalar == 5 ? `selected` : ``}>5</option>
-                    <option value="6" ${options.questCollectibleScalar == 6 ? `selected` : ``}>6</option>
+                    <option value="2" ${options.questCollectibleScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questCollectibleScalar == 3 ? `selected` : ``}>&gt;25</option>
+                    <option value="4" ${options.questCollectibleScalar == 4 ? `selected` : ``}>&gt;125</option>
+                    <option value="5" ${options.questCollectibleScalar == 5 ? `selected` : ``}>&gt;625</option>
+                    <option value="6" ${options.questCollectibleScalar == 6 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -422,23 +422,23 @@ const loadUI = () => {
                 <span class="cb-flex-1">Sell Items:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-sell-select">
-                    <option value="1" ${options.questSellScalar == 1 ? `selected` : ``}>1</option>
-                    <option value="2" ${options.questSellScalar == 2 ? `selected` : ``}>2</option>
-                    <option value="3" ${options.questSellScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questSellScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="1" ${options.questSellScalar == 1 ? `selected` : ``}>All</option>
+                    <option value="2" ${options.questSellScalar == 2 ? `selected` : ``}>&gt;5</option>
+                    <option value="3" ${options.questSellScalar == 3 ? `selected` : ``}>&gt;25</option>
+                    <option value="4" ${options.questSellScalar == 4 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
             </div>
             <div class="cb-section">
               <div class="cb-section-content">
-                <span class="cb-flex-1">Salvage Items:</span>
+                <span class="cb-flex-1">Salvage Items/Resources:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-salvage-select">
-                    <option value="1" ${options.questSalvageScalar == 1 ? `selected` : ``}>1</option>
-                    <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>2</option>
-                    <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questSalvageScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="1" ${options.questSalvageScalar == 1 ? `selected` : ``}>All</option>
+                    <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>&gt;5/&gt;10,000</option>
+                    <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>&gt;25/&gt;1,000,000</option>
+                    <option value="4" ${options.questSalvageScalar == 4 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -448,10 +448,10 @@ const loadUI = () => {
                 <span class="cb-flex-1">Battles:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-combat-select">
-                    <option value="1" ${options.questCombatScalar == 1 ? `selected` : ``}>1</option>
-                    <option value="2" ${options.questCombatScalar == 2 ? `selected` : ``}>2</option>
-                    <option value="3" ${options.questCombatScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questCombatScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="1" ${options.questCombatScalar == 1 ? `selected` : ``}>All</option>
+                    <option value="2" ${options.questCombatScalar == 2 ? `selected` : ``}>&gt;2</option>
+                    <option value="3" ${options.questCombatScalar == 3 ? `selected` : ``}>&gt;4</option>
+                    <option value="4" ${options.questCombatScalar == 4 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -461,10 +461,10 @@ const loadUI = () => {
                 <span class="cb-flex-1">Stamina Spend:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-stamina-select">
-                    <option value="2" ${options.questStaminaScalar == 2 ? `selected` : ``}>2</option>
-                    <option value="3" ${options.questStaminaScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questStaminaScalar == 4 ? `selected` : ``}>4</option>
-                    <option value="5" ${options.questStaminaScalar == 5 ? `selected` : ``}>5</option>
+                    <option value="2" ${options.questStaminaScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questStaminaScalar == 3 ? `selected` : ``}>&gt;25</option>
+                    <option value="4" ${options.questStaminaScalar == 4 ? `selected` : ``}>&gt;125</option>
+                    <option value="5" ${options.questStaminaScalar == 5 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -474,9 +474,9 @@ const loadUI = () => {
                 <span class="cb-flex-1">Gold Gain:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-gain-select">
-                    <option value="3" ${options.questGainScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questGainScalar == 4 ? `selected` : ``}>4</option>
-                    <option value="5" ${options.questGainScalar == 5 ? `selected` : ``}>5</option>
+                    <option value="3" ${options.questGainScalar == 3 ? `selected` : ``}>All</option>
+                    <option value="4" ${options.questGainScalar == 4 ? `selected` : ``}>&gt;1,000,000</option>
+                    <option value="5" ${options.questGainScalar == 5 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -486,9 +486,9 @@ const loadUI = () => {
                 <span class="cb-flex-1">Gold Spend:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-spend-select">
-                    <option value="3" ${options.questSpendScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questSpendScalar == 4 ? `selected` : ``}>4</option>
-                    <option value="5" ${options.questSpendScalar == 5 ? `selected` : ``}>5</option>
+                    <option value="3" ${options.questSpendScalar == 3 ? `selected` : ``}>All</option>
+                    <option value="4" ${options.questSpendScalar == 4 ? `selected` : ``}>&gt;1,000,000</option>
+                    <option value="5" ${options.questSpendScalar == 5 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -498,12 +498,12 @@ const loadUI = () => {
                 <span class="cb-flex-1">Steps:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-step-select">
-                    <option value="2" ${options.questStepScalar == 2 ? `selected` : ``}>2</option>
-                    <option value="3" ${options.questStepScalar == 3 ? `selected` : ``}>3</option>
-                    <option value="4" ${options.questStepScalar == 4 ? `selected` : ``}>4</option>
-                    <option value="5" ${options.questStepScalar == 5 ? `selected` : ``}>5</option>
-                    <option value="6" ${options.questStepScalar == 6 ? `selected` : ``}>6</option>
-                    <option value="7" ${options.questStepScalar == 7 ? `selected` : ``}>7</option>
+                    <option value="2" ${options.questStepScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questStepScalar == 3 ? `selected` : ``}>&gt;100</option>
+                    <option value="4" ${options.questStepScalar == 4 ? `selected` : ``}>&gt;1,000</option>
+                    <option value="5" ${options.questStepScalar == 5 ? `selected` : ``}>&gt;10,000</option>
+                    <option value="6" ${options.questStepScalar == 6 ? `selected` : ``}>&gt;100,000</option>
+                    <option value="7" ${options.questStepScalar == 7 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
