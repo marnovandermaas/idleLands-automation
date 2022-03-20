@@ -588,6 +588,17 @@ const loadUI = () => {
         </div>
         <div class="cb-section">
           <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Buy Pots</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="buy-pots-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
             <span class="cb-flex-1">Auto Use Scrolls</span>
             <span class="cb-flex-1 right">
               <label class="switch">
