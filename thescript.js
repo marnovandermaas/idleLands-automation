@@ -1661,7 +1661,9 @@ const petOptimizeEquipment = () => {
     for (let i = 0; i < quests.length; i++) {
       let currentQuest = quests[i];
       let delay = 3;
-      if (currentQuest.objectives[0].progress >= currentQuest.objectives[0].statisticValue) {
+      if (currentQuest.objectives[0].progress >= currentQuest.objectives[0].statisticValue &&
+          (currentQuest.objectives.length == 1 || currentQuest.objectives[1].progress >= currentQuest.objectives[1].statisticValue)
+      ) {
         setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
       }
       if (currentQuest.objectives.find( element =>
