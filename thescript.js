@@ -225,7 +225,7 @@ const buildRaidItemOptions = (slot) => {
 
 const loadUI = () => {
   document.body.insertAdjacentHTML("beforeend", `
-        <div id="cb-settings-container" class="cb-hide">
+    <div id="cb-settings-container" class="cb-hide">
       <div id="cb-settings-container-header" class="cb-header"> <span class="cb-title text-border-light">Settings</span>
         <button id="cb-settings-close" class="cb-close"></button>
       </div>
