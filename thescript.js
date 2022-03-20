@@ -508,6 +508,15 @@ const loadUI = () => {
                 </span>
               </div>
             </div>
+            <div id="cb-quest-select-sub-section" class="cb-sub-section">
+              <div class="cb-section-content">
+                <div class="cb-flex-1 small">
+                  Please select which criteria should be used to reroll the quests.
+                  If you only want to receive gold spend quests with a value of 1,000,000, then select &gt;1,000,000 from the menu.
+                  Select All if you never want to see quests with this criteria and None if quests should not be rerolled because of that objective.
+                </div>
+              </div>
+            </div>
           </div>
           <div class="tab-content" id="cb-tab-settings-intervals">
             <div class="cb-section-header">Intervals ( in ms )</div>
