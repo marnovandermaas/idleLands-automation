@@ -225,7 +225,7 @@ const buildRaidItemOptions = (slot) => {
 
 const loadUI = () => {
   document.body.insertAdjacentHTML("beforeend", `
-    <div id="cb-settings-container" class="cb-hide">
+        <div id="cb-settings-container" class="cb-hide">
       <div id="cb-settings-container-header" class="cb-header"> <span class="cb-title text-border-light">Settings</span>
         <button id="cb-settings-close" class="cb-close"></button>
       </div>
@@ -235,6 +235,7 @@ const loadUI = () => {
             <ul>
               <li class="cb-general-big-ico active" data-tab="cb-tab-settings-general">General</li>
               <li class="cb-choices-big-ico" data-tab="cb-tab-settings-choices">Choices</li>
+              <li class="cb-quests-big-ico" data-tab="cb-tab-settings-quests">Quests</li>
               <li class="cb-interval-big-ico" data-tab="cb-tab-settings-intervals">Intervals</li>
               <li class="cb-guild-big-ico" data-tab="cb-tab-settings-guild">Guild</li>
               <li class="cb-divine-path-big-ico" data-tab="cb-tab-settings-divine-path">Stumbler</li>
@@ -386,6 +387,128 @@ const loadUI = () => {
               </div>
             </div>
           </div>
+          <div class="tab-content" id="cb-tab-settings-quests">
+            <div class="cb-section-header">Quests</div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Treasure:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-treasure-select">
+                    <option value="2" ${options.questTreasureScalar == 2 ? `selected` : ``}>2</option>
+                    <option value="3" ${options.questTreasureScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questTreasureScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="5" ${options.questTreasureScalar == 5 ? `selected` : ``}>5</option>
+                    <option value="6" ${options.questTreasureScalar == 6 ? `selected` : ``}>6</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Collectible:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-collectible-select">
+                    <option value="2" ${options.questCollectibleScalar == 2 ? `selected` : ``}>2</option>
+                    <option value="3" ${options.questCollectibleScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questCollectibleScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="5" ${options.questCollectibleScalar == 5 ? `selected` : ``}>5</option>
+                    <option value="6" ${options.questCollectibleScalar == 6 ? `selected` : ``}>6</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Sell Items:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-sell-select">
+                    <option value="1" ${options.questSellScalar == 1 ? `selected` : ``}>1</option>
+                    <option value="2" ${options.questSellScalar == 2 ? `selected` : ``}>2</option>
+                    <option value="3" ${options.questSellScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questSellScalar == 4 ? `selected` : ``}>4</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Salvage Items:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-salvage-select">
+                    <option value="1" ${options.questSalvageScalar == 1 ? `selected` : ``}>1</option>
+                    <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>2</option>
+                    <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questSalvageScalar == 4 ? `selected` : ``}>4</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Battles:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-combat-select">
+                    <option value="1" ${options.questCombatScalar == 1 ? `selected` : ``}>1</option>
+                    <option value="2" ${options.questCombatScalar == 2 ? `selected` : ``}>2</option>
+                    <option value="3" ${options.questCombatScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questCombatScalar == 4 ? `selected` : ``}>4</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Stamina Spend:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-stamina-select">
+                    <option value="2" ${options.questStaminaScalar == 2 ? `selected` : ``}>2</option>
+                    <option value="3" ${options.questStaminaScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questStaminaScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="5" ${options.questStaminaScalar == 5 ? `selected` : ``}>5</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Gold Gain:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-gain-select">
+                    <option value="3" ${options.questGainScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questGainScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="5" ${options.questGainScalar == 5 ? `selected` : ``}>5</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Gold Spend:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-spend-select">
+                    <option value="3" ${options.questSpendScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questSpendScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="5" ${options.questSpendScalar == 5 ? `selected` : ``}>5</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Steps:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-step-select">
+                    <option value="2" ${options.questStepScalar == 2 ? `selected` : ``}>2</option>
+                    <option value="3" ${options.questStepScalar == 3 ? `selected` : ``}>3</option>
+                    <option value="4" ${options.questStepScalar == 4 ? `selected` : ``}>4</option>
+                    <option value="5" ${options.questStepScalar == 5 ? `selected` : ``}>5</option>
+                    <option value="6" ${options.questStepScalar == 6 ? `selected` : ``}>6</option>
+                    <option value="7" ${options.questStepScalar == 7 ? `selected` : ``}>7</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+          </div>
           <div class="tab-content" id="cb-tab-settings-intervals">
             <div class="cb-section-header">Intervals ( in ms )</div>
             <div class="cb-section">
@@ -430,6 +553,14 @@ const loadUI = () => {
             </div>
             <div class="cb-section">
               <div class="cb-section-content">
+                <span class="cb-flex-1">Buy Pots:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-buy-pot-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
                 <span class="cb-flex-1">Donate Gold:</span>
                 <span class="right">
                   <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-donate-gold-text">
@@ -465,14 +596,6 @@ const loadUI = () => {
                 <span class="cb-flex-1">Reroll Quests:</span>
                 <span class="right">
                   <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-reroll-quests-text">
-                </span>
-              </div>
-            </div>
-            <div class="cb-section">
-              <div class="cb-section-content">
-                <span class="cb-flex-1">Buy Pots:</span>
-                <span class="right">
-                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-buy-pot-text">
                 </span>
               </div>
             </div>
