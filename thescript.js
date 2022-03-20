@@ -432,12 +432,12 @@ const loadUI = () => {
             </div>
             <div class="cb-section">
               <div class="cb-section-content">
-                <span class="cb-flex-1">Salvage Items/Resources:</span>
+                <span class="cb-flex-1">Salvage Items or Resources:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-salvage-select">
                     <option value="1" ${options.questSalvageScalar == 1 ? `selected` : ``}>All</option>
-                    <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>&gt;5/&gt;10,000</option>
-                    <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>&gt;25/&gt;1,000,000</option>
+                    <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>&gt;5 or 10k</option>
+                    <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>&gt;25 or 1,000k</option>
                     <option value="4" ${options.questSalvageScalar == 4 ? `selected` : ``}>None</option>
                   </select>
                 </span>
@@ -511,9 +511,8 @@ const loadUI = () => {
             <div id="cb-quest-select-sub-section" class="cb-sub-section">
               <div class="cb-section-content">
                 <div class="cb-flex-1 small">
-                  Please select which criteria should be used to reroll the quests.
-                  If you only want to receive gold spend quests with a value of 1,000,000, then select &gt;1,000,000 from the menu.
-                  Select All if you never want to see quests with this criteria and None if quests should not be rerolled because of that objective.
+                  Quests will reroll if the value of the objective is greater than your selection.
+                  Select All if you want to avoid quests with this objective and None if quests should not be rerolled because of that objective.
                 </div>
               </div>
             </div>
