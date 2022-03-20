@@ -468,6 +468,14 @@ const loadUI = () => {
                 </span>
               </div>
             </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Buy Pots:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-buy-pot-text">
+                </span>
+              </div>
+            </div>
           </div>
           <div class="tab-content" id="cb-tab-settings-guild">
             <div class="cb-section-header">Guild Raid</div>
