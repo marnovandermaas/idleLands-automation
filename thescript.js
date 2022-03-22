@@ -1669,10 +1669,10 @@ const petOptimizeEquipment = () => {
     for (let i = 0; i < quests.length; i++) {
       let currentQuest = quests[i];
       let delay = 3;
-      let complete = True;
+      let complete = true;
       for (let j = 0; j < currentQuest.objectives.length; j++) {
         if (currentQuest.objectives[j].progress < currentQuest.objectives[j].statisticValue) {
-          complete = False;
+          complete = false;
         }
       }
       if (complete) {
