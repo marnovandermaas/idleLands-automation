@@ -1754,7 +1754,7 @@ const RunDivineDirection = () => {
     if (!!discordGlobalCharacter.divineDirection &&
         ((discordGlobalCharacter.divineDirection.x == discordGlobalCharacter.x && discordGlobalCharacter.divineDirection.y == discordGlobalCharacter.y) ||
          (discordGlobalCharacter.divineDirection.x == 1 && discordGlobalCharacter.divineDirection.y == 1))
-    {
+    ) {
       //Disable current divine direction
       setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', {x: 1, y: 1}) }, 500);
     }
