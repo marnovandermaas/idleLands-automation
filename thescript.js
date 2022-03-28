@@ -141,7 +141,8 @@ let defaultOptions = {
   ddEnable: false,
   ddLoop: true,
   ddCheckCooldown: false,
-  ddCoordinates: []
+  ddSelectedPathName: 'none',
+  ddPaths: {}
 }
 
 const options = GM_getValue('options') == null ? defaultOptions : GM_getValue('options'); //save and persist options to the local storage
@@ -226,6 +227,17 @@ const buildRaidItemOptions = (slot) => {
     values += `<option value="${key}" ${options.guildRaidItems[slot] == key ? 'selected' : ''}>${raidRewards[key]}</option>`
   });
   return values;
+}
+
+const populateDivinePathOptions = () => {
+  let values = `<option value="none"></option>`;
+
+  Object.keys(ddPaths).forEach(key => {
+    values += `<option value="${key}" ${options.ddSelectedPathName == key ? 'selected' : ''}>${key}</option>`
+  });
+  
+  document.getElementById("cb-divine-path-select").innerHTML = values;
+  document.getElementById("cb-divine-path-delete-select").innerHTML = values;
 }
 
 const loadUI = () => {
@@ -659,9 +671,6 @@ const loadUI = () => {
               <div class="cb-section-content">
                 <div class="cb-flex-1 small">Full credit to <a href="https://github.com/skepticfx/wshook" target="_blank">skepticfx</a> for creating the original DivineStumbler that I integrated in my own scripts with a few changes.</div>
               </div>
-            </div>
-            <div class="cb-section-header">Path(s) <button id="cb-settings-divine-path-add" class="cb-divine-path-add-ico cb-fr tooltip" tooltip="Add a new divine path."></button></div>
-            <div id="cb-sub-section-divine-path-form" class="cb-hide">
               <div class="cb-section">
                 <div class="cb-section-content">
                   <span class="cb-flex-1">Enabled</span>
@@ -686,15 +695,65 @@ const loadUI = () => {
               </div>
               <div class="cb-section">
                 <div class="cb-section-content">
+                  <span class="cb-flex-1">Check Cooldown</span>
+                  <span class="cb-flex-1 right">
+                    <label class="switch">
+                      <input id="divine-path-form-cooldown-checkbox" type="checkbox">
+                      <span class="slider round"></span>
+                    </label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="cb-section-header">Path(s) <button id="cb-settings-divine-path-add" class="cb-divine-path-add-ico cb-fr tooltip" tooltip="Add a new divine path."></button></div>
+            <div id="cb-sub-section-divine-path-form" class="cb-hide">
+              <div class="cb-section">
+                <div class="cb-section-content">
+                  <span class="cb-flex-1">Name:</span>
+                  <span class="right">
+                    <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="divine-path-form-name-text">
+                  </span>
+                </div>
+              </div>
+              <div class="cb-section">
+                <div class="cb-section-content">
                   <div class="cb-flex-1">
-                    <textarea id="ds-input" style="padding: 5px; resize: none; width: 100%; height: 190px;"></textarea>
+                    <textarea id="divine-path-form-input-text" style="padding: 5px; resize: none; width: 100%; height: 190px;"></textarea>
                   </div>
                 </div>
               </div>
             </div>
-            <div id="cb-sub-section-divine-path-nopath" class="cb-sub-section">
-              <div class="cb-section-content">
-                <div class="cb-flex-1 small">You currently have no path(s) saved, click the <span class="cb-divine-path-add-ico"></span> to add a path.</div>
+            <div id="cb-sub-section-divine-path-select" class="cb-sub-section">
+              <div class="cb-section">
+                <div class="cb-section-content">
+                  <div class="cb-flex-1 small">Click the <span class="cb-divine-path-add-ico"></span> to add a path.</div>
+                </div>
+              </div>
+              <div class="cb-section">
+                <div class="cb-section-content">
+                  <span class="cb-flex-1">Current path name:</span>
+                  <span class="cb-flex-1 right" id="cb-divine-path-selected-path-name"></span>
+                </div>
+              </div>
+              <div class="cb-section">
+                <div class="cb-section-content">
+                  <span class="cb-flex-1">Path select:</span>
+                  <span class="cb-flex-1 right">
+                    <select class="cb-select" id="cb-divine-path-select">
+                      <option>No paths</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+              <div class="cb-section">
+                <div class="cb-section-content">
+                  <span class="cb-flex-1">Remove path:</span>
+                  <span class="cb-flex-1 right">
+                    <select class="cb-select" id="cb-divine-path-delete-select">
+                      <option>No paths</option>
+                    </select>
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -930,9 +989,18 @@ const start = () => {
 
   document.getElementById("cb-settings-divine-path-add").addEventListener( 'click', async function(e) {
     let formEl = document.getElementById("cb-sub-section-divine-path-form");
-    let noPathEl = document.getElementById("cb-sub-section-divine-path-nopath");
+    let selectEl = document.getElementById("cb-sub-section-divine-path-select");
+    let nameEl = document.getElementById("divine-path-form-name-text");
+    let coordsEl = document.getElementById("divine-path-form-input-text");
+    if(!formEl.classList.contains("cb-hide") && divi) {
+      if(nameEl.value != '' && coordsEl.value != '') {
+        ddPaths[nameEl.value] = formatDdList(coordsEl.value);
+        populateDivinePaths();
+        console.log(ddPaths); //TODO remove
+      }
+    }
     formEl.classList.toggle("cb-hide");
-    noPathEl.classList.toggle("cb-hide");
+    selectEl.classList.toggle("cb-hide");
   });
 
   document.getElementById("cb-settings-open").addEventListener( 'click', async function(e) {
@@ -951,6 +1019,8 @@ const start = () => {
     document.getElementById("cb-raid-item-select").innerHTML = buildRaidItemOptions(0);
     document.getElementById("cb-raid-item-2-select").innerHTML = buildRaidItemOptions(1);
     document.getElementById("cb-raid-item-3-select").innerHTML = buildRaidItemOptions(2);
+    
+    populateDivinePaths();
 
     document.getElementById("cb-pet-adventure-collect-text").value = options.petAdventureCollectInterval;
     document.getElementById("cb-pet-adventure-collect-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petAdventureCollectInterval);
