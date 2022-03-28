@@ -1765,13 +1765,17 @@ const RunDivineDirection = () => {
       let sentCoord = false;
       for (let i = 0; i < path.length; i++) {
         let cooldowns = Object.keys(discordGlobalCharacter.cooldowns);
+        let cooldownExists = false;
         for (let j = 0; j < cooldowns.length; j++) {
-          if (cooldowns[j].includes(`${path[i].x},${path[i].y}`) && cooldowns[j] > Date.now()) continue;          
+          if (cooldowns[j].includes(`${path[i].x},${path[i].y}`) && cooldowns[j] > Date.now()) {
+            cooldownExists = true;
+            break;      
+          }
+        }
+        if (!cooldownExists) {
           setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[i]) }, 500);
           sentCoord = true;
-          break;
         }
-        if(sentCoord) break;
       }
       //If we have not sent out a coordinate wait at the beginning of path
       if(!sentCoord) {
