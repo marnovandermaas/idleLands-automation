@@ -992,7 +992,7 @@ const start = () => {
     let selectEl = document.getElementById("cb-sub-section-divine-path-select");
     let nameEl = document.getElementById("divine-path-form-name-text");
     let coordsEl = document.getElementById("divine-path-form-input-text");
-    if(!formEl.classList.contains("cb-hide") && divi) {
+    if(!formEl.classList.contains("cb-hide")) {
       if(nameEl.value != '' && coordsEl.value != '') {
         options.ddPaths[nameEl.value] = formatDdList(coordsEl.value);
         populateDivinePathOptions();
