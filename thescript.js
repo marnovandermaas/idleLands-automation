@@ -104,7 +104,7 @@ let defaultOptions = {
   choicePortalOption: 'none',
   choiceGamblingOption: 'none',
   choicePartyLeaveOption: 'none',
-  choiceBuyitemOption: 'none',
+  choiceBuyItemOption: 'none',
   choiceItemFoundOption: 'none',
   choiceEnchantOption: 'none',
   choiceItemMinScore: 0,
@@ -328,10 +328,10 @@ const loadUI = () => {
                 <span class="cb-flex-1">Buy Item (Merchant):</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-choice-buy-item-select">
-                    <option value="none" ${options.choiceBuyitemOption == 'none' ? `selected` : ``}>none</option>
-                    <option value="Yes" ${options.choiceBuyitemOption == 'Yes' ? `selected` : ``}>yes</option>
-                    <option value="No" ${options.choiceBuyitemOption == 'No' ? `selected` : ``}>no</option>
-                    <option value="Inventory" ${options.choiceBuyitemOption == 'Inventory' ? `selected` : ``}>inventory</option>
+                    <option value="none" ${options.choiceBuyItemOption == 'none' ? `selected` : ``}>none</option>
+                    <option value="Yes" ${options.choiceBuyItemOption == 'Yes' ? `selected` : ``}>yes</option>
+                    <option value="No" ${options.choiceBuyItemOption == 'No' ? `selected` : ``}>no</option>
+                    <option value="Inventory" ${options.choiceBuyItemOption == 'Inventory' ? `selected` : ``}>inventory</option>
                   </select>
                 </span>
               </div>
@@ -1296,7 +1296,7 @@ const start = () => {
     saveOptions('choicePartyLeaveOption', e.target.value);
   });
   document.getElementById("cb-choice-buy-item-select").addEventListener( 'change', function(e) {
-    saveOptions('choiceBuyitemOption', e.target.value);
+    saveOptions('choiceBuyItemOption', e.target.value);
   });
   document.getElementById("cb-choice-item-found-select").addEventListener( 'change', function(e) {
     saveOptions('choiceItemFoundOption', e.target.value);
