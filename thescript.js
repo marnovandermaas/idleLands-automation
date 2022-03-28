@@ -99,7 +99,7 @@ let defaultOptions = {
   inventoryCleanup: 'none',
 
   // choices
-  choicesInterval: 30000,
+  choicesInterval: 10000,
 
   choiceTrainerOption: 'none',
   choicePortalOption: 'none',
@@ -138,6 +138,8 @@ let defaultOptions = {
   rerollQuests: false,
   
   // divine direction
+  divineDirectionInterval: 1000,
+  
   ddEnable: false,
   ddLoop: true,
   ddCheckCooldown: false,
@@ -159,14 +161,8 @@ const globalData = {
   canGuildRaid: false,
   raidFail: false,
   lastRaidBossLevel: 0,
-  raidFailTimes: 0
-}
-const playerData = {
-  currLoc: {
-    x: null,
-    y: null
-  },
-  dd: null
+  raidFailTimes: 0,
+  divineDirectionIndex: 0
 }
 
 const loginCheck = () => {
@@ -1361,6 +1357,25 @@ const start = () => {
       }
   });
   triggerChange('petOptimizeEquipment', document.getElementById("pet-optimize-equipment-checkbox"), true);
+  
+  var divineDirectionLoop;
+  document.getElementById("divine-path-form-enabled-checkbox").addEventListener( 'change', function() {
+      if(this.checked) {
+          divineDirectionLoop = setInterval( RunDivineDirection, options.divineDirectionInterval );
+          console.log('divine direction started');
+          saveOptions('ddEnable', true);
+      } else {
+          clearInterval(divineDirectionLoop);
+          console.log('divine directions stopped');
+          saveOptions('ddEnable', false);
+      }
+  });
+  document.getElementById("divine-path-form-loop-checkbox").addEventListener( 'change', function() {
+    saveOptions('ddLoop', this.checked);
+  });
+  document.getElementById("divine-path-form-cooldown-checkbox").addEventListener( 'change', function() {
+    saveOptions('ddCheckCooldown', this.checked);
+  });
 
   document.getElementById("cb-choice-trainer-select").addEventListener( 'change', function(e) {
     saveOptions('choiceTrainerOption', e.target.value);
@@ -1724,6 +1739,29 @@ const RunChoices = () => {
     }
   });
 
+}
+
+const RunDivineDirection = () => {
+  if(options.ddSelectedPathName == 'none') return;
+  let path = options.ddPaths[options.ddSelectedPathName];
+  if(globalData.divineDirectionIndex >= path.length) {
+    globalData.divineDirectionIndex = 0;
+  }
+  if(options.ddCheckCooldown) {
+    if (!!discordGlobalCharacter.divineDirection && 
+        discordGlobalCharacter.divineDirection.x == discordGlobalCharacter.x && 
+        discordGlobalCharacter.divineDirection.y == discordGlobalCharacter.y)
+    {
+      for (let i = 0; i < path.length; i++) {
+        let cooldowns = Object.keys(discordGlobalCharacter.cooldowns);
+        for (let j = 0; j < cooldowns.length; j++) {
+          if (cooldowns[j].includes(`${path[i].x},${path[i].y}`)) continue;
+        }
+        window.__emitSocket('character:divinedirection', path[i]);
+      } 
+    }
+  } else {
+  }
 }
 
 const RunInventory = () => {
