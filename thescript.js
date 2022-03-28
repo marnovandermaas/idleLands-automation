@@ -1305,8 +1305,7 @@ const start = () => {
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(function () {
       saveOptions('choiceItemMinScore', e.target.value);
-      triggerChange('choiceBuyItemOption', document.getElementById("cb-choice-buy-item-select"), false);
-      triggerChange('choiceItemFoundOption', document.getElementById("cb-choice-item-found-select"), false);
+      triggerChange('choices', document.getElementById("choices-checkbox"), false);
     }, 2000);
   });
   document.getElementById("cb-choice-enchant-select").addEventListener( 'change', function(e) {
