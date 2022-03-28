@@ -1451,7 +1451,7 @@ const start = () => {
   });
   document.getElementById("cb-divine-path-delete-select").addEventListener( 'change', function(e) {
     if(e.target.value != options.ddSelectedPathName) {
-      delete options.ddPaths(e.target.value);
+      delete options.ddPaths[e.target.value];
       populateDivinePathOptions();
     }
   });
