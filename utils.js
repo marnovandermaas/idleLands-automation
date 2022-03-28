@@ -140,3 +140,29 @@ Array.prototype.findPath = function (path) {
     if (prospect[0] !== undefined) return prospect[0].value;
     else return undefined;
 }
+
+// given a string, return an array of objects
+// given an array, return a formatted string
+const formatDdList = (given) => {
+    // if it is not an array
+    if (!Array.isArray(given)) {
+        // remove all spaces except newline
+        let noSpaces = given.replace(/ +?/g, '');
+        // make an array of strings like ['1,2','3,4','5,6']
+        let arr = noSpaces.split('\n');
+        // return formatted array of objects
+        let objs = arr.map(e => {
+            let [x, y] = e.split(',').map(e => parseInt(e));
+            if (!isNaN(x) && !isNaN(y)) {
+                return {
+                    x,
+                    y
+                }
+            }
+        })
+        return objs.filter(e => e !== undefined);
+    } else {
+        let strings = given.map(e => `${e.x},${e.y}`);
+        return strings.join('\n');
+    }
+}
