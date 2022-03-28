@@ -49,6 +49,7 @@
 //    - Added Quest Reroll logic and toggle to enable it
 //    - Added settings to control quest reroll
 //    - Added pot buying logic and toggle to enable it
+//    - Added minimum item score for finding and buying choices
 //  1.7
 //    - Fixed the guild raids to throttle when failing, add 10 mins to next raid availability
 //        this way it doesn't spam the server and doesn't use up all the gold
