@@ -135,7 +135,13 @@ let defaultOptions = {
   choices: false,
   inventory: false,
   petAbility: false,
-  rerollQuests: false
+  rerollQuests: false,
+  
+  // divine direction
+  ddEnable: false,
+  ddLoop: true,
+  ddCheckCooldown: false,
+  ddCoordinates: []
 }
 
 const options = GM_getValue('options') == null ? defaultOptions : GM_getValue('options'); //save and persist options to the local storage
