@@ -230,14 +230,16 @@ const buildRaidItemOptions = (slot) => {
 }
 
 const populateDivinePathOptions = () => {
-  let values = `<option value="none" ${options.ddSelectedPathName == 'none' ? 'selected' : ''}>None</option>`;
+  let values = `<option value="none" ${options.ddSelectedPathName == 'none' ? 'selected' : ''}></option>`;
+  let deleteValues = `<option value="none" selected></option>`;
 
   Object.keys(options.ddPaths).forEach(key => {
-    values += `<option value="${key}" ${options.ddSelectedPathName == key ? 'selected' : ''}>${key}</option>`
+    values += `<option value="${key}" ${options.ddSelectedPathName == key ? 'selected' : ''}>${key}</option>`;
+    deleteValues += `<option value="${key}"}>${key}</option>`;
   });
   
   document.getElementById("cb-divine-path-select").innerHTML = values;
-  document.getElementById("cb-divine-path-delete-select").innerHTML = values;
+  document.getElementById("cb-divine-path-delete-select").innerHTML = deleteValues;
 }
 
 const loadUI = () => {
