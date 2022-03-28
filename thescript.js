@@ -1773,6 +1773,7 @@ const RunDivineDirection = () => {
         if (!cooldownExists) {
           setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[i]) }, 500);
           sentCoord = true;
+          break;
         }
       }
       //If we have not sent out a coordinate wait at the beginning of path
