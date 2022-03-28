@@ -107,6 +107,7 @@ let defaultOptions = {
   choiceBuyitemOption: 'none',
   choiceItemFoundOption: 'none',
   choiceEnchantOption: 'none',
+  choiceItemMinScore: 0,
   
   // quests
   questTreasureScalar:    2,
@@ -332,6 +333,14 @@ const loadUI = () => {
                     <option value="No" ${options.choiceBuyitemOption == 'No' ? `selected` : ``}>no</option>
                     <option value="Inventory" ${options.choiceBuyitemOption == 'Inventory' ? `selected` : ``}>inventory</option>
                   </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Item Minimum Score:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-choice-item-score-text">
                 </span>
               </div>
             </div>
@@ -968,6 +977,8 @@ const start = () => {
 
     document.getElementById("cb-reroll-quests-text").value = options.rerollQuestsInterval;
     document.getElementById("cb-reroll-quests-text").previousSibling.previousSibling.innerHTML = timeConversion(options.rerollQuestsInterval);
+    
+    document.getElementById("cb-choice-item-min-score-text").value = options.choiceItemMinScore;
   });
 
   let typingTimeout = null;
@@ -1290,6 +1301,14 @@ const start = () => {
   document.getElementById("cb-choice-item-found-select").addEventListener( 'change', function(e) {
     saveOptions('choiceItemFoundOption', e.target.value);
   });
+  document.getElementById("cb-choice-item-min-score-text").addEventListener( 'keyup', function (e) {
+    clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(function () {
+      saveOptions('choiceItemMinScore', e.target.value);
+      triggerChange('choiceBuyItemOption', document.getElementById("cb-choice-buy-item-select"), false);
+      triggerChange('choiceItemFoundOption', document.getElementById("cb-choice-item-found-select"), false);
+    }, 2000);
+  });
   document.getElementById("cb-choice-enchant-select").addEventListener( 'change', function(e) {
     saveOptions('choiceEnchantOption', e.target.value);
   });
@@ -1573,7 +1592,12 @@ const petOptimizeEquipment = () => {
           if(choice.extraData.item.type == 'enchant') {
             choiceVal = options.choiceEnchantOption;
           } else {
-            choiceVal = options.choiceBuyitemOption;
+            if (options.choiceBuyItemOption == 'none') {
+              choiceVal = 'none';
+            } else {
+              if (choice.extraData.item.score > options.choiceItemMinScore) choiceVal = options.choiceBuyItemOption;
+              else choiceVal = 'No';
+            }
           }
         }
       }
@@ -1587,7 +1611,12 @@ const petOptimizeEquipment = () => {
         }
       }
       if(choice.event == 'FindItem') {
-        choiceVal = options.choiceItemFoundOption;
+        if (options.choiceItemFoundOption == 'none') {
+          choiceVal = 'none';
+        } else {
+          if (choice.extraData.item.score > options.choiceItemMinScore) choiceVal = options.choiceItemFoundOption;
+          else choiceVal = 'Sell';
+        }
       }
       if(choice.event == 'PartyLeave') {
         choiceVal = options.choicePartyLeaveOption;
