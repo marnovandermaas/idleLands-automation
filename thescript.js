@@ -1459,289 +1459,288 @@ const petOptimizeEquipment = () => {
   });
 }
 
-  // Pet ascend
-  const petAscend = () => {
+// Pet ascend
+const petAscend = () => {
 
-    let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
+  let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
 
-    if(pet.level.maximum != pet.level.__current) {
-        document.getElementById("pet-ascend-message").innerHTML = 'Ah, the waiting game for max level to be reached!';
-        return false;
-    }
-    if(pet.rating >= 5) {
-        document.getElementById("pet-ascend-message").innerHTML = `This pet has reached a rating of 5, don't forget to max out the levels.`;
-        document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
-        return false;
-    }
-    if(pet.rating >= 5 && pet.level.maximum == pet.level.__current) {
-        document.getElementById("pet-ascend-message").innerHTML = `This pet has reached it's maximum level capacity, this is a good thing! Try maxing out other pets.`;
-        document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
-        return false;
-    }
-    let someMaterialsMissing = Object.keys(pet.$ascMaterials).some((mat) => pet.$ascMaterials[mat] > (discordGlobalCharacter.$petsData.ascensionMaterials[mat] || 0))
-    if(someMaterialsMissing) {
-        document.getElementById("pet-ascend-message").innerHTML = 'Oops, you are missing materials';
-        document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
-        return false;
-    }
-
-    // get gold before ascend
-    setTimeout( () => { unsafeWindow.__emitSocket('pet:takegold') }, 200)
-    // then ascend
-    setTimeout( () => { unsafeWindow.__emitSocket("pet:ascend") }, 500);
+  if(pet.level.maximum != pet.level.__current) {
+      document.getElementById("pet-ascend-message").innerHTML = 'Ah, the waiting game for max level to be reached!';
+      return false;
+  }
+  if(pet.rating >= 5) {
+      document.getElementById("pet-ascend-message").innerHTML = `This pet has reached a rating of 5, don't forget to max out the levels.`;
+      document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+      return false;
+  }
+  if(pet.rating >= 5 && pet.level.maximum == pet.level.__current) {
+      document.getElementById("pet-ascend-message").innerHTML = `This pet has reached it's maximum level capacity, this is a good thing! Try maxing out other pets.`;
+      document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+      return false;
+  }
+  let someMaterialsMissing = Object.keys(pet.$ascMaterials).some((mat) => pet.$ascMaterials[mat] > (discordGlobalCharacter.$petsData.ascensionMaterials[mat] || 0))
+  if(someMaterialsMissing) {
+      document.getElementById("pet-ascend-message").innerHTML = 'Oops, you are missing materials';
+      document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+      return false;
   }
 
-  // Pet adventures
-  const claimAdventures = () => {
+  // get gold before ascend
+  setTimeout( () => { unsafeWindow.__emitSocket('pet:takegold') }, 200)
+  // then ascend
+  setTimeout( () => { unsafeWindow.__emitSocket("pet:ascend") }, 500);
+}
 
-      // get expired adventures and claim
-      let adventuresFinished = Object.values(discordGlobalCharacter.$petsData.adventures).filter(x => (x.finishAt <= Date.now()) && x.finishAt != 0);
+// Pet adventures
+const claimAdventures = () => {
 
-      if (adventuresFinished.length) {
-        for (let i = 0; i < adventuresFinished.length; i++) {
-          let currentAdventure = adventuresFinished[i];
+    // get expired adventures and claim
+    let adventuresFinished = Object.values(discordGlobalCharacter.$petsData.adventures).filter(x => (x.finishAt <= Date.now()) && x.finishAt != 0);
 
-          setTimeout( () => {
-            unsafeWindow.__emitSocket("pet:adventure:finish", { adventureId: currentAdventure.id }); // Collect
-          }, 1000 * i);
-        }
-      }
-  }
-  const embarkAdventures = () => {
-      // assign pets to adventures
-      let adventuresNotStarted = Object.values(discordGlobalCharacter.$petsData.adventures).filter(x => !x.finishAt);
+    if (adventuresFinished.length) {
+      for (let i = 0; i < adventuresFinished.length; i++) {
+        let currentAdventure = adventuresFinished[i];
 
-      if (adventuresNotStarted.length) {
-        for (let i = 0; i < adventuresNotStarted.length; i++) {
-          let currentAdventure = adventuresNotStarted[i];
-
-          setTimeout( () => {
-            let pets = discordGlobalCharacter.$petsData.allPets;
-            let petsTemp = [];
-
-            let filter = Object.entries(pets).reduce((acc, [key, value]) => {
-              if (!value.currentAdventureId) return [...acc, key];
-              return acc;
-            }, [])
-
-            if (filter.length) {
-              let maxPets = filter.length > options.petAdventurePetNum ? options.petAdventurePetNum : filter.length;
-              for (let i = 0; i < maxPets; i++) {
-                petsTemp.push(filter[i]);
-              }
-              unsafeWindow.__emitSocket("pet:adventure:embark", { adventureId: currentAdventure.id, petIds: petsTemp });
-            }
-          }, 1000 * i);
-        }
-      }
-  }
-  const RunRaids = async () => {
-    if(options.guildRaidNextAvailability <= Date.now()) {
-
-        let level = 0;
-        let reward = [];
-        let results = null;
-
-        let response = await fetch('https://server.idle.land/api/guilds/raids?maxLevel=' + options.guildRaidMaxLevel);
-        let data = await response.json();
-
-        results = data.raids.filter(element => {
-          return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
-        });
-
-        if (results.length > 0) {
-          level = results[results.length-1].level;
-          results[results.length-1].rewards.forEach(element => {
-            reward.push(raidRewards[element]);
-          });
-        } else {
-          level = options.guildRaidMaxLevel;
-          data.raids[data.raids.length-1].rewards.forEach(element => {
-            reward.push(raidRewards[element]);
-          });
-        }
-
-        setTimeout( () => {unsafeWindow.__emitSocket("guild:raidboss", { bossLevel: level})}, 500);
-
-        setTimeout(async () => {
-            let guild = await getGuildData();
-
-            // this is the only way that I know to check if the raid failed
-            if(Date.now() > guild.nextRaidAvailability) {
-              globalData.raidFail = true;
-              globalData.raidFailTimes++;
-              // we will add 10 mins to the next raid availability, don't want to spam the server and waste too much gold.
-              options.guildRaidNextAvailability = Date.now() + 10*60000;
-              level = 'Failed';
-              reward.length = 0;
-              reward.push('Failed');
-            } else {
-              options.guildRaidNextAvailability = guild.nextRaidAvailability;
-              globalData.raidFail = false;
-              globalData.raidFailTimes = 0;
-            }
-            let date = new Date(options.guildRaidNextAvailability);
-
-            document.getElementById("guild-next-time").innerHTML = date.toLocaleTimeString();
-            document.getElementById("guild-level").innerHTML = level;
-            document.getElementById("guild-item").innerHTML = reward.join();
-        }, 7000); // added 5 seconds extra
-    }
-  }
-  const RunChoices = () => {
-    let choices = Object.values(discordGlobalCharacter.$choicesData.choices);
-    let delay = 200;
-    choices.forEach(choice => {
-      let choiceVal = 'none';
-      if(choice.event == 'Merchant') {
-        if(choice.extraData.cost <= discordGlobalCharacter.gold) {
-          if(choice.extraData.item.type == 'enchant') {
-            choiceVal = options.choiceEnchantOption;
-          } else {
-            if (options.choiceBuyItemOption == 'none') {
-              choiceVal = 'none';
-            } else {
-              if (choice.extraData.item.score >= options.choiceItemMinScore) choiceVal = options.choiceBuyItemOption;
-              else choiceVal = 'No';
-            }
-          }
-        }
-      }
-      if(choice.event == 'Gamble') {
-        if(options.choiceGamblingOption == 'No') {
-          choiceVal = options.choiceGamblingOption;
-        } else {
-          if(choice.extraData.bet <= discordGlobalCharacter.gold) {
-            choiceVal = options.choiceGamblingOption;
-          }
-        }
-      }
-      if(choice.event == 'FindItem') {
-        if (options.choiceItemFoundOption == 'none') {
-          choiceVal = 'none';
-        } else {
-          if (choice.extraData.item.score >= options.choiceItemMinScore) choiceVal = options.choiceItemFoundOption;
-          else choiceVal = 'Sell';
-        }
-      }
-      if(choice.event == 'PartyLeave') {
-        choiceVal = options.choicePartyLeaveOption;
-      }
-      if(choice.event == 'Portal') {
-        choiceVal = options.choicePortalOption;
-      }
-      if(choice.event == 'FindTrainer') {
-        choiceVal = options.choiceTrainerOption;
-      }
-
-      if(choiceVal != 'none') {
         setTimeout( () => {
-          unsafeWindow.__emitSocket('choice:make', { choiceId: choice.id, valueChosen: choiceVal });
-        }, delay);
-        delay += 1000;
-      }
-    });
-
-  }
-
-  const RunInventory = () => {
-    if(discordGlobalCharacter.$inventoryData.items.length == discordGlobalCharacter.$inventoryData.size) {
-      if(options.inventoryCleanup == 'salvage') {
-        setTimeout( () => { unsafeWindow.__emitSocket('item:salvageall', {}) }, 200);
-        console.log('salvaged items');
-      }
-      if(options.inventoryCleanup == 'sell') {
-        setTimeout( () => { unsafeWindow.__emitSocket('item:sellall', {}) }, 200);
-        console.log('sold items');
+          unsafeWindow.__emitSocket("pet:adventure:finish", { adventureId: currentAdventure.id }); // Collect
+        }, 1000 * i);
       }
     }
-  }
+}
+const embarkAdventures = () => {
+    // assign pets to adventures
+    let adventuresNotStarted = Object.values(discordGlobalCharacter.$petsData.adventures).filter(x => !x.finishAt);
 
-  const UseScrolls = () => {
-    let delay = 200;
-    let scrolls = discordGlobalCharacter.$inventoryData.buffScrolls;
-    scrolls.forEach(element => {
+    if (adventuresNotStarted.length) {
+      for (let i = 0; i < adventuresNotStarted.length; i++) {
+        let currentAdventure = adventuresNotStarted[i];
+
+        setTimeout( () => {
+          let pets = discordGlobalCharacter.$petsData.allPets;
+          let petsTemp = [];
+
+          let filter = Object.entries(pets).reduce((acc, [key, value]) => {
+            if (!value.currentAdventureId) return [...acc, key];
+            return acc;
+          }, [])
+
+          if (filter.length) {
+            let maxPets = filter.length > options.petAdventurePetNum ? options.petAdventurePetNum : filter.length;
+            for (let i = 0; i < maxPets; i++) {
+              petsTemp.push(filter[i]);
+            }
+            unsafeWindow.__emitSocket("pet:adventure:embark", { adventureId: currentAdventure.id, petIds: petsTemp });
+          }
+        }, 1000 * i);
+      }
+    }
+}
+const RunRaids = async () => {
+  if(options.guildRaidNextAvailability <= Date.now()) {
+
+      let level = 0;
+      let reward = [];
+      let results = null;
+
+      let response = await fetch('https://server.idle.land/api/guilds/raids?maxLevel=' + options.guildRaidMaxLevel);
+      let data = await response.json();
+
+      results = data.raids.filter(element => {
+        return element.rewards.some(r => options.guildRaidItems.includes(r)) && (element.level >= options.guildRaidMinLevel && element.level <= options.guildRaidMaxLevel);
+      });
+
+      if (results.length > 0) {
+        level = results[results.length-1].level;
+        results[results.length-1].rewards.forEach(element => {
+          reward.push(raidRewards[element]);
+        });
+      } else {
+        level = options.guildRaidMaxLevel;
+        data.raids[data.raids.length-1].rewards.forEach(element => {
+          reward.push(raidRewards[element]);
+        });
+      }
+
+      setTimeout( () => {unsafeWindow.__emitSocket("guild:raidboss", { bossLevel: level})}, 500);
+
+      setTimeout(async () => {
+          let guild = await getGuildData();
+
+          // this is the only way that I know to check if the raid failed
+          if(Date.now() > guild.nextRaidAvailability) {
+            globalData.raidFail = true;
+            globalData.raidFailTimes++;
+            // we will add 10 mins to the next raid availability, don't want to spam the server and waste too much gold.
+            options.guildRaidNextAvailability = Date.now() + 10*60000;
+            level = 'Failed';
+            reward.length = 0;
+            reward.push('Failed');
+          } else {
+            options.guildRaidNextAvailability = guild.nextRaidAvailability;
+            globalData.raidFail = false;
+            globalData.raidFailTimes = 0;
+          }
+          let date = new Date(options.guildRaidNextAvailability);
+
+          document.getElementById("guild-next-time").innerHTML = date.toLocaleTimeString();
+          document.getElementById("guild-level").innerHTML = level;
+          document.getElementById("guild-item").innerHTML = reward.join();
+      }, 7000); // added 5 seconds extra
+  }
+}
+const RunChoices = () => {
+  let choices = Object.values(discordGlobalCharacter.$choicesData.choices);
+  let delay = 200;
+  choices.forEach(choice => {
+    let choiceVal = 'none';
+    if(choice.event == 'Merchant') {
+      if(choice.extraData.cost <= discordGlobalCharacter.gold) {
+        if(choice.extraData.item.type == 'enchant') {
+          choiceVal = options.choiceEnchantOption;
+        } else {
+          if (options.choiceBuyItemOption == 'none') {
+            choiceVal = 'none';
+          } else {
+            if (choice.extraData.item.score >= options.choiceItemMinScore) choiceVal = options.choiceBuyItemOption;
+            else choiceVal = 'No';
+          }
+        }
+      }
+    }
+    if(choice.event == 'Gamble') {
+      if(options.choiceGamblingOption == 'No') {
+        choiceVal = options.choiceGamblingOption;
+      } else {
+        if(choice.extraData.bet <= discordGlobalCharacter.gold) {
+          choiceVal = options.choiceGamblingOption;
+        }
+      }
+    }
+    if(choice.event == 'FindItem') {
+      if (options.choiceItemFoundOption == 'none') {
+        choiceVal = 'none';
+      } else {
+        if (choice.extraData.item.score >= options.choiceItemMinScore) choiceVal = options.choiceItemFoundOption;
+        else choiceVal = 'Sell';
+      }
+    }
+    if(choice.event == 'PartyLeave') {
+      choiceVal = options.choicePartyLeaveOption;
+    }
+    if(choice.event == 'Portal') {
+      choiceVal = options.choicePortalOption;
+    }
+    if(choice.event == 'FindTrainer') {
+      choiceVal = options.choiceTrainerOption;
+    }
+
+    if(choiceVal != 'none') {
       setTimeout( () => {
-        unsafeWindow.__emitSocket('item:buffscroll', { scrollId: element.id });
+        unsafeWindow.__emitSocket('choice:make', { choiceId: choice.id, valueChosen: choiceVal });
       }, delay);
       delay += 1000;
-    })
-  }
+    }
+  });
 
-  const OptimizeEquipment = () => {
+}
 
-    let delay = 200;
-    let currentEquipment = discordGlobalCharacter.$inventoryData.equipment;
-    let currentInventory = discordGlobalCharacter.$inventoryData.items;
-
-    currentInventory.forEach(element => {
-      let slot = element.type;
-      let newItemStat = element.stats[options.optimizeEquipmentStat] || 0;
-      let oldItemStat = currentEquipment[slot].stats[options.optimizeEquipmentStat] || 0;
-
-      if(newItemStat > oldItemStat) {
-        console.log(`Character Equiped ${slot}, NEW ${newItemStat} - OLD ${oldItemStat}`);
-        setTimeout( () => {
-          unsafeWindow.__emitSocket('item:equip', { itemId: element.id });
-        }, delay);
-        delay += 1000;
-      }
-    })
-  }
-
-  const FreeRoll = () => {
-    if(discordGlobalCharacter.$premiumData.gachaFreeRolls["Astral Gate"] <= Date.now()) {
-      let gachaName = 'AstralGate';
-      let numRolls = 10;
-      setTimeout( () => {unsafeWindow.__emitSocket('astralgate:roll', { astralGateName: gachaName, numRolls }) }, 500);
+const RunInventory = () => {
+  if(discordGlobalCharacter.$inventoryData.items.length == discordGlobalCharacter.$inventoryData.size) {
+    if(options.inventoryCleanup == 'salvage') {
+      setTimeout( () => { unsafeWindow.__emitSocket('item:salvageall', {}) }, 200);
+      console.log('salvaged items');
+    }
+    if(options.inventoryCleanup == 'sell') {
+      setTimeout( () => { unsafeWindow.__emitSocket('item:sellall', {}) }, 200);
+      console.log('sold items');
     }
   }
-  const RerollQuests = () => {
-    let quests = discordGlobalCharacter.$questsData.quests;
-    for (let i = 0; i < quests.length; i++) {
-      let currentQuest = quests[i];
-      let delay = 3;
-      let complete = true;
-      for (let j = 0; j < currentQuest.objectives.length; j++) {
-        if (currentQuest.objectives[j].progress < currentQuest.objectives[j].statisticValue) {
-          complete = false;
-        }
-      }
-      if (complete) {
-        setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
-      }
-      if (currentQuest.objectives.find( element =>
-           ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= options.questCombatScalar )
-        || ( element.statistic.indexOf("Stamina") >= 0 && element.scalar >= options.questStaminaScalar )
-        || ( element.statistic.indexOf("Step") >= 0 && element.scalar >= options.questStepScalar )
-        || ( element.statistic.indexOf("Sell") >= 0 && element.scalar >= options.questSellScalar )
-        || ( element.statistic.indexOf("Treasure") >= 0 && element.scalar >= options.questTreasureScalar )
-        || ( !!element.requireMap )
-        || ( element.statistic.indexOf("Salvage") >= 0 && element.scalar >= options.questSalvageScalar )
-        || ( element.statistic.indexOf("Gold/Gain") >= 0 && element.scalar >= options.questGainScalar )
-        || ( element.statistic.indexOf("Gold/Spend") >= 0 && element.scalar >= options.questSpendScalar )
-        || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= options.questCollectibleScalar )
-      )) {
-            setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
+}
+
+const UseScrolls = () => {
+  let delay = 200;
+  let scrolls = discordGlobalCharacter.$inventoryData.buffScrolls;
+  scrolls.forEach(element => {
+    setTimeout( () => {
+      unsafeWindow.__emitSocket('item:buffscroll', { scrollId: element.id });
+    }, delay);
+    delay += 1000;
+  })
+}
+
+const OptimizeEquipment = () => {
+
+  let delay = 200;
+  let currentEquipment = discordGlobalCharacter.$inventoryData.equipment;
+  let currentInventory = discordGlobalCharacter.$inventoryData.items;
+
+  currentInventory.forEach(element => {
+    let slot = element.type;
+    let newItemStat = element.stats[options.optimizeEquipmentStat] || 0;
+    let oldItemStat = currentEquipment[slot].stats[options.optimizeEquipmentStat] || 0;
+
+    if(newItemStat > oldItemStat) {
+      console.log(`Character Equiped ${slot}, NEW ${newItemStat} - OLD ${oldItemStat}`);
+      setTimeout( () => {
+        unsafeWindow.__emitSocket('item:equip', { itemId: element.id });
+      }, delay);
+      delay += 1000;
+    }
+  })
+}
+
+const FreeRoll = () => {
+  if(discordGlobalCharacter.$premiumData.gachaFreeRolls["Astral Gate"] <= Date.now()) {
+    let gachaName = 'AstralGate';
+    let numRolls = 10;
+    setTimeout( () => {unsafeWindow.__emitSocket('astralgate:roll', { astralGateName: gachaName, numRolls }) }, 500);
+  }
+}
+const RerollQuests = () => {
+  let quests = discordGlobalCharacter.$questsData.quests;
+  for (let i = 0; i < quests.length; i++) {
+    let currentQuest = quests[i];
+    let delay = 3;
+    let complete = true;
+    for (let j = 0; j < currentQuest.objectives.length; j++) {
+      if (currentQuest.objectives[j].progress < currentQuest.objectives[j].statisticValue) {
+        complete = false;
       }
     }
+    if (complete) {
+      setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
+    }
+    if (currentQuest.objectives.find( element =>
+         ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= options.questCombatScalar )
+      || ( element.statistic.indexOf("Stamina") >= 0 && element.scalar >= options.questStaminaScalar )
+      || ( element.statistic.indexOf("Step") >= 0 && element.scalar >= options.questStepScalar )
+      || ( element.statistic.indexOf("Sell") >= 0 && element.scalar >= options.questSellScalar )
+      || ( element.statistic.indexOf("Treasure") >= 0 && element.scalar >= options.questTreasureScalar )
+      || ( !!element.requireMap )
+      || ( element.statistic.indexOf("Salvage") >= 0 && element.scalar >= options.questSalvageScalar )
+      || ( element.statistic.indexOf("Gold/Gain") >= 0 && element.scalar >= options.questGainScalar )
+      || ( element.statistic.indexOf("Gold/Spend") >= 0 && element.scalar >= options.questSpendScalar )
+      || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= options.questCollectibleScalar )
+    )) {
+          setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
+    }
   }
-  const PetGoldCollect = () => {
-    setTimeout( () => {unsafeWindow.__emitSocket("pet:takegold")}, 500);
-  }
-  const BuyPot = () => {
-    setTimeout( () => {unsafeWindow.__emitSocket('premium:goldcollectible', {collectible: 'Pot of Gold'})}, 100);
-  }
-  const DonateGold = () => {
-    setTimeout( () => {unsafeWindow.__emitSocket("guild:donateresource", { resource: 'gold', amount: discordGlobalCharacter.gold })}, 500);
-  }
-  const PetAbility = () => {
-    let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
+}
+const PetGoldCollect = () => {
+  setTimeout( () => {unsafeWindow.__emitSocket("pet:takegold")}, 500);
+}
+const BuyPot = () => {
+  setTimeout( () => {unsafeWindow.__emitSocket('premium:goldcollectible', {collectible: 'Pot of Gold'})}, 100);
+}
+const DonateGold = () => {
+  setTimeout( () => {unsafeWindow.__emitSocket("guild:donateresource", { resource: 'gold', amount: discordGlobalCharacter.gold })}, 500);
+}
+const PetAbility = () => {
+  let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
 
-    if(discordGlobalCharacter.stamina.__current < pet.$attribute.oocAbilityCost) return;
-    setTimeout( () => {unsafeWindow.__emitSocket("pet:oocaction")}, 500);
-  }
-
+  if(discordGlobalCharacter.stamina.__current < pet.$attribute.oocAbilityCost) return;
+  setTimeout( () => {unsafeWindow.__emitSocket("pet:oocaction")}, 500);
+}
 
 const getGuildData = async () => {
   let response = await fetch('https://server.idle.land/api/guilds/name?name=' + discordGlobalCharacter.guildName);
