@@ -1755,7 +1755,7 @@ const RunDivineDirection = () => {
       for (let i = 0; i < path.length; i++) {
         let cooldowns = Object.keys(discordGlobalCharacter.cooldowns);
         for (let j = 0; j < cooldowns.length; j++) {
-          if (cooldowns[j].includes(`${path[i].x},${path[i].y}`)) continue;
+          if (cooldowns[j].includes(`${path[i].x},${path[i].y}`) && cooldowns[j] > Date.now()) continue;
         }
         setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[i]) }, 500);
       } 
