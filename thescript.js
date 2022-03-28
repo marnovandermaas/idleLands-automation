@@ -232,7 +232,7 @@ const buildRaidItemOptions = (slot) => {
 const populateDivinePathOptions = () => {
   let values = `<option value="none"></option>`;
 
-  Object.keys(ddPaths).forEach(key => {
+  Object.keys(options.ddPaths).forEach(key => {
     values += `<option value="${key}" ${options.ddSelectedPathName == key ? 'selected' : ''}>${key}</option>`
   });
   
@@ -994,9 +994,9 @@ const start = () => {
     let coordsEl = document.getElementById("divine-path-form-input-text");
     if(!formEl.classList.contains("cb-hide") && divi) {
       if(nameEl.value != '' && coordsEl.value != '') {
-        ddPaths[nameEl.value] = formatDdList(coordsEl.value);
+        options.ddPaths[nameEl.value] = formatDdList(coordsEl.value);
         populateDivinePathOptions();
-        console.log(ddPaths); //TODO remove
+        console.log(options.ddPaths); //TODO remove
       }
     }
     formEl.classList.toggle("cb-hide");
