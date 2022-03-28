@@ -340,7 +340,7 @@ const loadUI = () => {
               <div class="cb-section-content">
                 <span class="cb-flex-1">Item Minimum Score:</span>
                 <span class="right">
-                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-choice-item-score-text">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-choice-item-min-score-text">
                 </span>
               </div>
             </div>
@@ -1595,7 +1595,7 @@ const petOptimizeEquipment = () => {
             if (options.choiceBuyItemOption == 'none') {
               choiceVal = 'none';
             } else {
-              if (choice.extraData.item.score > options.choiceItemMinScore) choiceVal = options.choiceBuyItemOption;
+              if (choice.extraData.item.score >= options.choiceItemMinScore) choiceVal = options.choiceBuyItemOption;
               else choiceVal = 'No';
             }
           }
@@ -1614,7 +1614,7 @@ const petOptimizeEquipment = () => {
         if (options.choiceItemFoundOption == 'none') {
           choiceVal = 'none';
         } else {
-          if (choice.extraData.item.score > options.choiceItemMinScore) choiceVal = options.choiceItemFoundOption;
+          if (choice.extraData.item.score >= options.choiceItemMinScore) choiceVal = options.choiceItemFoundOption;
           else choiceVal = 'Sell';
         }
       }
