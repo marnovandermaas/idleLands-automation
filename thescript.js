@@ -24,6 +24,7 @@
 //   https://github.com/marnovandermaas/idleLands-automation
 //
 // Well deserved credits to:
+//   Torsin - For creating this script originally
 //   Anten - For his ideas to improve the script and testing
 //   Sarimash - For showing me his first script (then others) that ignited my curiosity to build this. Oh and testing as well
 //   skepticfx - for the wsHook.js (https://github.com/skepticfx/wshook) script that I modified because of grant permissions used in this script
