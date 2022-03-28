@@ -19,6 +19,9 @@
 // @grant        GM_getValue
 // ==/UserScript==
 
+// Javascript Lint hints
+/* globals discordGlobalCharacter, formatDdList, timeConversion, formatNumber, saveOptions, triggerChange, dragElement, accordionElement, tabsNav */
+
 // #######################################################################################################################################################################
 // Source code:
 //   https://github.com/marnovandermaas/idleLands-automation
