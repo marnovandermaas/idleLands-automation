@@ -995,7 +995,7 @@ const start = () => {
     if(!formEl.classList.contains("cb-hide") && divi) {
       if(nameEl.value != '' && coordsEl.value != '') {
         ddPaths[nameEl.value] = formatDdList(coordsEl.value);
-        populateDivinePaths();
+        populateDivinePathOptions();
         console.log(ddPaths); //TODO remove
       }
     }
@@ -1020,7 +1020,7 @@ const start = () => {
     document.getElementById("cb-raid-item-2-select").innerHTML = buildRaidItemOptions(1);
     document.getElementById("cb-raid-item-3-select").innerHTML = buildRaidItemOptions(2);
     
-    populateDivinePaths();
+    populateDivinePathOptions();
 
     document.getElementById("cb-pet-adventure-collect-text").value = options.petAdventureCollectInterval;
     document.getElementById("cb-pet-adventure-collect-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petAdventureCollectInterval);
