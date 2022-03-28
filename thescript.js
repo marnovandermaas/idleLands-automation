@@ -1752,9 +1752,12 @@ const RunDivineDirection = () => {
         discordGlobalCharacter.divineDirection.x == discordGlobalCharacter.x && 
         discordGlobalCharacter.divineDirection.y == discordGlobalCharacter.y)
     {
-      let storedDirection = discordGlobalCharacter.divineDirection;
+      storedDirection.x = x;
+      storedDirection.y = y;
       //Disable current divine direction
-      setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', storedDirection) }, 500);
+      setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', {x: 1, y: 1}) }, 500);
+    }
+    if (!discordGlobalCharacter.divineDirection) {
       //Find next coordinate in path that is not in cooldown
       let sentCoord = false;
       for (let i = 0; i < path.length; i++) {
@@ -1766,9 +1769,9 @@ const RunDivineDirection = () => {
         sentCoord = true;
         break;
       }
-      //If we have not sent out a coordinate reset the DD that was previously there
+      //If we have not sent out a coordinate wait at the beginning of path
       if(!sentCoord) {
-        setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', storedDirection) }, 500);
+        setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[0]) }, 500);
       }
     }
   } else {
