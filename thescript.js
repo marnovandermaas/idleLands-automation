@@ -1751,12 +1751,10 @@ const RunDivineDirection = () => {
     globalData.divineDirectionIndex = 0;
   }
   if(options.ddCheckCooldown) {
-    if (!!discordGlobalCharacter.divineDirection && 
-        discordGlobalCharacter.divineDirection.x == discordGlobalCharacter.x && 
+    if (!!discordGlobalCharacter.divineDirection &&
+        discordGlobalCharacter.divineDirection.x == discordGlobalCharacter.x &&
         discordGlobalCharacter.divineDirection.y == discordGlobalCharacter.y)
     {
-      storedDirection.x = x;
-      storedDirection.y = y;
       //Disable current divine direction
       setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', {x: 1, y: 1}) }, 500);
     }
@@ -1769,7 +1767,7 @@ const RunDivineDirection = () => {
         for (let j = 0; j < cooldowns.length; j++) {
           if (cooldowns[j].includes(`${path[i].x},${path[i].y}`) && cooldowns[j] > Date.now()) {
             cooldownExists = true;
-            break;      
+            break;
           }
         }
         if (!cooldownExists) {
