@@ -1762,11 +1762,11 @@ const RunDivineDirection = () => {
       //Find next coordinate in path that is not in cooldown
       let sentCoord = false;
       for (let i = 0; i < path.length; i++) {
-        let cooldowns = Object.keys(discordGlobalCharacter.cooldowns);
+        let cooldownNames = Object.keys(discordGlobalCharacter.cooldowns);
         let cooldownExists = false;
-        for (let j = 0; j < cooldowns.length; j++) {
-          if (cooldowns[j].includes(`${path[i].x},${path[i].y}`) && cooldowns[j] > Date.now()) {
-            cooldownExists = true;
+        for (let j = 0; j < cooldownNames.length; j++) {
+          if (cooldownNames[j].includes(`${path[i].x},${path[i].y}`)) {
+            cooldownExists = discordGlobalCharacter.cooldowns[cooldownNames[j]] > Date.now();
             break;
           }
         }
