@@ -230,7 +230,7 @@ const buildRaidItemOptions = (slot) => {
 }
 
 const populateDivinePathOptions = () => {
-  let values = `<option value="none"></option>`;
+  let values = `<option value="none" ${options.ddSelectedPathName == 'none' ? 'selected' : ''}>None</option>`;
 
   Object.keys(options.ddPaths).forEach(key => {
     values += `<option value="${key}" ${options.ddSelectedPathName == key ? 'selected' : ''}>${key}</option>`
@@ -1444,6 +1444,16 @@ const start = () => {
   document.getElementById("cb-raid-item-3-select").addEventListener( 'change', function(e) {
     options.guildRaidItems[2] = e.target.value;
     saveOptions('guildRaidItems', options.guildRaidItems);
+  });
+  document.getElementById("cb-divine-path-select").addEventListener( 'change', function(e) {
+    saveOptions('ddSelectedPathName', e.target.value);
+    document.getElementById("cb-divine-path-selected-path-name").innerHTML = e.target.value;
+  });
+  document.getElementById("cb-divine-path-delete-select").addEventListener( 'change', function(e) {
+    if(e.target.value != options.ddSelectedPathName) {
+      delete options.ddPaths(e.target.value);
+      populateDivinePathOptions();
+    }
   });
 
   if(globalData.canGuildRaid) {
