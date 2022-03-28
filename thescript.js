@@ -1757,7 +1757,7 @@ const RunDivineDirection = () => {
         for (let j = 0; j < cooldowns.length; j++) {
           if (cooldowns[j].includes(`${path[i].x},${path[i].y}`)) continue;
         }
-        window.__emitSocket('character:divinedirection', path[i]);
+        setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[i]) }, 500);
       } 
     }
   } else {
