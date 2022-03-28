@@ -1,18 +1,17 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
-// @namespace    https://github.com/the-crazyball/idleLands-automation
+// @namespace    https://github.com/marnovandermaas/idleLands-automation
 // @version      1.7
 // @description  A collection of automation scripts for IdleLands
-// @downloadURL  https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js
-// @updateURL    https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.meta.js
+// @downloadURL  https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/thescript.js
+// @updateURL    https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/thescript.meta.js
 // @author       Ian Duchesne (Torsin aka Crazyball)
-// @copyright    2020, Ian Duchesne (Torsin aka Crazyball) (http://www.thecrazyball.io/)
-// @homepage     http://www.thecrazyball.io/
+// @copyright    2020, Ian Duchesne (Torsin aka Crazyball)
 // @match        https://play.idle.land/*
-// @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/utils.js
-// @require      https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/gameData.js
+// @require      https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/utils.js
+// @require      https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/gameData.js
 // @require      https://raw.githubusercontent.com/lodash/lodash/4.17.20/dist/lodash.js
-// @resource css https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/style.css
+// @resource css https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/style.css
 // @grant        GM_getResourceText
 // @grant        GM_addStyle
 // @grant        unsafeWindow
@@ -21,11 +20,8 @@
 // ==/UserScript==
 
 // #######################################################################################################################################################################
-// Discord server:
-//   https://discord.gg/HB8QUxh2Qs (support for this script, updates and general chit chat)
-//
 // Source code:
-//   https://github.com/the-crazyball/idleLands-automation
+//   https://github.com/marnovandermaas/idleLands-automation
 //
 // Well deserved credits to:
 //   Anten - For his ideas to improve the script and testing
@@ -897,7 +893,7 @@ const loadUI = () => {
             </div>
           </div>`
         }
-        <div id="cb-footer" class="text-border-light">by: Torsin - <a href="https://github.com/the-crazyball/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/the-crazyball/idleLands-automation" target="_blank">GitHub</a> - <a href="https://discord.gg/HB8QUxh2Qs" target="_blank">Discord</a></div>
+        <div id="cb-footer" class="text-border-light">by: Torsin - <a href="https://github.com/marnovandermaas/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/marnovandermaas/idleLands-automation" target="_blank">GitHub</a></div>
       </div>
     </div>
   ` );
