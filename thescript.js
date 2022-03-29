@@ -733,7 +733,7 @@ const loadUI = () => {
               <div class="cb-section">
                 <div class="cb-section-content">
                   <span class="cb-flex-1">Current path name:</span>
-                  <span class="cb-flex-1 right" id="cb-divine-path-selected-path-name"></span>
+                  <span class="cb-flex-1 right" id="cb-divine-path-selected-path-name">${options.ddSelectedPathName}</span>
                 </div>
               </div>
               <div class="cb-section">
@@ -1373,12 +1373,17 @@ const start = () => {
           saveOptions('ddEnable', false);
       }
   });
+  triggerChange('ddEnable', document.getElementById("divine-path-form-enabled-checkbox"), true);
+  
   document.getElementById("divine-path-form-loop-checkbox").addEventListener( 'change', function() {
     saveOptions('ddLoop', this.checked);
   });
+  triggerChange('ddLoop', document.getElementById("divine-path-form-loop-checkbox"), true);
+  
   document.getElementById("divine-path-form-cooldown-checkbox").addEventListener( 'change', function() {
     saveOptions('ddCheckCooldown', this.checked);
   });
+  triggerChange('ddCheckCooldown', document.getElementById("divine-path-form-cooldown-checkbox"), true);
 
   document.getElementById("cb-choice-trainer-select").addEventListener( 'change', function(e) {
     saveOptions('choiceTrainerOption', e.target.value);
