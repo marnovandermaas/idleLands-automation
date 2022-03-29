@@ -971,7 +971,7 @@ const loadUI = () => {
             </div>
           </div>`
         }
-        <div id="cb-footer" class="text-border-light">by: Torsin - <a href="https://github.com/marnovandermaas/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/marnovandermaas/idleLands-automation" target="_blank">GitHub</a></div>
+        <div id="cb-footer" class="text-border-light"><a href="https://github.com/marnovandermaas/idleLands-automation" target="_blank">Source</a> - Thanks to everyone in the <a href="https://github.com/marnovandermaas/idleLands-automation#credits" target="_blank">Credits</a> - <a href="https://github.com/marnovandermaas/idleLands-automation/blob/main/LICENSE" target="_blank">License</a></div>
       </div>
     </div>
   ` );
