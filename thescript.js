@@ -674,17 +674,6 @@ const loadUI = () => {
               </div>
               <div class="cb-section">
                 <div class="cb-section-content">
-                  <span class="cb-flex-1">Enabled</span>
-                  <span class="cb-flex-1 right">
-                    <label class="switch">
-                      <input id="divine-path-form-enabled-checkbox" type="checkbox">
-                      <span class="slider round"></span>
-                    </label>
-                  </span>
-                </div>
-              </div>
-              <div class="cb-section">
-                <div class="cb-section-content">
                   <span class="cb-flex-1">Loop</span>
                   <span class="cb-flex-1 right">
                     <label class="switch">
@@ -781,28 +770,6 @@ const loadUI = () => {
         </div>
         <div class="cb-section">
           <div class="cb-section-content">
-            <span class="cb-flex-1">Auto Reroll Quests</span>
-            <span class="cb-flex-1 right">
-              <label class="switch">
-                <input id="reroll-quests-checkbox" type="checkbox">
-                <span class="slider round"></span>
-              </label>
-            </span>
-          </div>
-        </div>
-        <div class="cb-section">
-          <div class="cb-section-content">
-            <span class="cb-flex-1">Auto Buy Pots</span>
-            <span class="cb-flex-1 right">
-              <label class="switch">
-                <input id="buy-pots-checkbox" type="checkbox">
-                <span class="slider round"></span>
-              </label>
-            </span>
-          </div>
-        </div>
-        <div class="cb-section">
-          <div class="cb-section-content">
             <span class="cb-flex-1">Auto Use Scrolls</span>
             <span class="cb-flex-1 right">
               <label class="switch">
@@ -856,6 +823,40 @@ const loadUI = () => {
             <span class="cb-flex-1 right">
               <label class="switch">
                 <input id="inventory-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Divine Stumbler</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="divine-path-form-enabled-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section-header">Quests</div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Reroll Quests</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="reroll-quests-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Buy Pots</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="buy-pots-checkbox" type="checkbox">
                 <span class="slider round"></span>
               </label>
             </span>
