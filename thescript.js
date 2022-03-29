@@ -1765,7 +1765,7 @@ const RunDivineDirection = () => {
         let cooldownNames = Object.keys(discordGlobalCharacter.cooldowns);
         let cooldownExists = false;
         for (let j = 0; j < cooldownNames.length; j++) {
-          if (cooldownNames[j].includes(`${path[i].x},${path[i].y}`)) {
+          if (cooldownNames[j].startsWith(`${path[i].x},${path[i].y}|`)) {
             cooldownExists = discordGlobalCharacter.cooldowns[cooldownNames[j]] > Date.now();
             break;
           }
