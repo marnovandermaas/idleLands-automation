@@ -547,6 +547,46 @@ const loadUI = () => {
             <div class="cb-section-header">Intervals ( in ms )</div>
             <div class="cb-section">
               <div class="cb-section-content">
+                <span class="cb-flex-1">Use Scrolls:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-use-scrolls-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Donate Gold:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-donate-gold-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Optimize Equipment:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-optimize-equipment-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Reroll Quests:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-reroll-quests-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Buy Pots:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-buy-pot-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
                 <span class="cb-flex-1">Pets Adventures Collect:</span>
                 <span class="right">
                   <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-pet-adventure-collect-text">
@@ -585,51 +625,11 @@ const loadUI = () => {
                 </span>
               </div>
             </div>
-            <div class="cb-section">
-              <div class="cb-section-content">
-                <span class="cb-flex-1">Buy Pots:</span>
-                <span class="right">
-                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-buy-pot-text">
-                </span>
-              </div>
-            </div>
-            <div class="cb-section">
-              <div class="cb-section-content">
-                <span class="cb-flex-1">Donate Gold:</span>
-                <span class="right">
-                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-donate-gold-text">
-                </span>
-              </div>
-            </div>
-            <div class="cb-section">
-              <div class="cb-section-content">
-                <span class="cb-flex-1">Optimize Equipment:</span>
-                <span class="right">
-                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-optimize-equipment-text">
-                </span>
-              </div>
-            </div>
             <div class="cb-section" id="cb-guild-raid-interval-section">
               <div class="cb-section-content">
                 <span class="cb-flex-1">Guild Raid:</span>
                 <span class="right">
                   <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-guild-raid-text">
-                </span>
-              </div>
-            </div>
-            <div class="cb-section">
-              <div class="cb-section-content">
-                <span class="cb-flex-1">Use Scrolls:</span>
-                <span class="right">
-                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-use-scrolls-text">
-                </span>
-              </div>
-            </div>
-            <div class="cb-section">
-              <div class="cb-section-content">
-                <span class="cb-flex-1">Reroll Quests:</span>
-                <span class="right">
-                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-reroll-quests-text">
                 </span>
               </div>
             </div>
