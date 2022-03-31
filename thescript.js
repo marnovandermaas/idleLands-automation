@@ -67,7 +67,7 @@
 
 //#######################################################################################################################################################################
 
-var cssTxt = GM_getResourceText("css");
+var cssTxt = GM_getResourceText('css');
 GM_addStyle (cssTxt);
 
 let defaultOptions = {
@@ -112,7 +112,7 @@ let defaultOptions = {
   choiceItemFoundOption: 'none',
   choiceEnchantOption: 'none',
   choiceItemMinScore: 0,
-  
+
   // quests
   questTreasureScalar:    2,
   questCollectibleScalar: 2,
@@ -139,10 +139,10 @@ let defaultOptions = {
   inventory: false,
   petAbility: false,
   rerollQuests: false,
-  
+
   // divine direction
   divineDirectionInterval: 1000,
-  
+
   ddEnable: false,
   ddLoop: true,
   ddCheckCooldown: false,
@@ -236,13 +236,13 @@ const populateDivinePathOptions = () => {
     values += `<option value="${key}" ${options.ddSelectedPathName == key ? 'selected' : ''}>${key}</option>`;
     deleteValues += `<option value="${key}"}>${key}</option>`;
   });
-  
-  document.getElementById("cb-divine-path-select").innerHTML = values;
-  document.getElementById("cb-divine-path-delete-select").innerHTML = deleteValues;
+
+  document.getElementById('cb-divine-path-select').innerHTML = values;
+  document.getElementById('cb-divine-path-delete-select').innerHTML = deleteValues;
 }
 
 const loadUI = () => {
-  document.body.insertAdjacentHTML("beforeend", `
+  document.body.insertAdjacentHTML('beforeend', `
     <div id="cb-settings-container" class="cb-hide">
       <div id="cb-settings-container-header" class="cb-header"> <span class="cb-title text-border-light">Settings</span>
         <button id="cb-settings-close" class="cb-close"></button>
@@ -992,196 +992,196 @@ const start = () => {
   }, 500);
 
   // Event listeners
-  document.getElementById("cb-settings-close").addEventListener( 'click', function(e) {
-    let el = document.getElementById("cb-settings-container");
-    el.classList.toggle("cb-hide");
+  document.getElementById('cb-settings-close').addEventListener( 'click', function(e) {
+    let el = document.getElementById('cb-settings-container');
+    el.classList.toggle('cb-hide');
   });
 
-  document.getElementById("cb-settings-divine-path-add").addEventListener( 'click', async function(e) {
-    let formEl = document.getElementById("cb-sub-section-divine-path-form");
-    let selectEl = document.getElementById("cb-sub-section-divine-path-select");
-    let nameEl = document.getElementById("divine-path-form-name-text");
-    let coordsEl = document.getElementById("divine-path-form-input-text");
-    if(!formEl.classList.contains("cb-hide")) {
+  document.getElementById('cb-settings-divine-path-add').addEventListener( 'click', async function(e) {
+    let formEl = document.getElementById('cb-sub-section-divine-path-form');
+    let selectEl = document.getElementById('cb-sub-section-divine-path-select');
+    let nameEl = document.getElementById('divine-path-form-name-text');
+    let coordsEl = document.getElementById('divine-path-form-input-text');
+    if(!formEl.classList.contains('cb-hide')) {
       if(nameEl.value != '' && coordsEl.value != '') {
         options.ddPaths[nameEl.value] = formatDdList(coordsEl.value);
         populateDivinePathOptions();
         console.log(options.ddPaths); //TODO remove
       }
     }
-    formEl.classList.toggle("cb-hide");
-    selectEl.classList.toggle("cb-hide");
+    formEl.classList.toggle('cb-hide');
+    selectEl.classList.toggle('cb-hide');
   });
 
-  document.getElementById("cb-settings-open").addEventListener( 'click', async function(e) {
-    let el = document.getElementById("cb-settings-container");
+  document.getElementById('cb-settings-open').addEventListener( 'click', async function(e) {
+    let el = document.getElementById('cb-settings-container');
     let style = getComputedStyle(el);
     el.style.left = (e.pageX - parseInt(style.width)) + 'px';
     el.style.top = e.pageY + 'px';
 
-    el.classList.toggle("cb-hide");
+    el.classList.toggle('cb-hide');
 
     // populate min guild raid level options
-    document.getElementById("cb-min-raid-select").innerHTML = await buildMinRaidOptions();
+    document.getElementById('cb-min-raid-select').innerHTML = await buildMinRaidOptions();
     // populate max guild raid level options
-    document.getElementById("cb-max-raid-select").innerHTML = await buildMaxRaidOptions();
+    document.getElementById('cb-max-raid-select').innerHTML = await buildMaxRaidOptions();
     // populate raid items options
-    document.getElementById("cb-raid-item-select").innerHTML = buildRaidItemOptions(0);
-    document.getElementById("cb-raid-item-2-select").innerHTML = buildRaidItemOptions(1);
-    document.getElementById("cb-raid-item-3-select").innerHTML = buildRaidItemOptions(2);
-    
+    document.getElementById('cb-raid-item-select').innerHTML = buildRaidItemOptions(0);
+    document.getElementById('cb-raid-item-2-select').innerHTML = buildRaidItemOptions(1);
+    document.getElementById('cb-raid-item-3-select').innerHTML = buildRaidItemOptions(2);
+
     populateDivinePathOptions();
 
-    document.getElementById("cb-pet-adventure-collect-text").value = options.petAdventureCollectInterval;
-    document.getElementById("cb-pet-adventure-collect-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petAdventureCollectInterval);
+    document.getElementById('cb-pet-adventure-collect-text').value = options.petAdventureCollectInterval;
+    document.getElementById('cb-pet-adventure-collect-text').previousSibling.previousSibling.innerHTML = timeConversion(options.petAdventureCollectInterval);
 
-    document.getElementById("cb-pet-adventure-embark-text").value = options.petAdventureEmbarkInterval;
-    document.getElementById("cb-pet-adventure-embark-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petAdventureEmbarkInterval);
+    document.getElementById('cb-pet-adventure-embark-text').value = options.petAdventureEmbarkInterval;
+    document.getElementById('cb-pet-adventure-embark-text').previousSibling.previousSibling.innerHTML = timeConversion(options.petAdventureEmbarkInterval);
 
-    document.getElementById("cb-pet-gold-collect-text").value = options.petGoldCollectInterval;
-    document.getElementById("cb-pet-gold-collect-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petGoldCollectInterval);
+    document.getElementById('cb-pet-gold-collect-text').value = options.petGoldCollectInterval;
+    document.getElementById('cb-pet-gold-collect-text').previousSibling.previousSibling.innerHTML = timeConversion(options.petGoldCollectInterval);
 
-    document.getElementById("cb-buy-pot-text").value = options.buyPotInterval;
-    document.getElementById("cb-buy-pot-text").previousSibling.previousSibling.innerHTML = timeConversion(options.buyPotInterval);
+    document.getElementById('cb-buy-pot-text').value = options.buyPotInterval;
+    document.getElementById('cb-buy-pot-text').previousSibling.previousSibling.innerHTML = timeConversion(options.buyPotInterval);
 
-    document.getElementById("cb-pet-auto-ascend-text").value = options.petAutoAscendInterval;
-    document.getElementById("cb-pet-auto-ascend-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petAutoAscendInterval);
+    document.getElementById('cb-pet-auto-ascend-text').value = options.petAutoAscendInterval;
+    document.getElementById('cb-pet-auto-ascend-text').previousSibling.previousSibling.innerHTML = timeConversion(options.petAutoAscendInterval);
 
-    document.getElementById("cb-pet-optimize-equipment-text").value = options.petOptimizeEquipmentInterval;
-    document.getElementById("cb-pet-optimize-equipment-text").previousSibling.previousSibling.innerHTML = timeConversion(options.petOptimizeEquipmentInterval);
+    document.getElementById('cb-pet-optimize-equipment-text').value = options.petOptimizeEquipmentInterval;
+    document.getElementById('cb-pet-optimize-equipment-text').previousSibling.previousSibling.innerHTML = timeConversion(options.petOptimizeEquipmentInterval);
 
-    document.getElementById("cb-donate-gold-text").value = options.donateGoldInterval;
-    document.getElementById("cb-donate-gold-text").previousSibling.previousSibling.innerHTML = timeConversion(options.donateGoldInterval);
+    document.getElementById('cb-donate-gold-text').value = options.donateGoldInterval;
+    document.getElementById('cb-donate-gold-text').previousSibling.previousSibling.innerHTML = timeConversion(options.donateGoldInterval);
 
-    document.getElementById("cb-optimize-equipment-text").value = options.optimizeEquipmentInterval;
-    document.getElementById("cb-optimize-equipment-text").previousSibling.previousSibling.innerHTML = timeConversion(options.optimizeEquipmentInterval);
+    document.getElementById('cb-optimize-equipment-text').value = options.optimizeEquipmentInterval;
+    document.getElementById('cb-optimize-equipment-text').previousSibling.previousSibling.innerHTML = timeConversion(options.optimizeEquipmentInterval);
 
-    document.getElementById("cb-choices-interval-text").value = options.optimizeEquipmentInterval;
-    document.getElementById("cb-choices-interval-text").previousSibling.previousSibling.innerHTML = timeConversion(options.choicesInterval);
+    document.getElementById('cb-choices-interval-text').value = options.optimizeEquipmentInterval;
+    document.getElementById('cb-choices-interval-text').previousSibling.previousSibling.innerHTML = timeConversion(options.choicesInterval);
 
-    document.getElementById("cb-guild-raid-text").value = options.guildRaidInterval;
-    document.getElementById("cb-guild-raid-text").previousSibling.previousSibling.innerHTML = timeConversion(options.guildRaidInterval);
+    document.getElementById('cb-guild-raid-text').value = options.guildRaidInterval;
+    document.getElementById('cb-guild-raid-text').previousSibling.previousSibling.innerHTML = timeConversion(options.guildRaidInterval);
 
-    document.getElementById("cb-use-scrolls-text").value = options.useScrollsInterval;
-    document.getElementById("cb-use-scrolls-text").previousSibling.previousSibling.innerHTML = timeConversion(options.useScrollsInterval);
+    document.getElementById('cb-use-scrolls-text').value = options.useScrollsInterval;
+    document.getElementById('cb-use-scrolls-text').previousSibling.previousSibling.innerHTML = timeConversion(options.useScrollsInterval);
 
-    document.getElementById("cb-reroll-quests-text").value = options.rerollQuestsInterval;
-    document.getElementById("cb-reroll-quests-text").previousSibling.previousSibling.innerHTML = timeConversion(options.rerollQuestsInterval);
-    
-    document.getElementById("cb-choice-item-min-score-text").value = options.choiceItemMinScore;
+    document.getElementById('cb-reroll-quests-text').value = options.rerollQuestsInterval;
+    document.getElementById('cb-reroll-quests-text').previousSibling.previousSibling.innerHTML = timeConversion(options.rerollQuestsInterval);
+
+    document.getElementById('cb-choice-item-min-score-text').value = options.choiceItemMinScore;
   });
 
   let typingTimeout = null;
-  document.getElementById("cb-reroll-quests-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-reroll-quests-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('rerollQuestsInterval', e.target.value);
-      triggerChange('rerollQuests', document.getElementById("reroll-quests-checkbox"), false);
+      triggerChange('rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-buy-pot-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-buy-pot-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('buyPotInterval', e.target.value);
-      triggerChange('buyPot', document.getElementById("buy-pots-checkbox"), false);
+      triggerChange('buyPot', document.getElementById('buy-pots-checkbox'), false);
     }, 2000);
   });
-  
-  document.getElementById("cb-use-scrolls-text").addEventListener( 'keyup', function (e) {
+
+  document.getElementById('cb-use-scrolls-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('useScrollsInterval', e.target.value);
-      triggerChange('useScrolls', document.getElementById("use-scrolls-checkbox"), false);
+      triggerChange('useScrolls', document.getElementById('use-scrolls-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-guild-raid-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-guild-raid-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('guildRaidInterval', e.target.value);
-      triggerChange('raids', document.getElementById("raids-checkbox"), false);
+      triggerChange('raids', document.getElementById('raids-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-optimize-equipment-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-optimize-equipment-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('optimizeEquipmentInterval', e.target.value);
-      triggerChange('optimizeEquipment', document.getElementById("optimize-equipment-checkbox"), false);
+      triggerChange('optimizeEquipment', document.getElementById('optimize-equipment-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-choicesInterval-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-choicesInterval-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('choicesInterval', e.target.value);
-      triggerChange('choices', document.getElementById("choices-checkbox"), false);
+      triggerChange('choices', document.getElementById('choices-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-pet-adventure-collect-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-pet-adventure-collect-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('petAdventureCollectInterval', e.target.value);
-      triggerChange('petAdventureCollect', document.getElementById("pet-adventure-collect-checkbox"), false);
+      triggerChange('petAdventureCollect', document.getElementById('pet-adventure-collect-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-pet-adventure-embark-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-pet-adventure-embark-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('petAdventureEmbarkInterval', e.target.value);
-      triggerChange('petAdventureEmbark', document.getElementById("pet-adventure-embark-checkbox"), false);
+      triggerChange('petAdventureEmbark', document.getElementById('pet-adventure-embark-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-pet-gold-collect-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-pet-gold-collect-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('petGoldCollectInterval', e.target.value);
-      triggerChange('petGoldCollect', document.getElementById("pet-gold-checkbox"), false);
+      triggerChange('petGoldCollect', document.getElementById('pet-gold-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-pet-auto-ascend-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-pet-auto-ascend-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('petAutoAscendInterval', e.target.value);
-      triggerChange('petAutoAscend', document.getElementById("pet-ascend-checkbox"), false);
+      triggerChange('petAutoAscend', document.getElementById('pet-ascend-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-pet-optimize-equipment-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-pet-optimize-equipment-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('petOptimizeEquipmentInterval', e.target.value);
-      triggerChange('petOptimizeEquipment', document.getElementById("pet-optimize-equipment-checkbox"), false);
+      triggerChange('petOptimizeEquipment', document.getElementById('pet-optimize-equipment-checkbox'), false);
     }, 2000);
   });
 
-  document.getElementById("cb-donate-gold-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-donate-gold-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
       saveOptions('donateGoldInterval', e.target.value);
-      triggerChange('donateGold', document.getElementById("donate-gold-checkbox"), false);
+      triggerChange('donateGold', document.getElementById('donate-gold-checkbox'), false);
     }, 2000);
   });
 
   var petAdventureCollectLoop;
-  document.getElementById("pet-adventure-collect-checkbox").addEventListener( 'change', function() {
+  document.getElementById('pet-adventure-collect-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petAdventureCollectLoop = setInterval( claimAdventures, options.petAdventureCollectInterval );
           console.log('pet adventures collect started');
@@ -1192,10 +1192,10 @@ const start = () => {
           saveOptions('petAdventureCollect', false);
       }
   });
-  triggerChange('petAdventureCollect', document.getElementById("pet-adventure-collect-checkbox"), true);
+  triggerChange('petAdventureCollect', document.getElementById('pet-adventure-collect-checkbox'), true);
 
   var petAdventureEmbarkLoop;
-  document.getElementById("pet-adventure-embark-checkbox").addEventListener( 'change', function() {
+  document.getElementById('pet-adventure-embark-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petAdventureEmbarkLoop = setInterval( embarkAdventures, options.petAdventureEmbarkInterval );
           console.log('pet adventures embark started');
@@ -1206,10 +1206,10 @@ const start = () => {
           saveOptions('petAdventureEmbark', false);
       }
   });
-  triggerChange('petAdventureEmbark', document.getElementById("pet-adventure-embark-checkbox"), true);
+  triggerChange('petAdventureEmbark', document.getElementById('pet-adventure-embark-checkbox'), true);
 
   var petGoldCollectLoop;
-  document.getElementById("pet-gold-checkbox").addEventListener( 'change', function() {
+  document.getElementById('pet-gold-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petGoldCollectLoop = setInterval( PetGoldCollect, options.petGoldCollectInterval );
           console.log('pet gold collection started');
@@ -1220,10 +1220,10 @@ const start = () => {
           saveOptions('petGoldCollect', false);
       }
   });
-  triggerChange('petGoldCollect', document.getElementById("pet-gold-checkbox"), true);
+  triggerChange('petGoldCollect', document.getElementById('pet-gold-checkbox'), true);
 
   var petAbilityLoop;
-  document.getElementById("pet-ability-checkbox").addEventListener( 'change', function() {
+  document.getElementById('pet-ability-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petAbilityLoop = setInterval( PetAbility, options.petAbilityInterval );
           console.log('pet ability started');
@@ -1234,10 +1234,10 @@ const start = () => {
           saveOptions('petAbility', false);
       }
   });
-  triggerChange('petAbility', document.getElementById("pet-ability-checkbox"), true);
+  triggerChange('petAbility', document.getElementById('pet-ability-checkbox'), true);
 
   var freeRollLoop;
-  document.getElementById("free-roll-checkbox").addEventListener( 'change', function() {
+  document.getElementById('free-roll-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           freeRollLoop = setInterval( FreeRoll, 1000*60 );
           console.log('free roll started');
@@ -1248,10 +1248,10 @@ const start = () => {
           saveOptions('freeRoll', false);
       }
   });
-  triggerChange('freeRoll', document.getElementById("free-roll-checkbox"), true);
+  triggerChange('freeRoll', document.getElementById('free-roll-checkbox'), true);
 
   var rerollQuestsLoop;
-  document.getElementById("reroll-quests-checkbox").addEventListener( 'change', function() {
+  document.getElementById('reroll-quests-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           rerollQuestsLoop = setInterval( RerollQuests, options.rerollQuestsInterval );
           console.log('reroll quests started');
@@ -1262,10 +1262,10 @@ const start = () => {
           saveOptions('rerollQuests', false);
       }
   });
-  triggerChange('rerollQuests', document.getElementById("reroll-quests-checkbox"), true);
+  triggerChange('rerollQuests', document.getElementById('reroll-quests-checkbox'), true);
 
   var buyPotLoop;
-  document.getElementById("buy-pots-checkbox").addEventListener( 'change', function() {
+  document.getElementById('buy-pots-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           buyPotLoop = setInterval( BuyPot, options.buyPotInterval );
           console.log('buying potions started');
@@ -1276,10 +1276,10 @@ const start = () => {
           saveOptions('buyPot', false);
       }
   });
-  triggerChange('buyPot', document.getElementById("buy-pots-checkbox"), true);
+  triggerChange('buyPot', document.getElementById('buy-pots-checkbox'), true);
 
   var useScrollsLoop;
-  document.getElementById("use-scrolls-checkbox").addEventListener( 'change', function() {
+  document.getElementById('use-scrolls-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           useScrollsLoop = setInterval( UseScrolls, options.useScrollsInterval );
           console.log('use scrolls started');
@@ -1290,10 +1290,10 @@ const start = () => {
           saveOptions('useScrolls', false);
       }
   });
-  triggerChange('useScrolls', document.getElementById("use-scrolls-checkbox"), true);
+  triggerChange('useScrolls', document.getElementById('use-scrolls-checkbox'), true);
 
   var donateGoldLoop;
-  document.getElementById("donate-gold-checkbox").addEventListener( 'change', function() {
+  document.getElementById('donate-gold-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           donateGoldLoop = setInterval( DonateGold, options.donateGoldInterval );
           console.log('donate gold started');
@@ -1304,26 +1304,26 @@ const start = () => {
           saveOptions('donateGold', false);
       }
   });
-  triggerChange('donateGold', document.getElementById("donate-gold-checkbox"), true);
+  triggerChange('donateGold', document.getElementById('donate-gold-checkbox'), true);
 
   var optimizeEquipmentLoop;
-  document.getElementById("optimize-equipment-checkbox").addEventListener( 'change', function() {
+  document.getElementById('optimize-equipment-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           optimizeEquipmentLoop = setInterval( OptimizeEquipment, options.optimizeEquipmentInterval );
           console.log('optimize equipment started');
           saveOptions('optimizeEquipment', true);
-          document.getElementById("cb-optimize-equipment-sub-section").classList.toggle("cb-collapsed");
+          document.getElementById('cb-optimize-equipment-sub-section').classList.toggle('cb-collapsed');
       } else {
           clearInterval(optimizeEquipmentLoop);
           console.log('optimize equipment stopped');
           saveOptions('optimizeEquipment', false);
-          document.getElementById("cb-optimize-equipment-sub-section").classList.toggle("cb-collapsed");
+          document.getElementById('cb-optimize-equipment-sub-section').classList.toggle('cb-collapsed');
       }
   });
-  triggerChange('optimizeEquipment', document.getElementById("optimize-equipment-checkbox"), true);
+  triggerChange('optimizeEquipment', document.getElementById('optimize-equipment-checkbox'), true);
 
   var choicesLoop;
-  document.getElementById("choices-checkbox").addEventListener( 'change', function() {
+  document.getElementById('choices-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           choicesLoop = setInterval( RunChoices, options.choicesInterval );
           console.log('choices started');
@@ -1334,10 +1334,10 @@ const start = () => {
           saveOptions('choices', false);
       }
   });
-  triggerChange('choices', document.getElementById("choices-checkbox"), true);
+  triggerChange('choices', document.getElementById('choices-checkbox'), true);
 
   var inventoryLoop;
-  document.getElementById("inventory-checkbox").addEventListener( 'change', function() {
+  document.getElementById('inventory-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           inventoryLoop = setInterval( RunInventory, options.inventoryInterval );
           console.log('inventory cleanup started');
@@ -1348,42 +1348,42 @@ const start = () => {
           saveOptions('inventory', false);
       }
   });
-  triggerChange('inventory', document.getElementById("inventory-checkbox"), true);
+  triggerChange('inventory', document.getElementById('inventory-checkbox'), true);
 
   var petAutoAscendLoop;
-  document.getElementById("pet-ascend-checkbox").addEventListener( 'change', function() {
+  document.getElementById('pet-ascend-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petAutoAscendLoop = setInterval( petAscend, options.petAutoAscendInterval );
           console.log('pet auto ascend started');
           saveOptions('petAutoAscend', true);
-          document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+          document.getElementById('cb-pet-ascend-sub-section').classList.toggle('cb-collapsed');
       } else {
           clearInterval(petAutoAscendLoop);
           console.log('pet auto ascend stopped');
           saveOptions('petAutoAscend', false);
-          document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+          document.getElementById('cb-pet-ascend-sub-section').classList.toggle('cb-collapsed');
       }
   });
-  triggerChange('petAutoAscend', document.getElementById("pet-ascend-checkbox"), true);
+  triggerChange('petAutoAscend', document.getElementById('pet-ascend-checkbox'), true);
 
   var petOptimizeEquipmentLoop;
-  document.getElementById("pet-optimize-equipment-checkbox").addEventListener( 'change', function() {
+  document.getElementById('pet-optimize-equipment-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petOptimizeEquipmentLoop = setInterval( petOptimizeEquipment, options.petOptimizeEquipmentInterval );
           console.log('pet optimize equipment started');
           saveOptions('petOptimizeEquipment', true);
-          document.getElementById("cb-pet-optimize-equipment-sub-section").classList.toggle("cb-collapsed");
+          document.getElementById('cb-pet-optimize-equipment-sub-section').classList.toggle('cb-collapsed');
       } else {
           clearInterval(petOptimizeEquipmentLoop);
           console.log('pet optimize equipment stopped');
           saveOptions('petOptimizeEquipment', false);
-          document.getElementById("cb-pet-optimize-equipment-sub-section").classList.toggle("cb-collapsed");
+          document.getElementById('cb-pet-optimize-equipment-sub-section').classList.toggle('cb-collapsed');
       }
   });
-  triggerChange('petOptimizeEquipment', document.getElementById("pet-optimize-equipment-checkbox"), true);
-  
+  triggerChange('petOptimizeEquipment', document.getElementById('pet-optimize-equipment-checkbox'), true);
+
   var divineDirectionLoop;
-  document.getElementById("divine-path-form-enabled-checkbox").addEventListener( 'change', function() {
+  document.getElementById('divine-path-form-enabled-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           divineDirectionLoop = setInterval( RunDivineDirection, options.divineDirectionInterval );
           console.log('divine direction started');
@@ -1394,108 +1394,108 @@ const start = () => {
           saveOptions('ddEnable', false);
       }
   });
-  triggerChange('ddEnable', document.getElementById("divine-path-form-enabled-checkbox"), true);
-  
-  document.getElementById("divine-path-form-loop-checkbox").addEventListener( 'change', function() {
+  triggerChange('ddEnable', document.getElementById('divine-path-form-enabled-checkbox'), true);
+
+  document.getElementById('divine-path-form-loop-checkbox').addEventListener( 'change', function() {
     saveOptions('ddLoop', this.checked);
   });
-  triggerChange('ddLoop', document.getElementById("divine-path-form-loop-checkbox"), true);
-  
-  document.getElementById("divine-path-form-cooldown-checkbox").addEventListener( 'change', function() {
+  triggerChange('ddLoop', document.getElementById('divine-path-form-loop-checkbox'), true);
+
+  document.getElementById('divine-path-form-cooldown-checkbox').addEventListener( 'change', function() {
     saveOptions('ddCheckCooldown', this.checked);
   });
-  triggerChange('ddCheckCooldown', document.getElementById("divine-path-form-cooldown-checkbox"), true);
+  triggerChange('ddCheckCooldown', document.getElementById('divine-path-form-cooldown-checkbox'), true);
 
-  document.getElementById("cb-choice-trainer-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-choice-trainer-select').addEventListener( 'change', function(e) {
     saveOptions('choiceTrainerOption', e.target.value);
   });
-  document.getElementById("cb-choice-portal-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-choice-portal-select').addEventListener( 'change', function(e) {
     saveOptions('choicePortalOption', e.target.value);
   });
-  document.getElementById("cb-choice-gambling-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-choice-gambling-select').addEventListener( 'change', function(e) {
     saveOptions('choiceGamblingOption', e.target.value);
   });
-  document.getElementById("cb-choice-party-leave-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-choice-party-leave-select').addEventListener( 'change', function(e) {
     saveOptions('choicePartyLeaveOption', e.target.value);
   });
-  document.getElementById("cb-choice-buy-item-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-choice-buy-item-select').addEventListener( 'change', function(e) {
     saveOptions('choiceBuyItemOption', e.target.value);
   });
-  document.getElementById("cb-choice-item-found-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-choice-item-found-select').addEventListener( 'change', function(e) {
     saveOptions('choiceItemFoundOption', e.target.value);
   });
-  document.getElementById("cb-choice-item-min-score-text").addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-choice-item-min-score-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(function () {
       saveOptions('choiceItemMinScore', e.target.value);
-      triggerChange('choices', document.getElementById("choices-checkbox"), false);
+      triggerChange('choices', document.getElementById('choices-checkbox'), false);
     }, 2000);
   });
-  document.getElementById("cb-choice-enchant-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-choice-enchant-select').addEventListener( 'change', function(e) {
     saveOptions('choiceEnchantOption', e.target.value);
   });
-  document.getElementById("cb-quest-treasure-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-treasure-select').addEventListener( 'change', function(e) {
     saveOptions('questTreasureScalar', e.target.value);
   });
-  document.getElementById("cb-quest-collectible-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-collectible-select').addEventListener( 'change', function(e) {
     saveOptions('questCollectibleScalar', e.target.value);
   });
-  document.getElementById("cb-quest-sell-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-sell-select').addEventListener( 'change', function(e) {
     saveOptions('questSellScalar', e.target.value);
   });
-  document.getElementById("cb-quest-salvage-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-salvage-select').addEventListener( 'change', function(e) {
     saveOptions('questSalvageScalar', e.target.value);
   });
-  document.getElementById("cb-quest-combat-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-combat-select').addEventListener( 'change', function(e) {
     saveOptions('questCombatScalar', e.target.value);
   });
-  document.getElementById("cb-quest-stamina-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-stamina-select').addEventListener( 'change', function(e) {
     saveOptions('questStaminaScalar', e.target.value);
   });
-  document.getElementById("cb-quest-gain-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-gain-select').addEventListener( 'change', function(e) {
     saveOptions('questGainScalar', e.target.value);
   });
-  document.getElementById("cb-quest-spend-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-spend-select').addEventListener( 'change', function(e) {
     saveOptions('questSpendScalar', e.target.value);
   });
-  document.getElementById("cb-quest-step-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-quest-step-select').addEventListener( 'change', function(e) {
     saveOptions('questStepScalar', e.target.value);
   });
-  document.getElementById("cb-inventory-cleanup-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-inventory-cleanup-select').addEventListener( 'change', function(e) {
     saveOptions('inventoryCleanup', e.target.value);
   });
-  document.getElementById("cb-pet-optimize-equipment-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-pet-optimize-equipment-select').addEventListener( 'change', function(e) {
     saveOptions('petOptimizeEquipmentStat', e.target.value);
   });
-  document.getElementById("cb-pets-per-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-pets-per-select').addEventListener( 'change', function(e) {
     saveOptions('petAdventurePetNum', e.target.value);
   });
-  document.getElementById("cb-optimize-equipment-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-optimize-equipment-select').addEventListener( 'change', function(e) {
     saveOptions('optimizeEquipmentStat', e.target.value);
   });
-  document.getElementById("cb-min-raid-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-min-raid-select').addEventListener( 'change', function(e) {
     saveOptions('guildRaidMinLevel', e.target.value);
   });
-  document.getElementById("cb-max-raid-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-max-raid-select').addEventListener( 'change', function(e) {
     saveOptions('guildRaidMaxLevel', e.target.value);
   });
-  document.getElementById("cb-raid-item-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-raid-item-select').addEventListener( 'change', function(e) {
     options.guildRaidItems[0] = e.target.value;
     saveOptions('guildRaidItems', options.guildRaidItems);
   });
-  document.getElementById("cb-raid-item-2-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-raid-item-2-select').addEventListener( 'change', function(e) {
     options.guildRaidItems[1] = e.target.value;
     saveOptions('guildRaidItems', options.guildRaidItems);
   });
-  document.getElementById("cb-raid-item-3-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-raid-item-3-select').addEventListener( 'change', function(e) {
     options.guildRaidItems[2] = e.target.value;
     saveOptions('guildRaidItems', options.guildRaidItems);
   });
-  document.getElementById("cb-divine-path-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-divine-path-select').addEventListener( 'change', function(e) {
     saveOptions('ddSelectedPathName', e.target.value);
-    document.getElementById("cb-divine-path-selected-path-name").innerHTML = e.target.value;
+    document.getElementById('cb-divine-path-selected-path-name').innerHTML = e.target.value;
   });
-  document.getElementById("cb-divine-path-delete-select").addEventListener( 'change', function(e) {
+  document.getElementById('cb-divine-path-delete-select').addEventListener( 'change', function(e) {
     if(e.target.value != options.ddSelectedPathName) {
       delete options.ddPaths[e.target.value];
       populateDivinePathOptions();
@@ -1503,12 +1503,12 @@ const start = () => {
   });
 
   if(globalData.canGuildRaid) {
-    const guildTimeEl = document.getElementById("guild-next-time");
-    const guildLevelEl = document.getElementById("guild-level");
-    const guildItemEl = document.getElementById("guild-item");
+    const guildTimeEl = document.getElementById('guild-next-time');
+    const guildLevelEl = document.getElementById('guild-level');
+    const guildItemEl = document.getElementById('guild-item');
 
     var raidsLoop;
-    document.getElementById("raids-checkbox").addEventListener( 'change', async function() {
+    document.getElementById('raids-checkbox').addEventListener( 'change', async function() {
           if(this.checked) {
               raidsLoop = setInterval( RunRaids, options.guildRaidInterval );
               console.log('raiding started');
@@ -1519,7 +1519,7 @@ const start = () => {
               options.guildRaidNextAvailability = guildData.guild.nextRaidAvailability;
               var date = new Date(options.guildRaidNextAvailability);
               guildTimeEl.innerHTML = date.toLocaleTimeString();
-              document.getElementById("cb-raids-sub-section").classList.toggle("cb-collapsed");
+              document.getElementById('cb-raids-sub-section').classList.toggle('cb-collapsed');
               saveOptions('raids', true);
           } else {
               clearInterval(raidsLoop);
@@ -1529,17 +1529,17 @@ const start = () => {
               guildItemEl.innerHTML = '-';
               globalData.raidFail = false;
               globalData.raidFailTimes = 0;
-              document.getElementById("cb-raids-sub-section").classList.toggle("cb-collapsed");
+              document.getElementById('cb-raids-sub-section').classList.toggle('cb-collapsed');
               saveOptions('raids', false);
           }
     });
-    triggerChange('raids', document.getElementById("raids-checkbox"), true);
+    triggerChange('raids', document.getElementById('raids-checkbox'), true);
   }
 
   // Make the whole container draggable
-  dragElement(document.getElementById("cb-settings-container"));
-  dragElement(document.getElementById("cb-container"));
-  accordionElement(document.getElementById("cb-container"));
+  dragElement(document.getElementById('cb-settings-container'));
+  dragElement(document.getElementById('cb-container'));
+  accordionElement(document.getElementById('cb-container'));
   tabsNav('cb-settings-panel');
   //tabsNav('cb-main-panel');
 }
@@ -1591,30 +1591,30 @@ const petAscend = () => {
   let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
 
   if(pet.level.maximum != pet.level.__current) {
-      document.getElementById("pet-ascend-message").innerHTML = 'Ah, the waiting game for max level to be reached!';
+      document.getElementById('pet-ascend-message').innerHTML = 'Ah, the waiting game for max level to be reached!';
       return false;
   }
   if(pet.rating >= 5) {
-      document.getElementById("pet-ascend-message").innerHTML = `This pet has reached a rating of 5, don't forget to max out the levels.`;
-      document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+      document.getElementById('pet-ascend-message').innerHTML = `This pet has reached a rating of 5, don't forget to max out the levels.`;
+      document.getElementById('cb-pet-ascend-sub-section').classList.toggle('cb-collapsed');
       return false;
   }
   if(pet.rating >= 5 && pet.level.maximum == pet.level.__current) {
-      document.getElementById("pet-ascend-message").innerHTML = `This pet has reached it's maximum level capacity, this is a good thing! Try maxing out other pets.`;
-      document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+      document.getElementById('pet-ascend-message').innerHTML = `This pet has reached it's maximum level capacity, this is a good thing! Try maxing out other pets.`;
+      document.getElementById('cb-pet-ascend-sub-section').classList.toggle('cb-collapsed');
       return false;
   }
   let someMaterialsMissing = Object.keys(pet.$ascMaterials).some((mat) => pet.$ascMaterials[mat] > (discordGlobalCharacter.$petsData.ascensionMaterials[mat] || 0))
   if(someMaterialsMissing) {
-      document.getElementById("pet-ascend-message").innerHTML = 'Oops, you are missing materials';
-      document.getElementById("cb-pet-ascend-sub-section").classList.toggle("cb-collapsed");
+      document.getElementById('pet-ascend-message').innerHTML = 'Oops, you are missing materials';
+      document.getElementById('cb-pet-ascend-sub-section').classList.toggle('cb-collapsed');
       return false;
   }
 
   // get gold before ascend
   setTimeout( () => { unsafeWindow.__emitSocket('pet:takegold') }, 200)
   // then ascend
-  setTimeout( () => { unsafeWindow.__emitSocket("pet:ascend") }, 500);
+  setTimeout( () => { unsafeWindow.__emitSocket('pet:ascend') }, 500);
 }
 
 // Pet adventures
@@ -1628,7 +1628,7 @@ const claimAdventures = () => {
         let currentAdventure = adventuresFinished[i];
 
         setTimeout( () => {
-          unsafeWindow.__emitSocket("pet:adventure:finish", { adventureId: currentAdventure.id }); // Collect
+          unsafeWindow.__emitSocket('pet:adventure:finish', { adventureId: currentAdventure.id }); // Collect
         }, 1000 * i);
       }
     }
@@ -1655,7 +1655,7 @@ const embarkAdventures = () => {
             for (let i = 0; i < maxPets; i++) {
               petsTemp.push(filter[i]);
             }
-            unsafeWindow.__emitSocket("pet:adventure:embark", { adventureId: currentAdventure.id, petIds: petsTemp });
+            unsafeWindow.__emitSocket('pet:adventure:embark', { adventureId: currentAdventure.id, petIds: petsTemp });
           }
         }, 1000 * i);
       }
@@ -1687,7 +1687,7 @@ const RunRaids = async () => {
         });
       }
 
-      setTimeout( () => {unsafeWindow.__emitSocket("guild:raidboss", { bossLevel: level})}, 500);
+      setTimeout( () => {unsafeWindow.__emitSocket('guild:raidboss', { bossLevel: level})}, 500);
 
       setTimeout(async () => {
           let guild = await getGuildData();
@@ -1708,9 +1708,9 @@ const RunRaids = async () => {
           }
           let date = new Date(options.guildRaidNextAvailability);
 
-          document.getElementById("guild-next-time").innerHTML = date.toLocaleTimeString();
-          document.getElementById("guild-level").innerHTML = level;
-          document.getElementById("guild-item").innerHTML = reward.join();
+          document.getElementById('guild-next-time').innerHTML = date.toLocaleTimeString();
+          document.getElementById('guild-level').innerHTML = level;
+          document.getElementById('guild-item').innerHTML = reward.join();
       }, 7000); // added 5 seconds extra
   }
 }
@@ -1857,7 +1857,7 @@ const OptimizeEquipment = () => {
 }
 
 const FreeRoll = () => {
-  if(discordGlobalCharacter.$premiumData.gachaFreeRolls["Astral Gate"] <= Date.now()) {
+  if(discordGlobalCharacter.$premiumData.gachaFreeRolls['Astral Gate'] <= Date.now()) {
     let gachaName = 'AstralGate';
     let numRolls = 10;
     setTimeout( () => {unsafeWindow.__emitSocket('astralgate:roll', { astralGateName: gachaName, numRolls }) }, 500);
@@ -1875,38 +1875,38 @@ const RerollQuests = () => {
       }
     }
     if (complete) {
-      setTimeout( () => {unsafeWindow.__emitSocket("quest:collect", {questId: currentQuest.id})}, 1);
+      setTimeout( () => {unsafeWindow.__emitSocket('quest:collect', {questId: currentQuest.id})}, 1);
     }
     if (currentQuest.objectives.find( element =>
-         ( element.statistic.indexOf("Combat") >= 0 && element.scalar >= options.questCombatScalar )
-      || ( element.statistic.indexOf("Stamina") >= 0 && element.scalar >= options.questStaminaScalar )
-      || ( element.statistic.indexOf("Step") >= 0 && element.scalar >= options.questStepScalar )
-      || ( element.statistic.indexOf("Sell") >= 0 && element.scalar >= options.questSellScalar )
-      || ( element.statistic.indexOf("Treasure") >= 0 && element.scalar >= options.questTreasureScalar )
+         ( element.statistic.indexOf('Combat') >= 0 && element.scalar >= options.questCombatScalar )
+      || ( element.statistic.indexOf('Stamina') >= 0 && element.scalar >= options.questStaminaScalar )
+      || ( element.statistic.indexOf('Step') >= 0 && element.scalar >= options.questStepScalar )
+      || ( element.statistic.indexOf('Sell') >= 0 && element.scalar >= options.questSellScalar )
+      || ( element.statistic.indexOf('Treasure') >= 0 && element.scalar >= options.questTreasureScalar )
       || ( !!element.requireMap )
-      || ( element.statistic.indexOf("Salvage") >= 0 && element.scalar >= options.questSalvageScalar )
-      || ( element.statistic.indexOf("Gold/Gain") >= 0 && element.scalar >= options.questGainScalar )
-      || ( element.statistic.indexOf("Gold/Spend") >= 0 && element.scalar >= options.questSpendScalar )
-      || ( element.statistic.indexOf("Collectible") >= 0 && element.scalar >= options.questCollectibleScalar )
+      || ( element.statistic.indexOf('Salvage') >= 0 && element.scalar >= options.questSalvageScalar )
+      || ( element.statistic.indexOf('Gold/Gain') >= 0 && element.scalar >= options.questGainScalar )
+      || ( element.statistic.indexOf('Gold/Spend') >= 0 && element.scalar >= options.questSpendScalar )
+      || ( element.statistic.indexOf('Collectible') >= 0 && element.scalar >= options.questCollectibleScalar )
     )) {
-          setTimeout(function(){unsafeWindow.__emitSocket("quest:reroll", { questId: currentQuest.id})}, delay * (i+1));
+          setTimeout(function(){unsafeWindow.__emitSocket('quest:reroll', { questId: currentQuest.id})}, delay * (i+1));
     }
   }
 }
 const PetGoldCollect = () => {
-  setTimeout( () => {unsafeWindow.__emitSocket("pet:takegold")}, 500);
+  setTimeout( () => {unsafeWindow.__emitSocket('pet:takegold')}, 500);
 }
 const BuyPot = () => {
   setTimeout( () => {unsafeWindow.__emitSocket('premium:goldcollectible', {collectible: 'Pot of Gold'})}, 100);
 }
 const DonateGold = () => {
-  setTimeout( () => {unsafeWindow.__emitSocket("guild:donateresource", { resource: 'gold', amount: discordGlobalCharacter.gold })}, 500);
+  setTimeout( () => {unsafeWindow.__emitSocket('guild:donateresource', { resource: 'gold', amount: discordGlobalCharacter.gold })}, 500);
 }
 const PetAbility = () => {
   let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
 
   if(discordGlobalCharacter.stamina.__current < pet.$attribute.oocAbilityCost) return;
-  setTimeout( () => {unsafeWindow.__emitSocket("pet:oocaction")}, 500);
+  setTimeout( () => {unsafeWindow.__emitSocket('pet:oocaction')}, 500);
 }
 
 const getGuildData = async () => {
@@ -1916,11 +1916,11 @@ const getGuildData = async () => {
 }
 
 const updateUI = () => {
-    document.getElementById("pet-optimize-equipment-message").innerHTML = `Optimized for ${options.petOptimizeEquipmentStat}${options.petOptimizeEquipmentStat == 'score' ? `` : ` - Boost: ${formatNumber(discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].stats[options.petOptimizeEquipmentStat])}`}`;
-    document.getElementById("optimize-equipment-message").innerHTML = 'Optimized for ' + options.optimizeEquipmentStat + ' - Boost: ' + formatNumber(discordGlobalCharacter.stats[options.optimizeEquipmentStat]);
-    document.getElementById("cb-player-name").innerHTML = discordGlobalCharacter.name;
-    document.getElementById("cb-player-title").innerHTML = discordGlobalCharacter.title;
-    document.getElementById("cb-guild-name").innerHTML = discordGlobalCharacter.guildName ? discordGlobalCharacter.guildName : 'Not part of a guild';
-    document.getElementById("cb-pet-type").innerHTML = discordGlobalCharacter.$petsData.currentPet;
-    document.getElementById("cb-pet-levels").innerHTML = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.__current + '/' + discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.maximum;
+    document.getElementById('pet-optimize-equipment-message').innerHTML = `Optimized for ${options.petOptimizeEquipmentStat}${options.petOptimizeEquipmentStat == 'score' ? `` : ` - Boost: ${formatNumber(discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].stats[options.petOptimizeEquipmentStat])}`}`;
+    document.getElementById('optimize-equipment-message').innerHTML = 'Optimized for ' + options.optimizeEquipmentStat + ' - Boost: ' + formatNumber(discordGlobalCharacter.stats[options.optimizeEquipmentStat]);
+    document.getElementById('cb-player-name').innerHTML = discordGlobalCharacter.name;
+    document.getElementById('cb-player-title').innerHTML = discordGlobalCharacter.title;
+    document.getElementById('cb-guild-name').innerHTML = discordGlobalCharacter.guildName ? discordGlobalCharacter.guildName : 'Not part of a guild';
+    document.getElementById('cb-pet-type').innerHTML = discordGlobalCharacter.$petsData.currentPet;
+    document.getElementById('cb-pet-levels').innerHTML = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.__current + '/' + discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet].level.maximum;
 }
