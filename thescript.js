@@ -571,6 +571,14 @@ const loadUI = () => {
             </div>
             <div class="cb-section">
               <div class="cb-section-content">
+                <span class="cb-flex-1">Check Choices:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-choices-interval-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
                 <span class="cb-flex-1">Reroll Quests:</span>
                 <span class="right">
                   <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-reroll-quests-text">
@@ -1048,6 +1056,9 @@ const start = () => {
     document.getElementById("cb-optimize-equipment-text").value = options.optimizeEquipmentInterval;
     document.getElementById("cb-optimize-equipment-text").previousSibling.previousSibling.innerHTML = timeConversion(options.optimizeEquipmentInterval);
 
+    document.getElementById("cb-choices-interval-text").value = options.optimizeEquipmentInterval;
+    document.getElementById("cb-choices-interval-text").previousSibling.previousSibling.innerHTML = timeConversion(options.choicesInterval);
+
     document.getElementById("cb-guild-raid-text").value = options.guildRaidInterval;
     document.getElementById("cb-guild-raid-text").previousSibling.previousSibling.innerHTML = timeConversion(options.guildRaidInterval);
 
@@ -1103,6 +1114,15 @@ const start = () => {
     typingTimeout = setTimeout(function () {
       saveOptions('optimizeEquipmentInterval', e.target.value);
       triggerChange('optimizeEquipment', document.getElementById("optimize-equipment-checkbox"), false);
+    }, 2000);
+  });
+
+  document.getElementById("cb-choicesInterval-text").addEventListener( 'keyup', function (e) {
+    clearTimeout(typingTimeout);
+    e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
+    typingTimeout = setTimeout(function () {
+      saveOptions('choicesInterval', e.target.value);
+      triggerChange('choices', document.getElementById("choices-checkbox"), false);
     }, 2000);
   });
 
