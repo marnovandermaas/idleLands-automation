@@ -1117,7 +1117,7 @@ const start = () => {
     }, 2000);
   });
 
-  document.getElementById('cb-choicesInterval-text').addEventListener( 'keyup', function (e) {
+  document.getElementById('cb-choices-interval-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
