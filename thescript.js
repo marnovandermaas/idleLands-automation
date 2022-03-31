@@ -36,12 +36,11 @@
 //
 // To do:
 //  - After 3 guild raid failed attempts, run level 100 raid boss, if that fails, turn off auto raiding
-//  - Guild chat.... this is a nice to have but not sure it's possible
 //  - Enforce personalities, especially when you fate lake and then get randomly set
 //  - Guild member functions (invite, view list, actives, kick, promote and leave guild) this is broken in game atm
 //  - (started) Clean the code, seperate in different JS files
 //  - Auto collect global quests
-//  - (started) Add divine stepper (DivineStumbler variant)
+//  - (started) Add divine stepper
 //  - (done) Auto pet ability usage (request from Anten)
 //  - (done) Implement auto by pots, code provided by Sarimash
 //  - (done) Implement reroll quests, code provided by Sarimash
@@ -53,6 +52,7 @@
 //    - Added settings to control quest reroll
 //    - Added pot buying logic and toggle to enable it
 //    - Added minimum item score for finding and buying choices
+//    - Added divine stumbler that checks cooldowns
 //  1.7
 //    - Fixed the guild raids to throttle when failing, add 10 mins to next raid availability
 //        this way it doesn't spam the server and doesn't use up all the gold
