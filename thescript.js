@@ -53,6 +53,7 @@
 //    - Added pot buying logic and toggle to enable it
 //    - Added minimum item score for finding and buying choices
 //    - Added divine stumbler that checks cooldowns
+//    - Added option to donate portion of gold
 //  1.7
 //    - Fixed the guild raids to throttle when failing, add 10 mins to next raid availability
 //        this way it doesn't spam the server and doesn't use up all the gold
@@ -88,6 +89,7 @@ let defaultOptions = {
   petOptimizeEquipmentStat: 'xp', // gold, xp or by score
 
   donateGoldInterval: 3600000, // in ms
+  goldDonateRatio: 1.0, // 1 means all gold donated, 0 means none
 
   guildRaidInterval: 30000, // 30 secs, in ms
 
@@ -263,6 +265,25 @@ const loadUI = () => {
         <div class="cb-right-pane" style="width:290px">
           <div class="tab-content active" id="cb-tab-settings-general">
             <div class="cb-section-header">General</div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Gold Donate Ratio:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-gold-donate-ratio-select">
+                    <option value="0.1" ${options.goldDonateRatio == 0.1 ? `selected` : ``}>0.1</option>
+                    <option value="0.1" ${options.goldDonateRatio == 0.2 ? `selected` : ``}>0.2</option>
+                    <option value="0.1" ${options.goldDonateRatio == 0.3 ? `selected` : ``}>0.3</option>
+                    <option value="0.1" ${options.goldDonateRatio == 0.4 ? `selected` : ``}>0.4</option>
+                    <option value="0.1" ${options.goldDonateRatio == 0.5 ? `selected` : ``}>0.5</option>
+                    <option value="0.1" ${options.goldDonateRatio == 0.6 ? `selected` : ``}>0.6</option>
+                    <option value="0.1" ${options.goldDonateRatio == 0.7 ? `selected` : ``}>0.7</option>
+                    <option value="0.1" ${options.goldDonateRatio == 0.8 ? `selected` : ``}>0.8</option>
+                    <option value="0.1" ${options.goldDonateRatio == 0.9 ? `selected` : ``}>0.9</option>
+                    <option value="0.1" ${options.goldDonateRatio == 1.0 ? `selected` : ``}>1.0</option>
+                  </select>
+                </span>
+              </div>
+            </div>
             <div class="cb-section">
               <div class="cb-section-content">
                 <span class="cb-flex-1">Optimize Equipment:</span>
@@ -1464,6 +1485,9 @@ const start = () => {
   document.getElementById('cb-inventory-cleanup-select').addEventListener( 'change', function(e) {
     saveOptions('inventoryCleanup', e.target.value);
   });
+  document.getElementById('cb-gold-donate-ratio-select').addEventListener( 'change', function(e) {
+    saveOptions('goldDonateRatio', e.target.value);
+  });
   document.getElementById('cb-pet-optimize-equipment-select').addEventListener( 'change', function(e) {
     saveOptions('petOptimizeEquipmentStat', e.target.value);
   });
@@ -1900,7 +1924,7 @@ const BuyPot = () => {
   setTimeout( () => {unsafeWindow.__emitSocket('premium:goldcollectible', {collectible: 'Pot of Gold'})}, 100);
 }
 const DonateGold = () => {
-  setTimeout( () => {unsafeWindow.__emitSocket('guild:donateresource', { resource: 'gold', amount: discordGlobalCharacter.gold })}, 500);
+  setTimeout( () => {unsafeWindow.__emitSocket('guild:donateresource', { resource: 'gold', amount: parseInt(options.goldDonateRatio*discordGlobalCharacter.gold) })}, 500);
 }
 const PetAbility = () => {
   let pet = discordGlobalCharacter.$petsData.allPets[discordGlobalCharacter.$petsData.currentPet];
