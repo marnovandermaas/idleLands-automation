@@ -20,7 +20,7 @@
 // ==/UserScript==
 
 // Javascript Lint hints
-/* globals discordGlobalCharacter, formatDdList, timeConversion, formatNumber, saveOptions, triggerChange, dragElement, accordionElement, tabsNav */
+/* globals discordGlobalCharacter, formatDdList, timeConversion, formatNumber, saveOptions, triggerChange, dragElement, accordionElement, tabsNav, raidRewards */
 
 // #######################################################################################################################################################################
 // Source code:
