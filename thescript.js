@@ -1027,7 +1027,6 @@ const start = () => {
       if(nameEl.value != '' && coordsEl.value != '') {
         options.ddPaths[nameEl.value] = formatDdList(coordsEl.value);
         populateDivinePathOptions();
-        console.log(options.ddPaths); //TODO remove
       }
     }
     formEl.classList.toggle('cb-hide');
