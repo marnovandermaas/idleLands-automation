@@ -271,15 +271,15 @@ const loadUI = () => {
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-gold-donate-ratio-select">
                     <option value="0.1" ${options.goldDonateRatio == 0.1 ? `selected` : ``}>0.1</option>
-                    <option value="0.1" ${options.goldDonateRatio == 0.2 ? `selected` : ``}>0.2</option>
-                    <option value="0.1" ${options.goldDonateRatio == 0.3 ? `selected` : ``}>0.3</option>
-                    <option value="0.1" ${options.goldDonateRatio == 0.4 ? `selected` : ``}>0.4</option>
-                    <option value="0.1" ${options.goldDonateRatio == 0.5 ? `selected` : ``}>0.5</option>
-                    <option value="0.1" ${options.goldDonateRatio == 0.6 ? `selected` : ``}>0.6</option>
-                    <option value="0.1" ${options.goldDonateRatio == 0.7 ? `selected` : ``}>0.7</option>
-                    <option value="0.1" ${options.goldDonateRatio == 0.8 ? `selected` : ``}>0.8</option>
-                    <option value="0.1" ${options.goldDonateRatio == 0.9 ? `selected` : ``}>0.9</option>
-                    <option value="0.1" ${options.goldDonateRatio == 1.0 ? `selected` : ``}>1.0</option>
+                    <option value="0.2" ${options.goldDonateRatio == 0.2 ? `selected` : ``}>0.2</option>
+                    <option value="0.3" ${options.goldDonateRatio == 0.3 ? `selected` : ``}>0.3</option>
+                    <option value="0.4" ${options.goldDonateRatio == 0.4 ? `selected` : ``}>0.4</option>
+                    <option value="0.5" ${options.goldDonateRatio == 0.5 ? `selected` : ``}>0.5</option>
+                    <option value="0.6" ${options.goldDonateRatio == 0.6 ? `selected` : ``}>0.6</option>
+                    <option value="0.7" ${options.goldDonateRatio == 0.7 ? `selected` : ``}>0.7</option>
+                    <option value="0.8" ${options.goldDonateRatio == 0.8 ? `selected` : ``}>0.8</option>
+                    <option value="0.9" ${options.goldDonateRatio == 0.9 ? `selected` : ``}>0.9</option>
+                    <option value="1.0" ${options.goldDonateRatio == 1.0 ? `selected` : ``}>1.0</option>
                   </select>
                 </span>
               </div>
