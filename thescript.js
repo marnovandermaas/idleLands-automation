@@ -1408,10 +1408,12 @@ const start = () => {
           divineDirectionLoop = setInterval( RunDivineDirection, options.divineDirectionInterval );
           console.log('divine direction started');
           saveOptions('ddEnable', true);
+          globalData.divineDirectionIndex = 0;
       } else {
           clearInterval(divineDirectionLoop);
           console.log('divine directions stopped');
           saveOptions('ddEnable', false);
+          globalData.divineDirectionIndex = 0;
       }
   });
   triggerChange('ddEnable', document.getElementById('divine-path-form-enabled-checkbox'), true);
@@ -1795,19 +1797,20 @@ const RunChoices = () => {
 
 const RunDivineDirection = () => {
   if(options.ddSelectedPathName == 'none') return;
+
   let path = options.ddPaths[options.ddSelectedPathName];
-  if(globalData.divineDirectionIndex >= path.length) {
-    globalData.divineDirectionIndex = 0;
+  if(path.length <= 0) return;
+
+  if (!!discordGlobalCharacter.divineDirection &&
+      ((discordGlobalCharacter.divineDirection.x == discordGlobalCharacter.x && discordGlobalCharacter.divineDirection.y == discordGlobalCharacter.y) ||
+       (discordGlobalCharacter.divineDirection.x == 1 && discordGlobalCharacter.divineDirection.y == 1))
+  ) {
+    //Disable current divine direction
+    setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', {x: 1, y: 1}) }, 500);
   }
-  if(options.ddCheckCooldown) {
-    if (!!discordGlobalCharacter.divineDirection &&
-        ((discordGlobalCharacter.divineDirection.x == discordGlobalCharacter.x && discordGlobalCharacter.divineDirection.y == discordGlobalCharacter.y) ||
-         (discordGlobalCharacter.divineDirection.x == 1 && discordGlobalCharacter.divineDirection.y == 1))
-    ) {
-      //Disable current divine direction
-      setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', {x: 1, y: 1}) }, 500);
-    }
-    if (!discordGlobalCharacter.divineDirection) {
+
+  if (!discordGlobalCharacter.divineDirection) {
+    if(options.ddCheckCooldown) {
       //Find next coordinate in path that is not in cooldown
       let sentCoord = false;
       for (let i = 0; i < path.length; i++) {
@@ -1829,8 +1832,13 @@ const RunDivineDirection = () => {
       if(!sentCoord) {
         setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[0]) }, 500);
       }
+    } else if(options.ddLoop) {
+      if(globalData.divineDirectionIndex >= path.length) {
+        globalData.divineDirectionIndex = 0;
+      }
+      setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[globalData.divineDirectionIndex]) }, 500);
+      globalData.divineDirectionIndex += 1;
     }
-  } else {
   }
 }
 
