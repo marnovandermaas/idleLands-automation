@@ -1,11 +1,10 @@
 [![Version](https://img.shields.io/github/v/release/the-crazyball/idleLands-automation)](https://github.com/the-crazyball/idleLands-automation/)
 [![Open Issues](https://img.shields.io/github/issues/the-crazyball/idleLands-automation?style=flat)](https://github.com/the-crazyball/idleLands-automation/issues)
-[![Watch This Repo](https://img.shields.io/github/watchers/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/subscription)
-[![Star This Repo](https://img.shields.io/github/stars/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/stargazers)
-[![Fork This Repo](https://img.shields.io/github/forks/the-crazyball/idleLands-automation?style=social&icon=github)](https://github.com/the-crazyball/idleLands-automation/fork)
-[![Discord](https://img.shields.io/discord/748226437450039406?logo=discord&color=7289da&style=flat)](https://discord.gg/HB8QUxh2Qs)
+[![Watch This Repo](https://img.shields.io/github/watchers/marnovandermaas/idleLands-automation?style=social&icon=github)](https://github.com/marnovandermaas/idleLands-automation/subscription)
+[![Star This Repo](https://img.shields.io/github/stars/marnovandermaas/idleLands-automation?style=social&icon=github)](https://github.com/marnovandermaas/idleLands-automation/stargazers)
+[![Fork This Repo](https://img.shields.io/github/forks/marnovandermaas/idleLands-automation?style=social&icon=github)](https://github.com/marnovandermaas/idleLands-automation/fork)
 
-# IdleLands-automation
+# IdleLands Automation
 Automation userscript for IdleLands
 https://play.idle.land/
 
