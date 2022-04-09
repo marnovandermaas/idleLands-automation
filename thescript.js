@@ -781,7 +781,7 @@ const loadUI = () => {
     </div>
     <div id="cb-container">
       <div id="cb-container-header" class="cb-header">
-        <span class="cb-title text-border-light">IdleLands Scripts</span>
+        <span class="cb-title text-border-light">IdleLands Automation</span>
         <button class="cb-accordion cb-active"></button>
       </div>
       <div class="cb-panel">
