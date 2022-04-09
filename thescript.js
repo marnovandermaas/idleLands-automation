@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         IdleLands Automation Script
 // @namespace    https://github.com/marnovandermaas/idleLands-automation
-// @version      1.7
+// @version      2.0
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/thescript.meta.js
@@ -37,23 +37,24 @@
 // To do:
 //  - After 3 guild raid failed attempts, run level 100 raid boss, if that fails, turn off auto raiding
 //  - Enforce personalities, especially when you fate lake and then get randomly set
-//  - Guild member functions (invite, view list, actives, kick, promote and leave guild) this is broken in game atm
 //  - (started) Clean the code, seperate in different JS files
 //  - Auto collect global quests
-//  - (started) Add divine stepper
+//  - (done) Add divine stepper
 //  - (done) Auto pet ability usage (request from Anten)
 //  - (done) Implement auto by pots, code provided by Sarimash
 //  - (done) Implement reroll quests, code provided by Sarimash
 //  - (done) Add settings tab to control the scalar value at which each type of quest is rerolled
 //
 // Changelog (adapted from changelog.txt):
-//  1.8 (ongoing)
+//  2.0
 //    - Added Quest Reroll logic and toggle to enable it
 //    - Added settings to control quest reroll
 //    - Added pot buying logic and toggle to enable it
 //    - Added minimum item score for finding and buying choices
 //    - Added divine stumbler that checks cooldowns
+//    - Added divine stumbler looping
 //    - Added option to donate portion of gold
+//    - Move from crazyball's GitHub to marnovandermaas GitHub
 //  1.7
 //    - Fixed the guild raids to throttle when failing, add 10 mins to next raid availability
 //        this way it doesn't spam the server and doesn't use up all the gold
