@@ -39,6 +39,9 @@
 //  - Enforce personalities, especially when you fate lake and then get randomly set
 //  - (started) Clean the code, seperate in different JS files
 //  - Auto collect global quests
+//  - Auto start festivals
+//  - Disable quest reroll when settings change
+//  - Disable donate gold when ratio is changed
 //  - (done) Add divine stepper
 //  - (done) Auto pet ability usage (request from Anten)
 //  - (done) Implement auto by pots, code provided by Sarimash
