@@ -5,8 +5,8 @@
 // @description  A collection of automation scripts for IdleLands
 // @downloadURL  https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/thescript.js
 // @updateURL    https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/thescript.meta.js
-// @author       Ian Duchesne (Torsin aka Crazyball) and Marno van der Maas
-// @copyright    2020, Ian Duchesne (Torsin aka Crazyball) and 2022, Marno van der Maas
+// @author       Torsin and Marno
+// @copyright    2020-2022 Torsin and Marno
 // @match        https://play.idle.land/*
 // @require      https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/utils.js
 // @require      https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/gameData.js
