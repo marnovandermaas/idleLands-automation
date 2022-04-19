@@ -1885,7 +1885,7 @@ const OptimizeEquipment = () => {
   currentInventory.forEach(element => {
     let slot = element.type;
     let newItemStat = element.stats[options.optimizeEquipmentStat] || 0;
-    let oldItemStat = currentEquipment[slot].stats[options.optimizeEquipmentStat] || 0;
+    let oldItemStat = currentEquipment[slot]?.stats[options.optimizeEquipmentStat] || 0;
 
     if(newItemStat > oldItemStat) {
       console.log(`Character Equiped ${slot}, NEW ${newItemStat} - OLD ${oldItemStat}`);
