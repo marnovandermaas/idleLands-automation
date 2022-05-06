@@ -42,11 +42,8 @@
 //  - Auto start festivals
 //  - Disable quest reroll when settings change
 //  - Disable donate gold when ratio is changed
-//  - (done) Add divine stepper
-//  - (done) Auto pet ability usage (request from Anten)
-//  - (done) Implement auto by pots, code provided by Sarimash
-//  - (done) Implement reroll quests, code provided by Sarimash
-//  - (done) Add settings tab to control the scalar value at which each type of quest is rerolled
+//  - Allow editing the selected path
+//  - Create a stats page that shows current xp and gold
 //
 // Changelog (adapted from changelog.txt):
 //  2.0
