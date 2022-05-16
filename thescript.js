@@ -30,22 +30,7 @@
 //   Torsin - For creating this script originally
 //   Anten - For his ideas to improve the script and testing
 //   Sarimash - For showing me his first script (then others) that ignited my curiosity to build this. Oh and testing as well
-//   skepticfx - for the wsHook.js (https://github.com/skepticfx/wshook) script that I modified because of grant permissions used in this script
-//
-// Known bugs:
-//
-// To do:
-//  - After 3 guild raid failed attempts, run level 100 raid boss, if that fails, turn off auto raiding
-//  - Enforce personalities, especially when you fate lake and then get randomly set
-//  - (started) Clean the code, seperate in different JS files
-//  - Auto collect global quests
-//  - Auto start festivals
-//  - Disable quest reroll when settings change
-//  - Disable donate gold when ratio is changed
-//  - Allow editing the selected path
-//  - Create a stats page that shows current xp and gold
-//  - Quest reroll distinguish between types of steps
-//  - Add special score to auto equip: gold + 10*xp + luck/10
+//   skepticfx - For the wsHook.js (https://github.com/skepticfx/wshook) script that I modified because of grant permissions used in this script
 //
 // Changelog (adapted from changelog.txt):
 //  2.0

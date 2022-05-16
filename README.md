@@ -56,7 +56,18 @@ Once logged into IdleLands, you will see a window on the top right corner.
   - Divine stumbler routes
 
 ## Todo
-- You have an idea/suggestion, please ask away
+- After 3 guild raid failed attempts, run level 100 raid boss, if that fails, turn off auto raiding
+- Enforce personalities, especially when you fate lake and then get randomly set
+- (started) Clean the code, seperate in different JS files
+- Auto collect global quests
+- Auto start festivals
+- Disable quest reroll when settings change
+- Disable donate gold when ratio is changed
+- Allow editing the selected path
+- Create a stats page that shows current xp and gold
+- Quest reroll distinguish between types of steps
+- Add special score to auto equip: gold + 10*xp + luck/10
+- If you have an idea/suggestion, please ask away
 
 ## Problems?
 Found a bug or want a new feature? [Open an issue](https://github.com/marnovandermaas/idleLands-automation/issues).
