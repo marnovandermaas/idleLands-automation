@@ -28,34 +28,40 @@ Once logged into IdleLands, you will see a window on the top right corner.
 
 ## Features
 - Free roll (daily)
-- Reroll quests
-- Buy pots of gold
 - Use scrolls/buffs
 - Donate gold
 - Optimize equipment by gold or XP
-- Pet Adventures
-  - auto collect adventures when completed
-  - auto send your pets on adventures
-- Active Pet
-  - auto gold collect (request from Anten)
-  - and auto ascend (request from Anten) (checks for materials and if pet is maxed out)
+- Make choices
+- Cleanup inventory
+- Divine stumbler
+- Quests
+  - Reroll quests
+  - Buy pots of gold
+- Pet adventures
+  - Collect adventures when completed
+  - Send your pets on adventures
+- Active pet
+  - Use ability
+  - Collect gold (request from Anten)
+  - Ascend (request from Anten) (checks for materials and if pet is maxed out)
+  - Optimize equipment
 - Raids
-  - auto raiding, must be a guild leader or mod to use this feature
-- Options Window
-  - Change the equipment optimization
+  - Raiding (must be a guild leader or mod to use this feature)
+- Options window
   - Control each type of choice
   - Control each type of quest reroll
   - Control refresh intervals
   - Guild raid options
+  - Divine stumbler routes
 
 ## Todo
 - You have an idea/suggestion, please ask away
 
 ## Problems?
-Found a bug, [Open an issue](https://github.com/marnovandermaas/idleLands-automation/issues) and it will be looked at ASAP.
+Found a bug or want a new feature? [Open an issue](https://github.com/marnovandermaas/idleLands-automation/issues).
 
 ## Contributing
-If you wish to contribute all [pull requests](https://github.com/marnovandermaas/idleLands-automation/pulls) should be based off the `develop` branch.
+If you wish to contribute open a [pull requests](https://github.com/marnovandermaas/idleLands-automation/pulls).
 
 ## Credits
 - `Anten`
