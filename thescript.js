@@ -45,6 +45,7 @@
 //  - Allow editing the selected path
 //  - Create a stats page that shows current xp and gold
 //  - Quest reroll distinguish between types of steps
+//  - Add special score to auto equip: gold + 10*xp + luck/10
 //
 // Changelog (adapted from changelog.txt):
 //  2.0
