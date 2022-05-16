@@ -1099,8 +1099,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('rerollQuestsInterval', e.target.value);
-      triggerChange('rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
+      saveOptions(options, 'rerollQuestsInterval', e.target.value);
+      triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
     }, 2000);
   });
 
@@ -1108,8 +1108,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('buyPotInterval', e.target.value);
-      triggerChange('buyPot', document.getElementById('buy-pots-checkbox'), false);
+      saveOptions(options, 'buyPotInterval', e.target.value);
+      triggerChange(options, 'buyPot', document.getElementById('buy-pots-checkbox'), false);
     }, 2000);
   });
 
@@ -1117,8 +1117,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('useScrollsInterval', e.target.value);
-      triggerChange('useScrolls', document.getElementById('use-scrolls-checkbox'), false);
+      saveOptions(options, 'useScrollsInterval', e.target.value);
+      triggerChange(options, 'useScrolls', document.getElementById('use-scrolls-checkbox'), false);
     }, 2000);
   });
 
@@ -1126,8 +1126,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('guildRaidInterval', e.target.value);
-      triggerChange('raids', document.getElementById('raids-checkbox'), false);
+      saveOptions(options, 'guildRaidInterval', e.target.value);
+      triggerChange(options, 'raids', document.getElementById('raids-checkbox'), false);
     }, 2000);
   });
 
@@ -1135,8 +1135,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('optimizeEquipmentInterval', e.target.value);
-      triggerChange('optimizeEquipment', document.getElementById('optimize-equipment-checkbox'), false);
+      saveOptions(options, 'optimizeEquipmentInterval', e.target.value);
+      triggerChange(options, 'optimizeEquipment', document.getElementById('optimize-equipment-checkbox'), false);
     }, 2000);
   });
 
@@ -1144,8 +1144,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('choicesInterval', e.target.value);
-      triggerChange('choices', document.getElementById('choices-checkbox'), false);
+      saveOptions(options, 'choicesInterval', e.target.value);
+      triggerChange(options, 'choices', document.getElementById('choices-checkbox'), false);
     }, 2000);
   });
 
@@ -1153,8 +1153,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('petAdventureCollectInterval', e.target.value);
-      triggerChange('petAdventureCollect', document.getElementById('pet-adventure-collect-checkbox'), false);
+      saveOptions(options, 'petAdventureCollectInterval', e.target.value);
+      triggerChange(options, 'petAdventureCollect', document.getElementById('pet-adventure-collect-checkbox'), false);
     }, 2000);
   });
 
@@ -1162,8 +1162,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('petAdventureEmbarkInterval', e.target.value);
-      triggerChange('petAdventureEmbark', document.getElementById('pet-adventure-embark-checkbox'), false);
+      saveOptions(options, 'petAdventureEmbarkInterval', e.target.value);
+      triggerChange(options, 'petAdventureEmbark', document.getElementById('pet-adventure-embark-checkbox'), false);
     }, 2000);
   });
 
@@ -1171,8 +1171,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('petGoldCollectInterval', e.target.value);
-      triggerChange('petGoldCollect', document.getElementById('pet-gold-checkbox'), false);
+      saveOptions(options, 'petGoldCollectInterval', e.target.value);
+      triggerChange(options, 'petGoldCollect', document.getElementById('pet-gold-checkbox'), false);
     }, 2000);
   });
 
@@ -1180,8 +1180,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('petAutoAscendInterval', e.target.value);
-      triggerChange('petAutoAscend', document.getElementById('pet-ascend-checkbox'), false);
+      saveOptions(options, 'petAutoAscendInterval', e.target.value);
+      triggerChange(options, 'petAutoAscend', document.getElementById('pet-ascend-checkbox'), false);
     }, 2000);
   });
 
@@ -1189,8 +1189,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('petOptimizeEquipmentInterval', e.target.value);
-      triggerChange('petOptimizeEquipment', document.getElementById('pet-optimize-equipment-checkbox'), false);
+      saveOptions(options, 'petOptimizeEquipmentInterval', e.target.value);
+      triggerChange(options, 'petOptimizeEquipment', document.getElementById('pet-optimize-equipment-checkbox'), false);
     }, 2000);
   });
 
@@ -1198,8 +1198,8 @@ const start = () => {
     clearTimeout(typingTimeout);
     e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
     typingTimeout = setTimeout(function () {
-      saveOptions('donateGoldInterval', e.target.value);
-      triggerChange('donateGold', document.getElementById('donate-gold-checkbox'), false);
+      saveOptions(options, 'donateGoldInterval', e.target.value);
+      triggerChange(options, 'donateGold', document.getElementById('donate-gold-checkbox'), false);
     }, 2000);
   });
 
@@ -1208,319 +1208,319 @@ const start = () => {
       if(this.checked) {
           petAdventureCollectLoop = setInterval( claimAdventures, options.petAdventureCollectInterval );
           console.log('pet adventures collect started');
-          saveOptions('petAdventureCollect', true);
+          saveOptions(options, 'petAdventureCollect', true);
       } else {
           clearInterval(petAdventureCollectLoop);
           console.log('pet adventures collect stopped');
-          saveOptions('petAdventureCollect', false);
+          saveOptions(options, 'petAdventureCollect', false);
       }
   });
-  triggerChange('petAdventureCollect', document.getElementById('pet-adventure-collect-checkbox'), true);
+  triggerChange(options, 'petAdventureCollect', document.getElementById('pet-adventure-collect-checkbox'), true);
 
   var petAdventureEmbarkLoop;
   document.getElementById('pet-adventure-embark-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petAdventureEmbarkLoop = setInterval( embarkAdventures, options.petAdventureEmbarkInterval );
           console.log('pet adventures embark started');
-          saveOptions('petAdventureEmbark', true);
+          saveOptions(options, 'petAdventureEmbark', true);
       } else {
           clearInterval(petAdventureEmbarkLoop);
           console.log('pet adventures embark stopped');
-          saveOptions('petAdventureEmbark', false);
+          saveOptions(options, 'petAdventureEmbark', false);
       }
   });
-  triggerChange('petAdventureEmbark', document.getElementById('pet-adventure-embark-checkbox'), true);
+  triggerChange(options, 'petAdventureEmbark', document.getElementById('pet-adventure-embark-checkbox'), true);
 
   var petGoldCollectLoop;
   document.getElementById('pet-gold-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petGoldCollectLoop = setInterval( PetGoldCollect, options.petGoldCollectInterval );
           console.log('pet gold collection started');
-          saveOptions('petGoldCollect', true);
+          saveOptions(options, 'petGoldCollect', true);
       } else {
           clearInterval(petGoldCollectLoop);
           console.log('pet gold collection stopped');
-          saveOptions('petGoldCollect', false);
+          saveOptions(options, 'petGoldCollect', false);
       }
   });
-  triggerChange('petGoldCollect', document.getElementById('pet-gold-checkbox'), true);
+  triggerChange(options, 'petGoldCollect', document.getElementById('pet-gold-checkbox'), true);
 
   var petAbilityLoop;
   document.getElementById('pet-ability-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petAbilityLoop = setInterval( PetAbility, options.petAbilityInterval );
           console.log('pet ability started');
-          saveOptions('petAbility', true);
+          saveOptions(options, 'petAbility', true);
       } else {
           clearInterval(petAbilityLoop);
           console.log('pet ability stopped');
-          saveOptions('petAbility', false);
+          saveOptions(options, 'petAbility', false);
       }
   });
-  triggerChange('petAbility', document.getElementById('pet-ability-checkbox'), true);
+  triggerChange(options, 'petAbility', document.getElementById('pet-ability-checkbox'), true);
 
   var freeRollLoop;
   document.getElementById('free-roll-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           freeRollLoop = setInterval( FreeRoll, 1000*60 );
           console.log('free roll started');
-          saveOptions('freeRoll', true);
+          saveOptions(options, 'freeRoll', true);
       } else {
           clearInterval(freeRollLoop);
           console.log('free roll stopped');
-          saveOptions('freeRoll', false);
+          saveOptions(options, 'freeRoll', false);
       }
   });
-  triggerChange('freeRoll', document.getElementById('free-roll-checkbox'), true);
+  triggerChange(options, 'freeRoll', document.getElementById('free-roll-checkbox'), true);
 
   var rerollQuestsLoop;
   document.getElementById('reroll-quests-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           rerollQuestsLoop = setInterval( RerollQuests, options.rerollQuestsInterval );
           console.log('reroll quests started');
-          saveOptions('rerollQuests', true);
+          saveOptions(options, 'rerollQuests', true);
       } else {
           clearInterval(rerollQuestsLoop);
           console.log('reroll quests stopped');
-          saveOptions('rerollQuests', false);
+          saveOptions(options, 'rerollQuests', false);
       }
   });
-  triggerChange('rerollQuests', document.getElementById('reroll-quests-checkbox'), true);
+  triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), true);
 
   var buyPotLoop;
   document.getElementById('buy-pots-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           buyPotLoop = setInterval( BuyPot, options.buyPotInterval );
           console.log('buying potions started');
-          saveOptions('buyPot', true);
+          saveOptions(options, 'buyPot', true);
       } else {
           clearInterval(buyPotLoop);
           console.log('buying potions stopped');
-          saveOptions('buyPot', false);
+          saveOptions(options, 'buyPot', false);
       }
   });
-  triggerChange('buyPot', document.getElementById('buy-pots-checkbox'), true);
+  triggerChange(options, 'buyPot', document.getElementById('buy-pots-checkbox'), true);
 
   var useScrollsLoop;
   document.getElementById('use-scrolls-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           useScrollsLoop = setInterval( UseScrolls, options.useScrollsInterval );
           console.log('use scrolls started');
-          saveOptions('useScrolls', true);
+          saveOptions(options, 'useScrolls', true);
       } else {
           clearInterval(useScrollsLoop);
           console.log('use scrolls stopped');
-          saveOptions('useScrolls', false);
+          saveOptions(options, 'useScrolls', false);
       }
   });
-  triggerChange('useScrolls', document.getElementById('use-scrolls-checkbox'), true);
+  triggerChange(options, 'useScrolls', document.getElementById('use-scrolls-checkbox'), true);
 
   var donateGoldLoop;
   document.getElementById('donate-gold-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           donateGoldLoop = setInterval( DonateGold, options.donateGoldInterval );
           console.log('donate gold started');
-          saveOptions('donateGold', true);
+          saveOptions(options, 'donateGold', true);
       } else {
           clearInterval(donateGoldLoop);
           console.log('donate gold stopped');
-          saveOptions('donateGold', false);
+          saveOptions(options, 'donateGold', false);
       }
   });
-  triggerChange('donateGold', document.getElementById('donate-gold-checkbox'), true);
+  triggerChange(options, 'donateGold', document.getElementById('donate-gold-checkbox'), true);
 
   var optimizeEquipmentLoop;
   document.getElementById('optimize-equipment-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           optimizeEquipmentLoop = setInterval( OptimizeEquipment, options.optimizeEquipmentInterval );
           console.log('optimize equipment started');
-          saveOptions('optimizeEquipment', true);
+          saveOptions(options, 'optimizeEquipment', true);
           document.getElementById('cb-optimize-equipment-sub-section').classList.toggle('cb-collapsed');
       } else {
           clearInterval(optimizeEquipmentLoop);
           console.log('optimize equipment stopped');
-          saveOptions('optimizeEquipment', false);
+          saveOptions(options, 'optimizeEquipment', false);
           document.getElementById('cb-optimize-equipment-sub-section').classList.toggle('cb-collapsed');
       }
   });
-  triggerChange('optimizeEquipment', document.getElementById('optimize-equipment-checkbox'), true);
+  triggerChange(options, 'optimizeEquipment', document.getElementById('optimize-equipment-checkbox'), true);
 
   var choicesLoop;
   document.getElementById('choices-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           choicesLoop = setInterval( RunChoices, options.choicesInterval );
           console.log('choices started');
-          saveOptions('choices', true);
+          saveOptions(options, 'choices', true);
       } else {
           clearInterval(choicesLoop);
           console.log('choices stopped');
-          saveOptions('choices', false);
+          saveOptions(options, 'choices', false);
       }
   });
-  triggerChange('choices', document.getElementById('choices-checkbox'), true);
+  triggerChange(options, 'choices', document.getElementById('choices-checkbox'), true);
 
   var inventoryLoop;
   document.getElementById('inventory-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           inventoryLoop = setInterval( RunInventory, options.inventoryInterval );
           console.log('inventory cleanup started');
-          saveOptions('inventory', true);
+          saveOptions(options, 'inventory', true);
       } else {
           clearInterval(inventoryLoop);
           console.log('inventory cleanup stopped');
-          saveOptions('inventory', false);
+          saveOptions(options, 'inventory', false);
       }
   });
-  triggerChange('inventory', document.getElementById('inventory-checkbox'), true);
+  triggerChange(options, 'inventory', document.getElementById('inventory-checkbox'), true);
 
   var petAutoAscendLoop;
   document.getElementById('pet-ascend-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petAutoAscendLoop = setInterval( petAscend, options.petAutoAscendInterval );
           console.log('pet auto ascend started');
-          saveOptions('petAutoAscend', true);
+          saveOptions(options, 'petAutoAscend', true);
           document.getElementById('cb-pet-ascend-sub-section').classList.toggle('cb-collapsed');
       } else {
           clearInterval(petAutoAscendLoop);
           console.log('pet auto ascend stopped');
-          saveOptions('petAutoAscend', false);
+          saveOptions(options, 'petAutoAscend', false);
           document.getElementById('cb-pet-ascend-sub-section').classList.toggle('cb-collapsed');
       }
   });
-  triggerChange('petAutoAscend', document.getElementById('pet-ascend-checkbox'), true);
+  triggerChange(options, 'petAutoAscend', document.getElementById('pet-ascend-checkbox'), true);
 
   var petOptimizeEquipmentLoop;
   document.getElementById('pet-optimize-equipment-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           petOptimizeEquipmentLoop = setInterval( petOptimizeEquipment, options.petOptimizeEquipmentInterval );
           console.log('pet optimize equipment started');
-          saveOptions('petOptimizeEquipment', true);
+          saveOptions(options, 'petOptimizeEquipment', true);
           document.getElementById('cb-pet-optimize-equipment-sub-section').classList.toggle('cb-collapsed');
       } else {
           clearInterval(petOptimizeEquipmentLoop);
           console.log('pet optimize equipment stopped');
-          saveOptions('petOptimizeEquipment', false);
+          saveOptions(options, 'petOptimizeEquipment', false);
           document.getElementById('cb-pet-optimize-equipment-sub-section').classList.toggle('cb-collapsed');
       }
   });
-  triggerChange('petOptimizeEquipment', document.getElementById('pet-optimize-equipment-checkbox'), true);
+  triggerChange(options, 'petOptimizeEquipment', document.getElementById('pet-optimize-equipment-checkbox'), true);
 
   var divineDirectionLoop;
   document.getElementById('divine-path-form-enabled-checkbox').addEventListener( 'change', function() {
       if(this.checked) {
           divineDirectionLoop = setInterval( RunDivineDirection, options.divineDirectionInterval );
           console.log('divine direction started');
-          saveOptions('ddEnable', true);
+          saveOptions(options, 'ddEnable', true);
           globalData.divineDirectionIndex = 0;
       } else {
           clearInterval(divineDirectionLoop);
           console.log('divine directions stopped');
-          saveOptions('ddEnable', false);
+          saveOptions(options, 'ddEnable', false);
           globalData.divineDirectionIndex = 0;
       }
   });
-  triggerChange('ddEnable', document.getElementById('divine-path-form-enabled-checkbox'), true);
+  triggerChange(options, 'ddEnable', document.getElementById('divine-path-form-enabled-checkbox'), true);
 
   document.getElementById('divine-path-form-loop-checkbox').addEventListener( 'change', function() {
-    saveOptions('ddLoop', this.checked);
+    saveOptions(options, 'ddLoop', this.checked);
   });
-  triggerChange('ddLoop', document.getElementById('divine-path-form-loop-checkbox'), true);
+  triggerChange(options, 'ddLoop', document.getElementById('divine-path-form-loop-checkbox'), true);
 
   document.getElementById('divine-path-form-cooldown-checkbox').addEventListener( 'change', function() {
-    saveOptions('ddCheckCooldown', this.checked);
+    saveOptions(options, 'ddCheckCooldown', this.checked);
   });
-  triggerChange('ddCheckCooldown', document.getElementById('divine-path-form-cooldown-checkbox'), true);
+  triggerChange(options, 'ddCheckCooldown', document.getElementById('divine-path-form-cooldown-checkbox'), true);
 
   document.getElementById('cb-choice-trainer-select').addEventListener( 'change', function(e) {
-    saveOptions('choiceTrainerOption', e.target.value);
+    saveOptions(options, 'choiceTrainerOption', e.target.value);
   });
   document.getElementById('cb-choice-portal-select').addEventListener( 'change', function(e) {
-    saveOptions('choicePortalOption', e.target.value);
+    saveOptions(options, 'choicePortalOption', e.target.value);
   });
   document.getElementById('cb-choice-gambling-select').addEventListener( 'change', function(e) {
-    saveOptions('choiceGamblingOption', e.target.value);
+    saveOptions(options, 'choiceGamblingOption', e.target.value);
   });
   document.getElementById('cb-choice-party-leave-select').addEventListener( 'change', function(e) {
-    saveOptions('choicePartyLeaveOption', e.target.value);
+    saveOptions(options, 'choicePartyLeaveOption', e.target.value);
   });
   document.getElementById('cb-choice-buy-item-select').addEventListener( 'change', function(e) {
-    saveOptions('choiceBuyItemOption', e.target.value);
+    saveOptions(options, 'choiceBuyItemOption', e.target.value);
   });
   document.getElementById('cb-choice-item-found-select').addEventListener( 'change', function(e) {
-    saveOptions('choiceItemFoundOption', e.target.value);
+    saveOptions(options, 'choiceItemFoundOption', e.target.value);
   });
   document.getElementById('cb-choice-item-min-score-text').addEventListener( 'keyup', function (e) {
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(function () {
-      saveOptions('choiceItemMinScore', e.target.value);
-      triggerChange('choices', document.getElementById('choices-checkbox'), false);
+      saveOptions(options, 'choiceItemMinScore', e.target.value);
+      triggerChange(options, 'choices', document.getElementById('choices-checkbox'), false);
     }, 2000);
   });
   document.getElementById('cb-choice-enchant-select').addEventListener( 'change', function(e) {
-    saveOptions('choiceEnchantOption', e.target.value);
+    saveOptions(options, 'choiceEnchantOption', e.target.value);
   });
   document.getElementById('cb-quest-treasure-select').addEventListener( 'change', function(e) {
-    saveOptions('questTreasureScalar', e.target.value);
+    saveOptions(options, 'questTreasureScalar', e.target.value);
   });
   document.getElementById('cb-quest-collectible-select').addEventListener( 'change', function(e) {
-    saveOptions('questCollectibleScalar', e.target.value);
+    saveOptions(options, 'questCollectibleScalar', e.target.value);
   });
   document.getElementById('cb-quest-sell-select').addEventListener( 'change', function(e) {
-    saveOptions('questSellScalar', e.target.value);
+    saveOptions(options, 'questSellScalar', e.target.value);
   });
   document.getElementById('cb-quest-salvage-select').addEventListener( 'change', function(e) {
-    saveOptions('questSalvageScalar', e.target.value);
+    saveOptions(options, 'questSalvageScalar', e.target.value);
   });
   document.getElementById('cb-quest-combat-select').addEventListener( 'change', function(e) {
-    saveOptions('questCombatScalar', e.target.value);
+    saveOptions(options, 'questCombatScalar', e.target.value);
   });
   document.getElementById('cb-quest-stamina-select').addEventListener( 'change', function(e) {
-    saveOptions('questStaminaScalar', e.target.value);
+    saveOptions(options, 'questStaminaScalar', e.target.value);
   });
   document.getElementById('cb-quest-gain-select').addEventListener( 'change', function(e) {
-    saveOptions('questGainScalar', e.target.value);
+    saveOptions(options, 'questGainScalar', e.target.value);
   });
   document.getElementById('cb-quest-spend-select').addEventListener( 'change', function(e) {
-    saveOptions('questSpendScalar', e.target.value);
+    saveOptions(options, 'questSpendScalar', e.target.value);
   });
   document.getElementById('cb-quest-step-select').addEventListener( 'change', function(e) {
-    saveOptions('questStepScalar', e.target.value);
+    saveOptions(options, 'questStepScalar', e.target.value);
   });
   document.getElementById('cb-inventory-cleanup-select').addEventListener( 'change', function(e) {
-    saveOptions('inventoryCleanup', e.target.value);
+    saveOptions(options, 'inventoryCleanup', e.target.value);
   });
   document.getElementById('cb-gold-donate-ratio-select').addEventListener( 'change', function(e) {
-    saveOptions('goldDonateRatio', e.target.value);
+    saveOptions(options, 'goldDonateRatio', e.target.value);
   });
   document.getElementById('cb-pet-optimize-equipment-select').addEventListener( 'change', function(e) {
-    saveOptions('petOptimizeEquipmentStat', e.target.value);
+    saveOptions(options, 'petOptimizeEquipmentStat', e.target.value);
   });
   document.getElementById('cb-pets-per-select').addEventListener( 'change', function(e) {
-    saveOptions('petAdventurePetNum', e.target.value);
+    saveOptions(options, 'petAdventurePetNum', e.target.value);
   });
   document.getElementById('cb-optimize-equipment-select').addEventListener( 'change', function(e) {
-    saveOptions('optimizeEquipmentStat', e.target.value);
+    saveOptions(options, 'optimizeEquipmentStat', e.target.value);
   });
   document.getElementById('cb-min-raid-select').addEventListener( 'change', function(e) {
-    saveOptions('guildRaidMinLevel', e.target.value);
+    saveOptions(options, 'guildRaidMinLevel', e.target.value);
   });
   document.getElementById('cb-max-raid-select').addEventListener( 'change', function(e) {
-    saveOptions('guildRaidMaxLevel', e.target.value);
+    saveOptions(options, 'guildRaidMaxLevel', e.target.value);
   });
   document.getElementById('cb-raid-item-select').addEventListener( 'change', function(e) {
     options.guildRaidItems[0] = e.target.value;
-    saveOptions('guildRaidItems', options.guildRaidItems);
+    saveOptions(options, 'guildRaidItems', options.guildRaidItems);
   });
   document.getElementById('cb-raid-item-2-select').addEventListener( 'change', function(e) {
     options.guildRaidItems[1] = e.target.value;
-    saveOptions('guildRaidItems', options.guildRaidItems);
+    saveOptions(options, 'guildRaidItems', options.guildRaidItems);
   });
   document.getElementById('cb-raid-item-3-select').addEventListener( 'change', function(e) {
     options.guildRaidItems[2] = e.target.value;
-    saveOptions('guildRaidItems', options.guildRaidItems);
+    saveOptions(options, 'guildRaidItems', options.guildRaidItems);
   });
   document.getElementById('cb-divine-path-select').addEventListener( 'change', function(e) {
-    saveOptions('ddSelectedPathName', e.target.value);
+    saveOptions(options, 'ddSelectedPathName', e.target.value);
     document.getElementById('cb-divine-path-selected-path-name').innerHTML = e.target.value;
   });
   document.getElementById('cb-divine-path-delete-select').addEventListener( 'change', function(e) {
@@ -1548,7 +1548,7 @@ const start = () => {
               var date = new Date(options.guildRaidNextAvailability);
               guildTimeEl.innerHTML = date.toLocaleTimeString();
               document.getElementById('cb-raids-sub-section').classList.toggle('cb-collapsed');
-              saveOptions('raids', true);
+              saveOptions(options, 'raids', true);
           } else {
               clearInterval(raidsLoop);
               console.log('raiding stopped');
@@ -1558,10 +1558,10 @@ const start = () => {
               globalData.raidFail = false;
               globalData.raidFailTimes = 0;
               document.getElementById('cb-raids-sub-section').classList.toggle('cb-collapsed');
-              saveOptions('raids', false);
+              saveOptions(options, 'raids', false);
           }
     });
-    triggerChange('raids', document.getElementById('raids-checkbox'), true);
+    triggerChange(options, 'raids', document.getElementById('raids-checkbox'), true);
   }
 
   // Make the whole container draggable

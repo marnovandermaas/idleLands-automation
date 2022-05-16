@@ -29,7 +29,7 @@ const getMemberList = (memberHash) => {
   );
 }
 
-const triggerChange = (option, element, value) => {
+const triggerChange = (options, option, element, value) => {
   if(options[option]) {
     element.checked = value;
 
@@ -40,7 +40,7 @@ const triggerChange = (option, element, value) => {
   }
 }
 
-const saveOptions = (option, val) => {
+const saveOptions = (options, option, val) => {
   options[option] = val;
   GM_setValue('options', options);
 }
