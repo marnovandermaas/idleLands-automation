@@ -8,7 +8,7 @@
 Automation userscript for IdleLands
 https://play.idle.land/
 
-A big thank you to `Sarimash` for showing me some example code he created, which evolved to this... 
+A big thank you to `Sarimash` for sharing some example code he created and to `Torsin` who made the initial version of this automation tool. 
 
 [![screenshot](https://i.postimg.cc/8zSK7DWn/tempsnip.png)](https://postimg.cc/D8xdN9xq)
 
@@ -16,7 +16,7 @@ A big thank you to `Sarimash` for showing me some example code he created, which
 `please note, if you are running v1.3 or lower, you will need to delete and re-install`
 
 1. Install [Tampermonkey](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/) (Firefox) / [Tampermonkey](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) (Chrome) / [Tampermonkey](https://addons.opera.com/en/extensions/details/tampermonkey-beta/) (Opera).
-2. Open `https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js` or click [here](https://raw.githubusercontent.com/the-crazyball/idleLands-automation/main/thescript.js).
+2. Open `https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/thescript.js` or click [here](https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/thescript.js).
 3. Click `Install` or copy it into a new Tampermonkey script.
 
 ## Usage
@@ -52,10 +52,10 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - You have an idea/suggestion, please ask away
 
 ## Problems?
-Found a bug, [Open an issue](https://github.com/the-crazyball/idleLands-automation/issues) and it will be looked at ASAP.
+Found a bug, [Open an issue](https://github.com/marnovandermaas/idleLands-automation/issues) and it will be looked at ASAP.
 
 ## Contributing
-If you wish to contribute all [pull requests](https://github.com/the-crazyball/idleLands-automation/pulls) should be based off the `develop` branch.
+If you wish to contribute all [pull requests](https://github.com/marnovandermaas/idleLands-automation/pulls) should be based off the `develop` branch.
 
 ## Credits
 - `Anten`
