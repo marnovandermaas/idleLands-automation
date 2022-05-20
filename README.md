@@ -60,7 +60,6 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - Enforce personalities, especially when you fate lake and then get randomly set
 - (started) Clean the code, seperate in different JS files
 - Auto collect global quests
-- Allow editing the selected path
 - Create a stats page that shows current xp and gold
 - Quest reroll distinguish between types of steps
 - Quest reroll should check whether map is current map
