@@ -66,6 +66,7 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - Allow editing the selected path
 - Create a stats page that shows current xp and gold
 - Quest reroll distinguish between types of steps
+- Quest reroll should check whether map is current map
 - Add special score to auto equip: gold + 10*xp + luck/10
 - If you have an idea/suggestion, please ask away
 
