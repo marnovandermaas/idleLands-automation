@@ -61,8 +61,6 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - (started) Clean the code, seperate in different JS files
 - Auto collect global quests
 - Auto start festivals
-- Disable quest reroll when settings change
-- Disable donate gold when ratio is changed
 - Allow editing the selected path
 - Create a stats page that shows current xp and gold
 - Quest reroll distinguish between types of steps
