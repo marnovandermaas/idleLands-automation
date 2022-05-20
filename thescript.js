@@ -1966,7 +1966,7 @@ const RerollQuests = () => {
       || ( element.statistic.indexOf('Step') >= 0 && element.scalar >= options.questStepScalar )
       || ( element.statistic.indexOf('Sell') >= 0 && element.scalar >= options.questSellScalar )
       || ( element.statistic.indexOf('Treasure') >= 0 && element.scalar >= options.questTreasureScalar )
-      || ( !!element.requireMap )
+      || ( !!element.requireMap && element.requireMap != discordGlobalCharacter.lastLoc.map )
       || ( element.statistic.indexOf('Salvage') >= 0 && element.scalar >= options.questSalvageScalar )
       || ( element.statistic.indexOf('Gold/Gain') >= 0 && element.scalar >= options.questGainScalar )
       || ( element.statistic.indexOf('Gold/Spend') >= 0 && element.scalar >= options.questSpendScalar )
