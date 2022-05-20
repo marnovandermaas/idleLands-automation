@@ -866,18 +866,6 @@ const loadUI = () => {
             </span>
           </div>
         </div>
-        <div class="cb-section-header">Quests</div>
-        <div class="cb-section">
-          <div class="cb-section-content">
-            <span class="cb-flex-1">Auto Reroll Quests</span>
-            <span class="cb-flex-1 right">
-              <label class="switch">
-                <input id="reroll-quests-checkbox" type="checkbox">
-                <span class="slider round"></span>
-              </label>
-            </span>
-          </div>
-        </div>
         <div class="cb-section">
           <div class="cb-section-content">
             <span class="cb-flex-1">Auto Start Festivals</span>
@@ -895,6 +883,17 @@ const loadUI = () => {
             <span class="cb-flex-1 right">
               <label class="switch">
                 <input id="buy-pots-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Reroll Quests</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="reroll-quests-checkbox" type="checkbox">
                 <span class="slider round"></span>
               </label>
             </span>
