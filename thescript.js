@@ -1446,36 +1446,46 @@ const start = () => {
   });
   document.getElementById('cb-quest-treasure-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questTreasureScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-quest-collectible-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questCollectibleScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-quest-sell-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questSellScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-quest-salvage-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questSalvageScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-quest-combat-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questCombatScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-quest-stamina-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questStaminaScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-quest-gain-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questGainScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-quest-spend-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questSpendScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-quest-step-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questStepScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-inventory-cleanup-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'inventoryCleanup', e.target.value);
   });
   document.getElementById('cb-gold-donate-ratio-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'goldDonateRatio', e.target.value);
+    triggerChange(options, 'donateGold', document.getElementById('donate-gold-checkbox'), false);
   });
   document.getElementById('cb-pet-optimize-equipment-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'petOptimizeEquipmentStat', e.target.value);
