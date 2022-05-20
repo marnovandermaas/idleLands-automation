@@ -71,6 +71,7 @@ let defaultOptions = {
   petAdventurePetNum: 3, // Number of pets to send per adventure (Game max is set to 3)
 
   petGoldCollectInterval: 300000, // in ms
+  startFestInterval: 3600000, // 1hr in ms
   buyPotInterval: 300000, // in ms
   petAutoAscendInterval: 60000, // in ms
   petOptimizeEquipmentInterval: 30000,
@@ -119,6 +120,7 @@ let defaultOptions = {
   petAdventureCollect: false,
   petAdventureEmbark: false,
   petGoldCollect: false,
+  startFest: false,
   buyPot: false,
   freeRoll: false,
   useScrolls: false,
@@ -596,6 +598,14 @@ const loadUI = () => {
             </div>
             <div class="cb-section">
               <div class="cb-section-content">
+                <span class="cb-flex-1">Start Festivals:</span>
+                <span class="right">
+                  <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-start-fest-text">
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
                 <span class="cb-flex-1">Buy Pots:</span>
                 <span class="right">
                   <span class="cb-extra-small"></span> <input type="text" class="cb-input-small" id="cb-buy-pot-text">
@@ -870,6 +880,17 @@ const loadUI = () => {
         </div>
         <div class="cb-section">
           <div class="cb-section-content">
+            <span class="cb-flex-1">Auto Start Festivals</span>
+            <span class="cb-flex-1 right">
+              <label class="switch">
+                <input id="start-fest-checkbox" type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </span>
+          </div>
+        </div>
+        <div class="cb-section">
+          <div class="cb-section-content">
             <span class="cb-flex-1">Auto Buy Pots</span>
             <span class="cb-flex-1 right">
               <label class="switch">
@@ -1051,6 +1072,9 @@ const start = () => {
 
     document.getElementById('cb-buy-pot-text').value = options.buyPotInterval;
     document.getElementById('cb-buy-pot-text').previousSibling.previousSibling.innerHTML = timeConversion(options.buyPotInterval);
+    
+    document.getElementById('cb-start-fest-text').value = options.startFestInterval;
+    document.getElementById('cb-start-fest-text').previousSibling.previousSibling.innerHTML = timeConversion(options.startFestInterval);
 
     document.getElementById('cb-pet-auto-ascend-text').value = options.petAutoAscendInterval;
     document.getElementById('cb-pet-auto-ascend-text').previousSibling.previousSibling.innerHTML = timeConversion(options.petAutoAscendInterval);
@@ -1095,6 +1119,15 @@ const start = () => {
     typingTimeout = setTimeout(function () {
       saveOptions(options, 'buyPotInterval', e.target.value);
       triggerChange(options, 'buyPot', document.getElementById('buy-pots-checkbox'), false);
+    }, 2000);
+  });
+
+  document.getElementById('cb-start-fest-text').addEventListener( 'keyup', function (e) {
+    clearTimeout(typingTimeout);
+    e.target.previousSibling.previousSibling.innerHTML = timeConversion(e.target.value);
+    typingTimeout = setTimeout(function () {
+      saveOptions(options, 'startFestInterval', e.target.value);
+      triggerChange(options, 'startFest', document.getElementById('start-fest-checkbox'), false);
     }, 2000);
   });
 
@@ -1285,6 +1318,20 @@ const start = () => {
       }
   });
   triggerChange(options, 'buyPot', document.getElementById('buy-pots-checkbox'), true);
+
+  var startFestLoop;
+  document.getElementById('start-fest-checkbox').addEventListener( 'change', function() {
+      if(this.checked) {
+          startFestLoop = setInterval( StartFest, options.startFestInterval );
+          console.log('auto festivals started');
+          saveOptions(options, 'startFest', true);
+      } else {
+          clearInterval(startFestLoop);
+          console.log('auto festivals stopped');
+          saveOptions(options, 'startFest', false);
+      }
+  });
+  triggerChange(options, 'startFest', document.getElementById('start-fest-checkbox'), true);
 
   var useScrollsLoop;
   document.getElementById('use-scrolls-checkbox').addEventListener( 'change', function() {
@@ -1933,6 +1980,9 @@ const PetGoldCollect = () => {
 }
 const BuyPot = () => {
   setTimeout( () => {unsafeWindow.__emitSocket('premium:goldcollectible', {collectible: 'Pot of Gold'})}, 100);
+}
+const StartFest = () => {
+  setTimeout( () => {unsafeWindow.__emitSocket('premium:festival', {festivalType: 'Salvage', duration: 96})}, 100);
 }
 const DonateGold = () => {
   setTimeout( () => {unsafeWindow.__emitSocket('guild:donateresource', { resource: 'gold', amount: parseInt(options.goldDonateRatio*discordGlobalCharacter.gold) })}, 500);
