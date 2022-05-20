@@ -1563,6 +1563,8 @@ const start = () => {
   document.getElementById('cb-divine-path-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'ddSelectedPathName', e.target.value);
     document.getElementById('cb-divine-path-selected-path-name').innerHTML = e.target.value;
+    document.getElementById('divine-path-form-name-text').value = options.ddSelectedPathName;
+    document.getElementById('divine-path-form-input-text').value = formatDdList(options.ddPaths[options.ddSelectedPathName]);
   });
   document.getElementById('cb-divine-path-delete-select').addEventListener( 'change', function(e) {
     if(e.target.value != options.ddSelectedPathName) {
