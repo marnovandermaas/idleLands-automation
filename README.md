@@ -61,11 +61,9 @@ Once logged into IdleLands, you will see a window on the top right corner.
 - (started) Clean the code, seperate in different JS files
 - Auto collect global quests
 - Create a stats page that shows current xp and gold
-- Quest reroll distinguish between types of steps
-- Add special score to auto equip: gold + 10*xp + luck/10
-- If you have an idea/suggestion, please ask away
+- Calculate real xp for auto equip
 
-## Problems?
+## Problems or Ideas?
 Found a bug or want a new feature? [Open an issue](https://github.com/marnovandermaas/idleLands-automation/issues).
 
 ## Contributing
