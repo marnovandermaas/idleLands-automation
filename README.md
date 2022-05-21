@@ -10,7 +10,7 @@ https://play.idle.land/
 
 A big thank you to `Sarimash` for sharing some example code he created and to `Torsin` who made the initial version of this automation tool. 
 
-[![screenshot]([https://i.postimg.cc/8zSK7DWn/tempsnip.png](https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/screenshot.png))]([https://postimg.cc/D8xdN9xq](https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/screenshot.png))
+[![screenshot](https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/screenshot.png)](https://raw.githubusercontent.com/marnovandermaas/idleLands-automation/main/screenshot.png)
 
 ## Installation
 `please note, if you are running v1.3 or lower, you will need to delete and re-install`
