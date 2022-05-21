@@ -109,11 +109,18 @@ let defaultOptions = {
   questCollectibleScalar: 2,
   questSellScalar:        1,
   questSalvageScalar:     1,
+  questClayScalar:        1,
+  questWoodScalar:        1,
+  questStoneScalar:       1,
+  questAstraliumScalar:   1,
   questCombatScalar:      1,
   questStaminaScalar:     2,
   questGainScalar:        4,
   questSpendScalar:       4,
-  questStepScalar:        2,
+  questStepScalar:        3,
+  questDivineScalar:      3,
+  questDrunkScalar:       3,
+  questSoloScalar:        3,
 
   // checkboxes
   optimizeEquipment: false,
@@ -469,13 +476,61 @@ const loadUI = () => {
             </div>
             <div class="cb-section">
               <div class="cb-section-content">
-                <span class="cb-flex-1">Salvage Items or Resources:</span>
+                <span class="cb-flex-1">Salvage Items:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-salvage-select">
                     <option value="1" ${options.questSalvageScalar == 1 ? `selected` : ``}>All</option>
-                    <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>&gt;5 or 10k</option>
-                    <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>&gt;25 or 1,000k</option>
+                    <option value="2" ${options.questSalvageScalar == 2 ? `selected` : ``}>&gt;5</option>
+                    <option value="3" ${options.questSalvageScalar == 3 ? `selected` : ``}>&gt;25</option>
                     <option value="4" ${options.questSalvageScalar == 4 ? `selected` : ``}>None</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Salvage Clay:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-clay-select">
+                    <option value="2" ${options.questClayScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questClayScalar == 3 ? `selected` : ``}>&gt;10k</option>
+                    <option value="4" ${options.questClayScalar == 4 ? `selected` : ``}>None</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Salvage Wood:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-wood-select">
+                    <option value="2" ${options.questWoodScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questWoodScalar == 3 ? `selected` : ``}>&gt;10k</option>
+                    <option value="4" ${options.questWoodScalar == 4 ? `selected` : ``}>None</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Salvage Stone:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-stone-select">
+                    <option value="2" ${options.questStoneScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questStoneScalar == 3 ? `selected` : ``}>&gt;10k</option>
+                    <option value="4" ${options.questStoneScalar == 4 ? `selected` : ``}>None</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Salvage Astralium:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-astralium-select">
+                    <option value="2" ${options.questAstraliumScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questAstraliumScalar == 3 ? `selected` : ``}>&gt;10k</option>
+                    <option value="4" ${options.questAstraliumScalar == 4 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -532,15 +587,54 @@ const loadUI = () => {
             </div>
             <div class="cb-section">
               <div class="cb-section-content">
-                <span class="cb-flex-1">Steps:</span>
+                <span class="cb-flex-1">Normal Steps:</span>
                 <span class="cb-flex-1 right">
                   <select class="cb-select" id="cb-quest-step-select">
-                    <option value="2" ${options.questStepScalar == 2 ? `selected` : ``}>All</option>
-                    <option value="3" ${options.questStepScalar == 3 ? `selected` : ``}>&gt;100</option>
+                    <option value="3" ${options.questStepScalar == 3 ? `selected` : ``}>All</option>
                     <option value="4" ${options.questStepScalar == 4 ? `selected` : ``}>&gt;1,000</option>
                     <option value="5" ${options.questStepScalar == 5 ? `selected` : ``}>&gt;10,000</option>
                     <option value="6" ${options.questStepScalar == 6 ? `selected` : ``}>&gt;100,000</option>
                     <option value="7" ${options.questStepScalar == 7 ? `selected` : ``}>None</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Divine Steps:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-divine-select">
+                    <option value="2" ${options.questDivineScalar == 2 ? `selected` : ``}>All</option>
+                    <option value="3" ${options.questDivineScalar == 3 ? `selected` : ``}>&gt;100</option>
+                    <option value="4" ${options.questDivineScalar == 4 ? `selected` : ``}>&gt;1,000</option>
+                    <option value="5" ${options.questDivineScalar == 5 ? `selected` : ``}>&gt;10,000</option>
+                    <option value="6" ${options.questDivineScalar == 6 ? `selected` : ``}>None</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Drunk Steps:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-drunk-select">
+                    <option value="3" ${options.questDrunkScalar == 3 ? `selected` : ``}>All</option>
+                    <option value="4" ${options.questDrunkScalar == 4 ? `selected` : ``}>&gt;1,000</option>
+                    <option value="5" ${options.questDrunkScalar == 5 ? `selected` : ``}>&gt;10,000</option>
+                    <option value="6" ${options.questDrunkScalar == 6 ? `selected` : ``}>None</option>
+                  </select>
+                </span>
+              </div>
+            </div>
+            <div class="cb-section">
+              <div class="cb-section-content">
+                <span class="cb-flex-1">Solo Steps:</span>
+                <span class="cb-flex-1 right">
+                  <select class="cb-select" id="cb-quest-solo-select">
+                    <option value="3" ${options.questSoloScalar == 3 ? `selected` : ``}>All</option>
+                    <option value="4" ${options.questSoloScalar == 4 ? `selected` : ``}>&gt;1,000</option>
+                    <option value="5" ${options.questSoloScalar == 5 ? `selected` : ``}>&gt;10,000</option>
+                    <option value="6" ${options.questSoloScalar == 6 ? `selected` : ``}>None</option>
                   </select>
                 </span>
               </div>
@@ -1506,6 +1600,22 @@ const start = () => {
     saveOptions(options, 'questSalvageScalar', e.target.value);
     triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
+  document.getElementById('cb-quest-clay-select').addEventListener( 'change', function(e) {
+    saveOptions(options, 'questClayScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
+  });
+  document.getElementById('cb-quest-wood-select').addEventListener( 'change', function(e) {
+    saveOptions(options, 'questWoodScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
+  });
+  document.getElementById('cb-quest-stone-select').addEventListener( 'change', function(e) {
+    saveOptions(options, 'questStoneScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
+  });
+  document.getElementById('cb-quest-astralium-select').addEventListener( 'change', function(e) {
+    saveOptions(options, 'questAstraliumScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
+  });
   document.getElementById('cb-quest-combat-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questCombatScalar', e.target.value);
     triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
@@ -1524,6 +1634,18 @@ const start = () => {
   });
   document.getElementById('cb-quest-step-select').addEventListener( 'change', function(e) {
     saveOptions(options, 'questStepScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
+  });
+  document.getElementById('cb-quest-divine-select').addEventListener( 'change', function(e) {
+    saveOptions(options, 'questDivineScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
+  });
+  document.getElementById('cb-quest-drunk-select').addEventListener( 'change', function(e) {
+    saveOptions(options, 'questDrunkScalar', e.target.value);
+    triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
+  });
+  document.getElementById('cb-quest-solo-select').addEventListener( 'change', function(e) {
+    saveOptions(options, 'questSoloScalar', e.target.value);
     triggerChange(options, 'rerollQuests', document.getElementById('reroll-quests-checkbox'), false);
   });
   document.getElementById('cb-inventory-cleanup-select').addEventListener( 'change', function(e) {
@@ -1961,16 +2083,23 @@ const RerollQuests = () => {
       setTimeout( () => {unsafeWindow.__emitSocket('quest:collect', {questId: currentQuest.id})}, 1);
     }
     if (currentQuest.objectives.find( element =>
-         ( element.statistic.indexOf('Combat') >= 0 && element.scalar >= options.questCombatScalar )
-      || ( element.statistic.indexOf('Stamina') >= 0 && element.scalar >= options.questStaminaScalar )
-      || ( element.statistic.indexOf('Step') >= 0 && element.scalar >= options.questStepScalar )
-      || ( element.statistic.indexOf('Sell') >= 0 && element.scalar >= options.questSellScalar )
-      || ( element.statistic.indexOf('Treasure') >= 0 && element.scalar >= options.questTreasureScalar )
+         ( element.statistic.indexOf('Combat/All') >= 0 && element.scalar >= options.questCombatScalar )
+      || ( element.statistic.indexOf('Stamina/Spend') >= 0 && element.scalar >= options.questStaminaScalar )
+      || ( element.statistic.indexOf('Steps/Normal') >= 0 && element.scalar >= options.questStepScalar )
+      || ( element.statistic.indexOf('Steps/Divine') >= 0 && element.scalar >= options.questDivineScalar )
+      || ( element.statistic.indexOf('Steps/Drunk') >= 0 && element.scalar >= options.questDrunkScalar )
+      || ( element.statistic.indexOf('Steps/Solo') >= 0 && element.scalar >= options.questSoloScalar )
+      || ( element.statistic.indexOf('Sell/Times') >= 0 && element.scalar >= options.questSellScalar )
+      || ( element.statistic.indexOf('Treasure/Total') >= 0 && element.scalar >= options.questTreasureScalar )
       || ( !!element.requireMap && element.requireMap != discordGlobalCharacter.lastLoc.map )
-      || ( element.statistic.indexOf('Salvage') >= 0 && element.scalar >= options.questSalvageScalar )
+      || ( element.statistic.indexOf('Salvage/Times') >= 0 && element.scalar >= options.questSalvageScalar )
+      || ( element.statistic.indexOf('Salvage/Clay') >= 0 && element.scalar >= options.questClayScalar )
+      || ( element.statistic.indexOf('Salvage/Wood') >= 0 && element.scalar >= options.questWoodScalar )
+      || ( element.statistic.indexOf('Salvage/Stone') >= 0 && element.scalar >= options.questStoneScalar )
+      || ( element.statistic.indexOf('Salvage/Astralium') >= 0 && element.scalar >= options.questAstraliumScalar )
       || ( element.statistic.indexOf('Gold/Gain') >= 0 && element.scalar >= options.questGainScalar )
       || ( element.statistic.indexOf('Gold/Spend') >= 0 && element.scalar >= options.questSpendScalar )
-      || ( element.statistic.indexOf('Collectible') >= 0 && element.scalar >= options.questCollectibleScalar )
+      || ( element.statistic.indexOf('Collectible/Touch') >= 0 && element.scalar >= options.questCollectibleScalar )
     )) {
           setTimeout(function(){unsafeWindow.__emitSocket('quest:reroll', { questId: currentQuest.id})}, delay * (i+1));
     }
