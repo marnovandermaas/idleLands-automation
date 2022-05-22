@@ -2112,7 +2112,7 @@ const BuyPot = () => {
   setTimeout( () => {unsafeWindow.__emitSocket('premium:goldcollectible', {collectible: 'Pot of Gold'})}, 100);
 }
 const StartFest = () => {
-  setTimeout( () => {unsafeWindow.__emitSocket('premium:festival', {festivalType: 'Salvage', duration: 96})}, 100);
+  setTimeout( () => {unsafeWindow.__emitSocket('premium:festival', {festivalType: 'Salvage', duration: 72})}, 100);
 }
 const DonateGold = () => {
   setTimeout( () => {unsafeWindow.__emitSocket('guild:donateresource', { resource: 'gold', amount: parseInt(options.goldDonateRatio*discordGlobalCharacter.gold) })}, 500);
