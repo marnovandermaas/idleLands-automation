@@ -164,7 +164,8 @@ const globalData = {
   raidFail: false,
   lastRaidBossLevel: 0,
   raidFailTimes: 0,
-  divineDirectionIndex: 0
+  divineDirectionIndex: 0,
+  lastKnownMap: ""
 }
 
 const loginCheck = () => {
@@ -2008,12 +2009,16 @@ const RunDivineDirection = () => {
         setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[0]) }, 500);
       }
     } else if(options.ddLoop) {
+      if(!(globalData.lastMap === discordGlobalCharacter.map)) {
+        globalData.divineDirectionIndex += 1;
+      }
       if(globalData.divineDirectionIndex >= path.length) {
         globalData.divineDirectionIndex = 0;
       }
       setTimeout( () => {unsafeWindow.__emitSocket('character:divinedirection', path[globalData.divineDirectionIndex]) }, 500);
     }
   }
+  globalData.lastMap = discordGlobalCharacter.map;
 }
 
 const RunInventory = () => {
